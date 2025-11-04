@@ -5,15 +5,12 @@ declare(strict_types=1);
 /**
  * This file contains the routes for the web application.
  */
-
 use App\Controllers\HomeController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 
 return static function (Slim\App $app): void {
-
-
     //* NOTE: Route naming pattern: [controller_name].[method_name]
     $app->get('/', [HomeController::class, 'index'])
         ->setName('home.index');
