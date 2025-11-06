@@ -3,7 +3,7 @@
 use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
 $page_title = 'Home';
-ViewHelper::loadHeader($page_title);
+ViewHelper::loadAdminHeader($page_title);
 $products = $data['reservations'];
 ?>
 
@@ -75,5 +75,5 @@ $products = $data['reservations'];
 <?php
 
 ViewHelper::loadJsScripts();
-ViewHelper::loadFooter();
+ViewHelper::loadAdminFooter();
 ?>

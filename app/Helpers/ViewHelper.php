@@ -40,6 +40,26 @@ class ViewHelper
     }
 
     /**
+     * Summary of loadAdminHeader
+     * @param string $page_title
+     * @return void
+     */
+    public static function loadAdminHeader(string $page_title): void
+    {
+        $page_title = $page_title ?? 'Default Title';
+        require_once APP_VIEWS_PATH . '/common/admin/admin_header.php';
+    }
+
+    /**
+     * Summary of loadAdminFooter
+     * @return void
+     */
+    public static function loadAdminFooter(): void
+    {
+        require_once APP_VIEWS_PATH . '/common/admin/admin_footer.php';
+    }
+
+    /**
      * Generates HTML option elements for a select dropdown with secure output.
      *
      * Creates a series of <option> elements from an array of data, with automatic

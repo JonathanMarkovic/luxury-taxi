@@ -29,9 +29,9 @@ class DashboardController extends BaseController
             'message' => 'Welcome to the admin page',
         ];
 
-        return $this - render(
+        return $this->render(
             $response,
-            //!Enter the view file name here ,
+            '/admin/dashboardView.php',
             $data
         );
     }
