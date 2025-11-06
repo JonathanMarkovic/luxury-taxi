@@ -4,7 +4,7 @@ use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
 $page_title = 'Home';
 ViewHelper::loadHeader($page_title);
-$products = $data['reservations'];
+$customers = $data['customers'];
 ?>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -37,34 +37,28 @@ $products = $data['reservations'];
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <td>reservation id</td>
                 <td>user id</td>
-                <td>start time</td>
-                <td>end time</td>
-                <td>pickup</td>
-                <td>dropoff</td>
-                <td>comments</td>
-                <td>reservation type</td>
-                <td>reservation status</td>
+                <td>first name</td>
+                <td>last name</td>
+                <td>email</td>
+                <td>phone</td>
+                <td>role</td>
                 <td>created at</td>
                 <td>updated at</td>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($reservations as $key => $reservation): ?>
+            <?php foreach ($customers as $key => $customer): ?>
                 <!-- Create a <tr> element for each coffee shop in the list -->
                 <tr>
-                    <td> <?= $reservation['reservation_id'] ?> </td>
-                    <td><?= $reservation['user_id'] ?></td>
-                    <td><?= $reservation['start_time'] ?></td>
-                    <td><?= $reservation['end_time'] ?></td>
-                    <td><?= $reservation['pickup'] ?></td>
-                    <td><?= $reservation['dropoff'] ?></td>
-                    <td><?= $reservation['comments'] ?></td>
-                    <td><?= $reservation['reservation_type'] ?></td>
-                    <td><?= $reservation['reservation_status'] ?></td>
-                    <td><?= $reservation['created_at'] ?></td>
-                    <td><?= $reservation['updated_at'] ?></td>
+                    <td><?= $customer['user_id'] ?></td>
+                    <td><?= $customer['first_name'] ?></td>
+                    <td><?= $customer['last_name'] ?></td>
+                    <td><?= $customer['email'] ?></td>
+                    <td><?= $customer['phone'] ?></td>
+                    <td><?= $customer['role'] ?></td>
+                    <td><?= $customer['created_at'] ?></td>
+                    <td><?= $customer['updated_at'] ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
