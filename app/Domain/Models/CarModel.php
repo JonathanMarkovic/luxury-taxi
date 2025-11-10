@@ -32,8 +32,8 @@ class CarModel extends BaseModel
      */
     public function fetchCarByID($car_id): mixed
     {
-        $sql = "SELECT * FROM cars WHERE cars_id = $car_id";
-        $car = $this->selectOne($sql);
+        $sql = "SELECT * FROM cars WHERE cars_id = :id";
+        $car = $this->selectOne($sql, ['id' => $car_id]);
         return $car;
     }
 }
