@@ -38,4 +38,17 @@ class UserModel extends BaseModel
 
         return $user;
     }
+
+    public function updateUser($user_id, array $data): int
+    {
+        $sql = "UPDATE users
+        SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone
+        WHERE id = :id";
+
+        return $this->execute($sql, ['id' => $user_id, 'first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone']]);
+    }
+
+    public function createUser() {
+
+    }
 }

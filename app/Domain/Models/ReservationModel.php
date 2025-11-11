@@ -68,4 +68,37 @@ class ReservationModel extends BaseModel
         $reservations = $this->selectAll($sql);
         return $reservations;
     }
+
+    public function fetchReservationById($reservation_id): mixed
+    {
+        $sql = "SELECT * FROM reservations WHERE reservation_id = :reservation_id";
+
+        $reservation = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
+        return $reservation;
+    }
+
+    /**
+     * Undocumented function
+     * Updates a reservation
+     * @param [type] $reservation_id
+     * @param [type] $data
+     * @return integer
+     */
+    public function updateReservation($reservation_id, $data): int
+    {
+        $sql = "UPDATE reservations
+        SET start_time = :start_time, end_tme = :end_time, pickup = :pickup, dropoff = :dropoff, comments = :comments, reservation_status = 'pending'
+        WHERE reservation_id = :reservation_id";
+
+        return $this->execute($sql, [
+            'reservation_id' => $reservation_id,
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            'pickup' => $data['pickup'],
+            'dropoff' => $data['dropoff'],
+            'comments' => $data['comments']
+        ]);
+    }
+
+    public function createReservation() {}
 }

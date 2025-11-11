@@ -14,7 +14,6 @@ use App\Controllers\ReservationController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-
 return static function (Slim\App $app): void {
     //* NOTE: Route naming pattern: [controller_name].[method_name]
     $app->get('/', [HomeController::class, 'index'])
@@ -30,9 +29,8 @@ return static function (Slim\App $app): void {
 
         $group->get('/reservations', [ReservationController::class, 'index']);
 
-        $group->get('/customers', [CustomerController::class, 'index']);
+        $group->get('/customers', [UserController::class, 'index']);
     });
-
 
     // A route to test runtime error handling and custom exceptions.
     $app->get('/error', function (Request $request, Response $response, $args) {

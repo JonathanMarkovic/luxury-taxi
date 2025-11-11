@@ -35,4 +35,15 @@ class DashboardController extends BaseController
             $data
         );
     }
+
+    public function show(Request $request, Response $response, array $args): Response
+    {
+        return $response;
+    }
+
+    public function create(Request $request, Response $response, array $args): Response
+    {
+        return $response;
+    }
+
 }
