@@ -100,5 +100,7 @@ class ReservationModel extends BaseModel
         ]);
     }
 
-    public function createReservation() {}
+    public function createReservation(array $data): int {
+        $sql = "INSERT INTO reservations ()";
+    }
 }
