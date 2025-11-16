@@ -34,8 +34,14 @@ return static function (Slim\App $app): void {
         $group->get('/cars/delete.{car_id}', [CarsController::class, 'delete'])->setName('cars.delete');
         $group->post('/cars/update/{car_is}', [CarsController::class, 'update']);
 
-        $group->get('/reservations', [ReservationController::class, 'index']);
+        //* Reservations Routes
+        $group->get('/reservations', [ReservationController::class, 'index'])->setName('reservations.index');
+        $group->get('reservations/create', [ReservationController::class, 'create'])->setName('reservations.create');
+        $group->post('/reservations', [CarsController::class, 'store']);
+        $group->get('/reservations/delete.{reservation_id}', [CarsController::class, 'delete'])->setName('reservations.delete');
+        $group->post('/reservations/update/{reservation_id}', [CarsController::class, 'update']);
 
+        //* Customers Routes
         $group->get('/customers', [UserController::class, 'index']);
 
         //* FAQ routes

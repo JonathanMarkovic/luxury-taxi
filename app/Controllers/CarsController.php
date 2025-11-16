@@ -96,7 +96,7 @@ class CarsController extends BaseController
      * @param array $args
      * @return Response
      */
-    public function update(Request $request, Response $reponse, array $args): Response
+    public function update(Request $request, Response $response, array $args): Response
     {
         $car_id = $args['car_id'];
 
@@ -107,6 +107,6 @@ class CarsController extends BaseController
         $this->car_model->updateCar($car_id, $data);
         FlashMessage::success("Car Added Successfully");
 
-        return $this->redirect($request, $reponse, 'cars.index');
+        return $this->redirect($request, $response, 'cars.index');
     }
 }
