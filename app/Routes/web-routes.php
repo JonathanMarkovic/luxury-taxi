@@ -27,19 +27,24 @@ return static function (Slim\App $app): void {
     $app->group('/admin', function ($group) {
         $group->get('/dashboard', [DashboardController::class, 'index']);
 
-        $group->get('/cars', [CarsController::class, 'index']);
+        //* Cars Routes
+        $group->get('/cars', [CarsController::class, 'index'])->setName('cars.index');
+        $group->get('/cars/create', [CarsController::class, 'create'])->setName('cars.create');
+        $group->post('/cars', [CarsController::class, 'store']);
+        $group->get('/cars/delete.{car_id}', [CarsController::class, 'delete'])->setName('cars.delete');
+        $group->post('/cars/update/{car_is}', [CarsController::class, 'update']);
 
         $group->get('/reservations', [ReservationController::class, 'index']);
 
         $group->get('/customers', [UserController::class, 'index']);
 
+        //* FAQ routes
         $group->get('/faq', [FAQController::class, 'index']);
         $group->get('/faq/edit/{faq_id}', [FAQController::class, 'edit']);
         $group->post('/faq/update/{faq_id}', [FAQController::class, 'update']);
         $group->get('/faq/add', [FAQController::class, 'add']);
         $group->post('/faq/create', [FAQController::class, 'create']);
         $group->get('/faq/delete/{faq_id}', [FAQController::class, 'delete']);
-
     });
 
     // A route to test runtime error handling and custom exceptions.
