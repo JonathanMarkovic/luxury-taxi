@@ -9,7 +9,9 @@ declare(strict_types=1);
 use App\Controllers\CarsController;
 use App\Controllers\CustomerController;
 use App\Controllers\DashboardController;
+use App\Controllers\FAQController;
 use App\Controllers\HomeController;
+use App\Controllers\UserController;
 use App\Controllers\ReservationController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -30,6 +32,14 @@ return static function (Slim\App $app): void {
         $group->get('/reservations', [ReservationController::class, 'index']);
 
         $group->get('/customers', [UserController::class, 'index']);
+
+        $group->get('/faq', [FAQController::class, 'index']);
+        $group->get('/faq/edit/{faq_id}', [FAQController::class, 'edit']);
+        $group->post('/faq/update/{faq_id}', [FAQController::class, 'update']);
+        $group->get('/faq/add', [FAQController::class, 'add']);
+        $group->post('/faq/create', [FAQController::class, 'create']);
+        $group->get('/faq/delete/{faq_id}', [FAQController::class, 'delete']);
+
     });
 
     // A route to test runtime error handling and custom exceptions.

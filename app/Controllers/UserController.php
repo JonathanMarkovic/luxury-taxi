@@ -24,14 +24,14 @@ class UserController extends BaseController {
      */
     public function index(Request $request, Response $response, array $args): Response
     {
+        $faq = $this->userModel->fetchUsers();
+
         $data['data'] = [
-            'title' => 'Admin',
-            'message' => 'Welcome to the user page',
+            "title" => "Admin Categories",
+            'categories' => $faq
         ];
 
-        return $this->render($response,
-        //TODO: Enter the view file name here ,
-          $data);
+        return $this->render($response, 'admin/customers/customerIndexView.php', $data);
     }
 
     /**
