@@ -69,6 +69,7 @@ class CarModel extends BaseModel
     public function deleteCar($car_id): int
     {
         $sql = "DELETE FROM cars WHERE car_id = :car_id";
+        return $this->execute($sql, ['car_id' => $car_id]);
     }
 
     /**
