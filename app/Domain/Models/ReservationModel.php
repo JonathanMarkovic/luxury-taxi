@@ -78,29 +78,87 @@ class ReservationModel extends BaseModel
     }
 
     /**
-     * Undocumented function
-     * Updates a reservation
-     * @param [type] $reservation_id
-     * @param [type] $data
-     * @return integer
+     * Summary of createAndGetId
+     * Creates a new reservation in the database
+     * @param array $data
+     * @return bool|string
      */
+    public function createAndGetId(array $data): int
+    {
+        $sql = "INSERT INTO reservations (user_id, start_time, end_time, pickup, dropoff, comments, reservation_type, reservation_status) VALUES (:user_id, :start_time, :end_time, :pickup, :dropoff, :comments, :reservation_type, :reservation_status)";
+
+        $this->execute($sql, ['user_id' => $data['user_id'], 'start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type'], 'reservation_status' => 'pending']);
+
+        $last_id = $this->pdo->lastInsertId();
+        return $last_id;
+    }
+
+    /**
+     * Summary of deleteReservation
+     * Removes a reservation from the database
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function deleteReservation($reservation_id): int
+    {
+        $sql = "DELETE FROM reservations WHERE reservation_id = :reservation_id";
+
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of cancelReservation
+     * Sets the status of a reservation to cancelled without deleting it from the database
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function cancelReservation($reservation_id): int
+    {
+        $sql = "UPDATE reservations
+                SET reservation_status = cancelled
+                WHERE reservation_id = :reservation_id";
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of approveReservation
+     * Sets the status of a reservation to approved
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function approveReservation($reservation_id): int
+    {
+        $sql = "UPDATE reservations
+                SET reservation_status = approved
+                WHERE reservation_id = :reservation_id";
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of denyReservation
+     * Sets the status of a reservation to denied
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function denyReservation($reservation_id): int
+    {
+        $sql = "UPDATE reservations
+                SET reservation_status = denied
+                WHERE reservation_id = :reservation_id";
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
     public function updateReservation($reservation_id, $data): int
     {
         $sql = "UPDATE reservations
-        SET start_time = :start_time, end_tme = :end_time, pickup = :pickup, dropoff = :dropoff, comments = :comments, reservation_status = 'pending'
-        WHERE reservation_id = :reservation_id";
+                SET start_time = :start_time,
+                end_time = :end_time,
+                pickup = :pickup,
+                dropoff = :dropoff,
+                comments = :comments
+                reservation_type = :reservation_type,
+                reservation_status = pending";
 
-        return $this->execute($sql, [
-            'reservation_id' => $reservation_id,
-            'start_time' => $data['start_time'],
-            'end_time' => $data['end_time'],
-            'pickup' => $data['pickup'],
-            'dropoff' => $data['dropoff'],
-            'comments' => $data['comments']
-        ]);
-    }
-
-    public function createReservation(array $data): int {
-        $sql = "INSERT INTO reservations ()";
+        return $this->execute($sql, ['start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type']]);
     }
 }
