@@ -22,7 +22,7 @@ class ReservationController extends BaseController
         $data['data'] = [
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
-            'reservation' => $reservations
+            'reservations' => $reservations
         ];
 
         return $this->render(

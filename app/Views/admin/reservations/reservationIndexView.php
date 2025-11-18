@@ -4,7 +4,7 @@ use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
 $page_title = 'Home';
 ViewHelper::loadAdminHeader($page_title);
-$products = $data['reservations'];
+$reservations = $data['reservations'];
 ?>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
