@@ -24,4 +24,16 @@ class PaymentModel extends BaseModel
         $payment = $this->selectOne($sql);
         return $payment;
     }
+
+    /**
+     * Summary of create
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function createAndGetId(Request $request, Response $response, array $args): int
+    {
+        // todo: Do this
+    }
 }

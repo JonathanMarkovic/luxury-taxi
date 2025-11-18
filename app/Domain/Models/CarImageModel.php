@@ -6,7 +6,8 @@ use App\Helpers\Core\PDOService;
 
 class CarImageModel extends BaseModel
 {
-    public function __construct(PDOService $pdoservice) {
+    public function __construct(PDOService $pdoservice)
+    {
         parent::__construct($pdoservice);
     }
 
@@ -15,7 +16,8 @@ class CarImageModel extends BaseModel
      * Fetched all car images from the database
      * @return array
      */
-    public function fetchImages(): mixed {
+    public function fetchImages(): mixed
+    {
         $sql = "SELECT * FROM car_images";
 
         $car_images = $this->selectAll($sql);
@@ -29,7 +31,8 @@ class CarImageModel extends BaseModel
      * @param mixed $id
      * @return array
      */
-    public function fetchImagesById($car_id): mixed {
+    public function fetchImagesById($car_id): mixed
+    {
         $sql = "SELECT * FROM car_images WHERE car_id = :id";
 
         $car_images = $this->selectAll($sql, [':id' => $car_id]);
@@ -39,11 +42,22 @@ class CarImageModel extends BaseModel
 
     /**
      * Summary of upload
-     * Uploads the image path to the database linked by the car_id
+     * Uploads the image file path to the database for later loading
      * @param mixed $car_id
-     * @return void
+     * @param mixed $config array of all the information needed for the file upload
+     * @param mixed $fileName
+     * @return bool|string
      */
-    public function upload($car_id) {
+    public function upload($car_id, $config, $fileName): int
+    {
+        // The file path to be stored in the database
+        $image_path = $config['directory'] . DIRECTORY_SEPARATOR . $fileName;
 
+        $sql = "INSERT INTO car_images (car_id, image_path) VALUES (:car_id, :image_path)";
+
+        $this->execute($sql, ['car_id' => $car_id, 'image_path' => $image_path]);
+
+        $lastId = $this->pdo->lastInsertId();
+        return $lastId;
     }
 }

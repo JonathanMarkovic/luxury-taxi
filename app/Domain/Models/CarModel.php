@@ -63,13 +63,18 @@ class CarModel extends BaseModel
      * Summary of deleteCar
      * Deletes a car from the database based on
      * ID
+     * Also deletes all images related to this specific car
      * @param mixed $car_id
      * @return void
      */
     public function deleteCar($car_id): int
     {
-        $sql = "DELETE FROM cars WHERE car_id = :car_id";
-        return $this->execute($sql, ['car_id' => $car_id]);
+        //* Need to first delete all the images related to this car
+        $sql1 = "DELETE FROM car_images WHERE car_id = :car_id";
+        $this->execute($sql1, ['car_id' => $car_id]);
+        //* Then we can delete the car from the database without worrying about foreign key constraints
+        $sql2 = "DELETE FROM cars WHERE car_id = :car_id";
+        return $this->execute($sql2, ['car_id' => $car_id]);
     }
 
     /**

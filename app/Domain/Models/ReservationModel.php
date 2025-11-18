@@ -148,6 +148,13 @@ class ReservationModel extends BaseModel
         return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
 
+    /**
+     * Summary of updateReservation
+     * 
+     * @param mixed $reservation_id
+     * @param mixed $data
+     * @return int
+     */
     public function updateReservation($reservation_id, $data): int
     {
         $sql = "UPDATE reservations

@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class CarImageController extends BaseController
 {
-    public function __construct(Container $container, private CarImageModel $car_model)
+    public function __construct(Container $container, private CarImageModel $car_image_model)
     {
         parent::__construct($container);
     }
@@ -53,7 +53,7 @@ class CarImageController extends BaseController
         $result = FileUploadHelper::upload($myFile, $config);
 
         if ($result->isSuccess()) {
-            // TODO: WE NEED TO ALSO ADD THE FILE PATH TO THE DATABASE LINKED TO THE CAR ID
+
             $fileName = $result->getData()['filename'];
             if (!SessionManager::has('uploaded_files')) {
                 SessionManager::set('uploaded_files', []);
@@ -63,6 +63,9 @@ class CarImageController extends BaseController
             $files[] = $fileName;
             SessionManager::set('uploaded_files', $files);
             FlashMessage::success($result->getMessage());
+            // todo we need to extract the car id somehow
+            $car_id = $args['car_id'];
+            $this->car_image_model->upload($car_id, $config, $fileName);
         } else {
             FlashMessage::error($result->getMessage());
         }
