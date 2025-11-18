@@ -27,13 +27,69 @@ class PaymentModel extends BaseModel
 
     /**
      * Summary of create
+     * Creates a payment in the database and returns the id
+     * of the newly created payment
      * @param Request $request
      * @param Response $response
      * @param array $args
      * @return Response
      */
-    public function createAndGetId(Request $request, Response $response, array $args): int
+    public function createAndGetId(array $data): int
     {
         // todo: Do this
+        $sql = "INSERT INTO payments (reservation_id, total_amount, payment_status) VALUES (:reservation_id, :total_amount, pending)";
+
+        $this->execute($sql, ['reservation_id' => $data['reservation_id'], 'total_amount' => $data['total_amount']]);
+
+        $last_id = $this->pdo->lastInsertId();
+        return $last_id;
+    }
+
+    /**
+     * Summary of payPayment
+     * Sets the status of a payment to paid. To be used if the
+     * customer decides to pay online rather than in person
+     * @param mixed $payment_id
+     * @return int
+     */
+    public function payPayment($reservation_id): int
+    {
+        $sql = "UPDATE payments
+        SET payment_status = paid
+        WHERE reservation_id = :reservation_id";
+
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of denyPayment
+     * Sets the status of a payment to denied
+     * Used if the admin denies the reservation
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function denyPayment($reservation_id): int
+    {
+        $sql = "UPDATE payments
+        SET payment_status = denied
+        WHERE reservation_id = :reservation_id";
+
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of updatePayment
+     * Updates a payment in the database
+     * @param mixed $reservation_id
+     * @param mixed $data
+     * @return int
+     */
+    public function updatePayment($reservation_id, $data): int
+    {
+        $sql = "UPDATE payments
+                SET total_amount = :total_amount,
+                payment_status = :payment_status";
+
+        return $this->execute($sql, ['total_amount' => $data['total_amount'], 'payment_status' => $data['payment_status']]);
     }
 }

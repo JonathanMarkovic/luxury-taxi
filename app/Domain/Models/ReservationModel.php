@@ -7,7 +7,7 @@ use App\Helpers\Core\PDOService;
 // TODO: ADD VALUES TO THE DATABASE TO TEST THE MODELS
 class ReservationModel extends BaseModel
 {
-    public function __construct(PDOService $pdoservice)
+    public function __construct(PDOService $pdoservice, private PaymentModel $payment_model)
     {
         parent::__construct($pdoservice);
     }
@@ -145,12 +145,32 @@ class ReservationModel extends BaseModel
         $sql = "UPDATE reservations
                 SET reservation_status = denied
                 WHERE reservation_id = :reservation_id";
+
+        // Call the payment model to edit the payment information
+        $this->payment_model->denyPayment($reservation_id);
+
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of completeReservation
+     * Sets he status of a reservation to completed.
+     * This is to be used automatically a day after the reservation date.
+     * //*Might be better to make the admin set to completed manually
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function completeReservation($reservation_id): int
+    {
+        $sql = "UPDATE reservations
+                SET reservation_status = completed
+                WHERE reservation_id = :reservation_id";
         return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
 
     /**
      * Summary of updateReservation
-     * 
+     *
      * @param mixed $reservation_id
      * @param mixed $data
      * @return int
