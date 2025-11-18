@@ -55,7 +55,8 @@ class PaymentModel extends BaseModel
     public function payPayment($reservation_id): int
     {
         $sql = "UPDATE payments
-        SET payment_status = paid
+        SET payment_status = paid,
+        paid_at = current_timestamp()
         WHERE reservation_id = :reservation_id";
 
         return $this->execute($sql, ['reservation_id' => $reservation_id]);

@@ -48,7 +48,47 @@ class UserModel extends BaseModel
         return $this->execute($sql, ['id' => $user_id, 'first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone']]);
     }
 
-    public function createUser() {
+    /**
+     * Summary of createCustomerAndGetId
+     * Creates a user in the database
+     * @param array $data
+     * @return void
+     */
+    public function createCustomerAndGetId(array $data)
+    {
+        $sql = "INSERT INTO users (first_name, last_name, email, phone, password, role) VALUES (:first_name, :last_name, :email, :phone, :password, :role)";
 
+        // TODO: Need to include the hashing of the password here
+        $this->execute($sql, ['first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone'], 'password' => $data['password'], 'role' => 'customer']);
+    }
+
+    /**
+     * Summary of createGuestAndGetId
+     * Creates a user in the database
+     * @param array $data
+     * @return void
+     */
+    public function createGuestAndGetId(array $data)
+    {
+        $sql = "INSERT INTO users (first_name, last_name, email, phone, password, role) VALUES (:first_name, :last_name, :email, :phone, :password, :role)";
+
+        // TODO: Need to include the hashing of the password here
+        $this->execute($sql, ['first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone'], 'password' => $data['password'], 'role' => 'guest']);
+    }
+
+    /**
+     * Summary of promoteAdmin
+     * Promotes a user to an admin
+     * Used if the admin wants to hire someone. They can make an account
+     * and then an existing admin can promote them to an admin.
+     * @param mixed $user_id
+     * @return int
+     */
+    public function promoteAdmin($user_id): int
+    {
+        $sql = "UPDATE users
+                SET role = admin
+                WHERE user_id = :user_id";
+        return $this->execute($sql, ['user_id' => $user_id]);
     }
 }
