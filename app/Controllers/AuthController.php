@@ -221,4 +221,18 @@ class AuthController extends BaseController
         // Redirect to 'auth.login' route
         return $this->redirect($request, $response, 'auth.login');
     }
+
+    /**
+     * Display user dashboard (protected route).
+     */
+    public function dashboard(Request $request, Response $response, array $args): Response
+    {
+        // Create a $data array with 'title' => 'Dashboard'
+        $data = [
+            'title' => 'Dashboard'
+        ];
+
+        // TODO: Render 'user/dashboard.php' view and pass $data
+        return $this->render($response, 'user/dashboardView.php', $data);
+    }
 }

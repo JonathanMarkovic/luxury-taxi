@@ -17,20 +17,39 @@ class AdminAuthMiddleware implements MiddlewareInterface
      */
     public function process(Request $request, RequestHandler $handler): Response
     {
-        // TODO: Get authentication status using SessionManager::get('is_authenticated')
-        // TODO: Get user role using SessionManager::get('user_role')
+        // Get authentication status
+        $authStatus = SessionManager::get('is_authenticated');
+        // Get user role
+        $userRole = SessionManager::get('user_role');
 
-        // TODO: If NOT authenticated:
+        // If NOT authenticated:
         //       - Use FlashMessage::error() with message: "Please log in to access the admin panel."
         //       - Create a redirect response using the Psr17Factory (same pattern as AuthMiddleware)
         //       - Redirect to 'auth.login' route (same pattern as AuthMiddleware)
+        if ($authStatus === null || $authStatus === false) {
+            FlashMessage::error("Please log in to access the admin panel.");
 
-        // TODO: If authenticated but role is NOT 'admin':
-        //       - Use FlashMessage::error() with message: "Access denied. Admin privileges required."
-        //       - Create a redirect response using the Psr17Factory (same pattern as AuthMiddleware)
-        //       - Redirect to 'user.dashboard' route (same pattern as AuthMiddleware)
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            $loginUrl = $routeParser->urlFor('auth.login');
+            $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+            $response = $psr17Factory->createResponse(302);
+            return $response->withHeader('Location', $loginUrl);
+        }
+
+        // If authenticated but role is NOT 'admin':
+        if ($authStatus === true && $userRole != 'admin') {
+            FlashMessage::error("Access denied. Admin privileges required.");
+
+            $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+            $userUrl = $routeParser->urlFor('user.dashboard');
+            $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+            $response = $psr17Factory->createResponse(302);
+            return $response->withHeader('Location', $userUrl);
+        }
 
         // If authenticated AND admin, continue to admin route
-        // TODO: Return $handler->handle($request);
+        FlashMessage::success("Admin login successful.");
+
+        return $handler->handle($request);
     }
 }
