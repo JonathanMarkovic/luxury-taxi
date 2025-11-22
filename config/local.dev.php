@@ -8,7 +8,7 @@ declare(strict_types=1);
 define('APP_DEBUG_MODE', true);
 define('APP_ASSETS_DIR', '/public/assets');
 define('APP_BASE_URL', 'http://localhost/' . APP_ROOT_DIR_NAME);
-define('APP_ADMIN_URL', APP_BASE_URL.'/admin');
+define('APP_ADMIN_URL', APP_BASE_URL . '/admin');
 
 define('APP_ASSETS_DIR_URL', APP_BASE_URL  . APP_ASSETS_DIR);
 define('APP_ASSETS_DIR_PATH', realpath(APP_BASE_DIR_PATH . '/' . APP_ASSETS_DIR));
@@ -39,9 +39,12 @@ return function (array $settings): array {
     $settings['error']['display_error_details'] = true;
 
     // Database
-    $settings['db']['database'] = 'worldcup';
+    $settings['db']['database'] = 'luxury_cars';
     $settings['db']['hostname'] = 'localhost';
     $settings['db']['port'] = '3306';
+    $settings['db']['username'] = 'root';
+    $settings['db']['password'] = '';
+
 
     return $settings;
 };
