@@ -15,6 +15,8 @@ use App\Controllers\FAQController;
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 use App\Controllers\ReservationController;
+use App\Middleware\AdminAuthMiddleware;
+use App\Middleware\AuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -65,9 +67,16 @@ return static function (Slim\App $app): void {
     // A route to test runtime error handling and custom exceptions.
     $app->get('/error', function (Request $request, Response $response, $args) {
         throw new \Slim\Exception\HttpNotFoundException($request, "Something went wrong");
-    });
+    })->add(AdminAuthMiddleware::class);
 
-    //* Authentication Routes
+    //* Login & Registration Routes (public)
     $app->get('/register', [AuthController::class, 'register'])->setName("auth.register");
     $app->post('/register', [AuthController::class, 'store']);
+    $app->get('/login', [AuthController::class, 'login'])->setName('auth.login');
+    $app->post('/login', [AuthController::class, 'authenticate']);
+    $app->get('/logout', [AuthController::class, 'logout'])->setName('auth.logout');
+
+    //* User Routes
+    $app->get('/dashboard', [AuthController::class, 'dashboard'])->setName('user.dashboard')->add(AuthMiddleware::class);
+
 };

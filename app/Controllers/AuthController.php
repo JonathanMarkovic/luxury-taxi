@@ -232,7 +232,7 @@ class AuthController extends BaseController
             'title' => 'Dashboard'
         ];
 
-        // TODO: Render 'user/dashboard.php' view and pass $data
+        // Render 'user/dashboard.php' view and pass $data
         return $this->render($response, 'user/dashboardView.php', $data);
     }
 }
