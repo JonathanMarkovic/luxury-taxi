@@ -127,7 +127,7 @@ class UserModel extends BaseModel
 
     public function emailExists(string $email): bool
     {
-        $sql = "SELECT COUNT(*) as count FROM_users WHERE email = :email";
+        $sql = "SELECT COUNT(*) as count FROM users WHERE email = :email";
         $numResults = $this->selectOne($sql, ['email' => $email]);
         if ($numResults > 0) {
             return true;
