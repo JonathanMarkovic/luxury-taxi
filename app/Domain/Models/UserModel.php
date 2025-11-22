@@ -98,7 +98,8 @@ class UserModel extends BaseModel
      * @param array $data User data (first_name, last_name, email, phone, password, role)
      * @return int The ID of the newly created user
      */
-    public function createUser(array $data): int {
+    public function createUser(array $data): int
+    {
         $sql = "INSERT INTO users (first_name, last_name, email, phone, password, role)
                 VALUES (:first_name, :last_name, :email, :phone, :password, :role";
 
@@ -117,13 +118,15 @@ class UserModel extends BaseModel
         return $this->pdo->lastInsertId();
     }
 
-    public function findByEmail(string $email): ?array {
+    public function findByEmail(string $email): ?array
+    {
         $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
 
         return $this->selectOne($sql, ['email' => $email]);
     }
 
-    public function emailExists(string $email): bool {
+    public function emailExists(string $email): bool
+    {
         $sql = "SELECT COUNT(*) as count FROM_users WHERE email = :email";
         $numResults = $this->selectOne($sql, ['email' => $email]);
         if ($numResults > 0) {
@@ -131,5 +134,30 @@ class UserModel extends BaseModel
         }
 
         return false;
+    }
+
+    /**
+     * Verify user credentials by email/username and password.
+     *
+     * @param string $identifier Email or username
+     * @param string $password Plain-text password to verify
+     * @return array|null User data if credentials are valid, null otherwise
+     */
+    public function verifyCredentials(string $identifier, string $password): ?array
+    {
+        // Try to find user by email
+        $user = $this->findByEmail($identifier);
+
+        // If user still not found, return null (invalid credentials)
+        if (!$user) {
+            return null;
+        }
+
+
+        // Verify the password using password_verify($password, $user['password_hash'])
+        if (password_verify($password, $user['password_hash'])) {
+            return $user;
+        }
+        return null;
     }
 }

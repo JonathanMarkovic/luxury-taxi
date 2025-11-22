@@ -6,6 +6,7 @@ declare(strict_types=1);
  * This file contains the routes for the web application.
  */
 
+use App\Controllers\AuthController;
 use App\Controllers\CarImageController;
 use App\Controllers\CarsController;
 use App\Controllers\CustomerController;
@@ -65,4 +66,8 @@ return static function (Slim\App $app): void {
     $app->get('/error', function (Request $request, Response $response, $args) {
         throw new \Slim\Exception\HttpNotFoundException($request, "Something went wrong");
     });
+
+    //* Authentication Routes
+    $app->get('/register', [AuthController::class, 'register'])->setName("auth.register");
+    $app->post('/register', [AuthController::class, 'store']);
 };

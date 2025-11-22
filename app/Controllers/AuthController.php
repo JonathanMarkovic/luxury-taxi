@@ -16,9 +16,7 @@ class AuthController extends BaseController
         parent::__construct($container);
     }
 
-    public function validatePhoneNumber($phone) {
-
-    }
+    public function validatePhoneNumber($phone) {}
 
     /**
      * Display the registration form (GET request).
@@ -62,8 +60,7 @@ class AuthController extends BaseController
             empty($phone) ||
             empty($password) ||
             empty($confirmPassword)
-        )
-        {
+        ) {
             $errors[] = "Please fill in all fields.";
         }
 
@@ -80,7 +77,7 @@ class AuthController extends BaseController
         // Validate phone number format
         $pattern = '/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/';
         if (!filter_var($phone, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => $pattern)))) {
-            $errors[] ="Please enter a valid phone number format: 123-456-7890, 123 456 7890, (123) 456 7890";
+            $errors[] = "Please enter a valid phone number format: 123-456-7890, 123 456 7890, (123) 456 7890";
         }
 
         // Validate password length (minimum 8 characters)
@@ -113,22 +110,109 @@ class AuthController extends BaseController
 
         // If validation passes, create the user
         try {
-            // TODO: Create $userData array with keys:
-            //       'first_name', 'last_name', 'username', 'email', 'password', 'role'
+            // Create $userData array with keys:
+            $userData = [
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+                'phone' => $phone,
+                'password' => $password,
+                'role' => 'customer'
+            ];
 
-            // TODO: Call $this->userModel->createUser($userData)
-            //       Store the returned user ID in $userId
+            // Call $this->userModel->createUser($userData)
+            $userId = $this->userModel->createUser($userData);
 
-            // TODO: Display success message using FlashMessage::success()
-            //       Message: "Registration successful! Please log in."
+            // Display success message using FlashMessage::success()
+            FlashMessage::success("Registration successful! Please log in.");
 
-            // TODO: Redirect to 'auth.login' route
-
+            // Redirect to 'auth.login' route
+            return $this->redirect($request, $response, 'auth.login');
         } catch (\Exception $e) {
-            // TODO: Display error message using FlashMessage::error()
-            //       Message: "Registration failed. Please try again."
+            // Display error message using FlashMessage::error()
+            FlashMessage::error("Registration failed. Please try again.");
 
-            // TODO: Redirect back to 'auth.register' route
+            // Redirect back to 'auth.register' route
+            return $this->redirect($request, $response, 'auth.register');
         }
+    }
+
+    /**
+     * Display the login form (GET request).
+     */
+    public function login(Request $request, Response $response, array $args): Response
+    {
+        // Create a $data array with 'title' => 'Login'
+        $data = [
+            'title' => 'Login'
+        ];
+
+        // Render 'auth/login.php' view and pass $data
+        return $this->render($response, 'auth/login.php', $data);
+    }
+
+    /**
+     * Process login form submission (POST request).
+     */
+    public function authenticate(Request $request, Response $response, array $args): Response
+    {
+        // Get form data using getParsedBody()
+        $formData = $request->getParsedBody();
+
+        // Extract 'identifier' and 'password' from form data
+        $identifier = $formData['identifier'];
+        $password = $formData['password'];
+
+        // Start validation
+        $errors = [];
+
+        // Validate required fields (identifier and password)
+        if (empty($identifier) || empty($password)) {
+            $errors[] = "Please fill in all fields.";
+        }
+
+        // If validation errors exist, redirect back
+        // TODO: Check if $errors array is not empty
+        //       If errors exist, use FlashMessage::error() and redirect to 'auth.login'
+        if (!empty($errors)) {
+            FlashMessage::error("");
+        }
+
+        // Attempt to verify user credentials
+        // TODO: Call $this->userModel->verifyCredentials($identifier, $password)
+        //       Store the result in $user variable
+
+        // Check if authentication was successful
+        // TODO: If $user is null (authentication failed):
+        //       - Display error message: "Invalid credentials. Please try again."
+        //       - Redirect back to 'auth.login'
+
+        // Authentication successful - create session
+        // TODO: Store user data in session using SessionManager:
+        //       SessionManager::set('user_id', $user['id']);
+        //       SessionManager::set('user_email', $user['email']);
+        //       SessionManager::set('user_name', $user['first_name'] . ' ' . $user['last_name']);
+        //       SessionManager::set('user_role', $user['role']);
+        //       SessionManager::set('is_authenticated', true);
+
+        // TODO: Display success message using FlashMessage::success()
+        //       Message: "Welcome back, {$user['first_name']}!"
+
+        // TODO: Redirect based on role:
+        //       If role is 'admin', redirect to 'admin.dashboard'
+        //       If role is 'customer', redirect to 'user.dashboard'
+        //       Hint: if ($user['role'] === 'admin') { ... } else { ... }
+    }
+
+    /**
+     * Logout the current user (GET request).
+     */
+    public function logout(Request $request, Response $response, array $args): Response
+    {
+        // TODO: Destroy the session using SessionManager::destroy()
+
+        // TODO: Display success message: "You have been logged out successfully."
+
+        // TODO: Redirect to 'auth.login' route
     }
 }
