@@ -101,7 +101,7 @@ class UserModel extends BaseModel
     public function createUser(array $data): int
     {
         $sql = "INSERT INTO users (first_name, last_name, email, phone, password, role)
-                VALUES (:first_name, :last_name, :email, :phone, :password, :role";
+                VALUES (:first_name, :last_name, :email, :phone, :password, :role)";
 
         $password = $data['password'];
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
@@ -111,7 +111,7 @@ class UserModel extends BaseModel
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'password' => $data['password'],
+            'password' => $password_hash,
             'role' => $data['role'],
         ]);
 
@@ -129,7 +129,7 @@ class UserModel extends BaseModel
     {
         $sql = "SELECT COUNT(*) as count FROM users WHERE email = :email";
         $numResults = $this->selectOne($sql, ['email' => $email]);
-        if ($numResults > 0) {
+        if ($numResults['count'] > 0) {
             return true;
         }
 
@@ -155,7 +155,7 @@ class UserModel extends BaseModel
 
 
         // Verify the password using password_verify($password, $user['password_hash'])
-        if (password_verify($password, $user['password_hash'])) {
+        if (password_verify($password, $user['password'])) {
             return $user;
         }
         return null;

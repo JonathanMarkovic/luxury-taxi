@@ -29,7 +29,7 @@ return static function (Slim\App $app): void {
         ->setName('home.index');
 
     $app->group('/admin', function ($group) {
-        $group->get('/dashboard', [DashboardController::class, 'index']);
+        $group->get('/dashboard', [DashboardController::class, 'index'])->setName('admin.dashboard');
 
         //* Cars Routes
         $group->get('/cars', [CarsController::class, 'index'])->setName('cars.index');
