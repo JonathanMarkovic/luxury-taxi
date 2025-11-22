@@ -91,4 +91,45 @@ class UserModel extends BaseModel
                 WHERE user_id = :user_id";
         return $this->execute($sql, ['user_id' => $user_id]);
     }
+
+    /**
+     * Create a new user account.
+     *
+     * @param array $data User data (first_name, last_name, email, phone, password, role)
+     * @return int The ID of the newly created user
+     */
+    public function createUser(array $data): int {
+        $sql = "INSERT INTO users (first_name, last_name, email, phone, password, role)
+                VALUES (:first_name, :last_name, :email, :phone, :password, :role";
+
+        $password = $data['password'];
+        $password_hash = password_hash($password, PASSWORD_BCRYPT);
+
+        $this->execute($sql, [
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => $data['password'],
+            'role' => $data['role'],
+        ]);
+
+        return $this->pdo->lastInsertId();
+    }
+
+    public function findByEmail(string $email): ?array {
+        $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+
+        return $this->selectOne($sql, ['email' => $email]);
+    }
+
+    public function emailExists(string $email): bool {
+        $sql = "SELECT COUNT(*) as count FROM_users WHERE email = :email";
+        $numResults = $this->selectOne($sql, ['email' => $email]);
+        if ($numResults > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }
