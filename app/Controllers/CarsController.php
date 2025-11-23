@@ -109,7 +109,7 @@ class CarsController extends BaseController
                 'year' => $year,
                 'capacity' => $capacity,
                 'approx_price' => $approx_price,
-                'description' => 'description'
+                'description' => $description
             ];
 
             // Call $this->userModel->createAndGetId($carData)
