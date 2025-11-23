@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Controllers\CarImageController;
+use App\Domain\Models\CarImageModel;
 use App\Domain\Models\CarModel;
 use App\Helpers\FileUploadHelper;
 use App\Helpers\FlashMessage;
@@ -14,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class CarsController extends BaseController
 {
-    public function __construct(Container $container, private CarModel $car_model)
+    public function __construct(Container $container, private CarModel $car_model, private CarImageModel $car_image_model)
     {
         parent::__construct($container);
     }
@@ -80,19 +81,19 @@ class CarsController extends BaseController
         }
 
         if (empty($model)) {
-            $errors[] = "Please fill out Brand field";
+            $errors[] = "Please fill out Model field";
         }
 
         if (empty($year)) {
-            $errors[] = "Please fill out Brand field";
+            $errors[] = "Please fill out Year field";
         }
 
         if (empty($capacity)) {
-            $errors[] = "Please fill out Brand field";
+            $errors[] = "Please fill out Capacity field";
         }
 
         if (empty($approx_price)) {
-            $errors[] = "Please fill out Brand field";
+            $errors[] = "Please fill out Price field";
         }
 
         if (!empty($errors)) {
@@ -116,49 +117,60 @@ class CarsController extends BaseController
             ];
 
             // Call $this->userModel->createAndGetId($carData)
-            $userId = $this->car_model->createAndGetId($carData);
+            $carId = $this->car_model->createAndGetId($carData);
 
             //* Try to upload files
 
+            // Log for debugging
+            error_log("Car created with ID: " . $carId);
+
+            // Process file uploads
             $uploadedFiles = $request->getUploadedFiles();
-            $files = $uploadedFiles['myfile'];
+            error_log("Uploaded files: " . print_r($uploadedFiles, true));
 
-            // Create $config array
-            $config = [
-                'directory' => APP_BASE_DIR_PATH . '/public/uploads/images',
-                'allowedTypes' => ['image/jpeg', 'image/png', 'image/gif'],
-                'maxSize' => 2 * 1024 * 1024,
-                'filenamePrefix' => 'upload_'
-            ];
+            if (isset($uploadedFiles['myfile']) && !empty($uploadedFiles['myfile'])) {
+                $files = $uploadedFiles['myfile'];
+                error_log("Number of files: " . count($files));
 
-            if (!SessionManager::has('uploaded_files')) {
-                SessionManager::set('uploaded_files', []);
-            }
+                $config = [
+                    'directory' => APP_BASE_DIR_PATH . '/public/uploads/images',
+                    'allowedTypes' => ['image/jpeg', 'image/png'],
+                    'maxSize' => 2 * 1024 * 1024,
+                    'filenamePrefix' => 'car_' . $carId . "_"
+                ];
 
-            $sessionFiles = SessionManager::get('uploaded_files');
+                foreach ($files as $file) {
+                    error_log("Processing file...");
+                    if ($file->getError() !== UPLOAD_ERR_OK) {
+                        error_log("File upload error: " . $file->getError());
+                        FlashMessage::error("Error uploading one of the files.");
+                        continue;
+                    }
 
-            // Loop through all of the uploaded files
-            foreach ($files as $file) {
-                if ($file->getError !== UPLOAD_ERR_OK) {
-                    FlashMessage::error("Error uploading file.");
-                    continue;
+                    $result = FileUploadHelper::upload($file, $config);
+                    error_log("Upload result: " . print_r($result, true));
+
+                    if ($result->isSuccess()) {
+                        $fileName = $result->getData()['filename'];
+                        error_log("File uploaded successfully: " . $fileName);
+
+                        try {
+                            // save to database
+                            $this->car_image_model->addImage($carId, $fileName);
+                            error_log("Image added to database: " . $fileName);
+                            FlashMessage::success("Successfully uploaded: {$fileName}");
+                        } catch (\Exception $imgException) {
+                            error_log("Error saving image to database: " . $imgException->getMessage());
+                            FlashMessage::error("Error saving image: " . $imgException->getMessage());
+                        }
+                    } else {
+                        error_log("Upload failed: " . $result->getMessage());
+                        FlashMessage::error($result->getMessage());
+                    }
                 }
-
-                // Upload using FileUploadHelper
-                $result = FileUploadHelper::upload($file, $config);
-
-                if ($result->isSuccess()) {
-                    $fileName = $result->getData()['filename'];
-                    $sessionFiles[] = $fileName;
-
-                    FlashMessage::success("Successfully uploaded: {$fileName}");
-                } else {
-                    FlashMessage::error($result->getMessage());
-                }
+            } else {
+                error_log("No files uploaded or myfile not set");
             }
-
-            // Save updated list
-            SessionManager::set('uploaded_files', $sessionFiles);
 
             // Display success message using FlashMessage::success()
             FlashMessage::success("Car created successfully!");
@@ -166,11 +178,12 @@ class CarsController extends BaseController
             // Redirect back to 'upload.index'
             return $this->redirect($request, $response, 'cars.index');
         } catch (\Exception $e) {
+            error_log("Exception in store: " . $e->getMessage() . " at " . $e->getFile() . $e->getLine());
             // Display error message using FlashMessage::error()
             FlashMessage::error("Car creation failed. Please try again.");
 
             // Redirect back to 'auth.register' route
-            return $this->redirect($request, $response, 'cars.store');
+            return $this->redirect($request, $response, 'cars.create');
         }
     }
 
@@ -217,65 +230,4 @@ class CarsController extends BaseController
         return $this->redirect($request, $response, 'cars.index');
     }
 
-    /**
-     * Summary of upload
-     * Uploads and image to the websites file system
-     * Will also call on the CarImageModel to store the image file path for later rendering
-     * @param Request $request
-     * @param Response $response
-     * @param array $args
-     * @return Response
-     */
-    /**
-     * Process file upload.
-     * Adapted for multiple file uploads
-     */
-    public function upload(Request $request, Response $response, array $args): Response
-    {
-        // TODO: Get uploaded files using getUploadedFiles()
-        // TODO: Extract 'myfile' from the array
-
-        $uploadedFiles = $request->getUploadedFiles();
-        $files = $uploadedFiles['myfile'];
-
-        // Create $config array
-        $config = [
-            'directory' => APP_BASE_DIR_PATH . '/public/uploads/images',
-            'allowedTypes' => ['image/jpeg', 'image/png', 'image/gif'],
-            'maxSize' => 2 * 1024 * 1024,
-            'filenamePrefix' => 'upload_'
-        ];
-
-        if (!SessionManager::has('uploaded_files')) {
-            SessionManager::set('uploaded_files', []);
-        }
-
-        $sessionFiles = SessionManager::get('uploaded_files');
-
-        // Loop through all of the uploaded files
-        foreach ($files as $file) {
-            if ($file->getError !== UPLOAD_ERR_OK) {
-                FlashMessage::error("Error uploading file.");
-                continue;
-            }
-
-            // Upload using FileUploadHelper
-            $result = FileUploadHelper::upload($file, $config);
-
-            if ($result->isSuccess()) {
-                $fileName = $result->getData()['filename'];
-                $sessionFiles[] = $fileName;
-
-                FlashMessage::success("Successfully uploaded: {$fileName}");
-            } else {
-                FlashMessage::error($result->getMessage());
-            }
-        }
-
-        // Save updated list
-        SessionManager::set('uploaded_files', $sessionFiles);
-
-        // Redirect back to 'upload.index'
-        return $this->redirect($request, $response, 'cars.index');
-    }
 }

@@ -93,13 +93,15 @@ class CarModel extends BaseModel
                 model = :model,
                 year = :year,
                 capacity = :capacity,
-                approx_price = :approx_price";
+                approx_price = :approx_price
+                WHERE cars_id = :cars_id";
         return $this->execute($sql, [
             'brand' => $data['brand'],
             'model' => $data['model'],
             'year' => $data['year'],
             'capacity' => $data['capacity'],
-            'approx_price' => $data['approx_price']
+            'approx_price' => $data['approx_price'],
+            'cars_id' => $cars_id
         ]);
     }
 }

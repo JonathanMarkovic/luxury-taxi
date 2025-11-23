@@ -66,7 +66,7 @@ class CarImageController extends BaseController
 
         // Loop through all of the uploaded files
         foreach ($files as $file) {
-            if ($file->getError !== UPLOAD_ERR_OK) {
+            if ($file->getError() !== UPLOAD_ERR_OK) {
                 FlashMessage::error("Error uploading file.");
                 continue;
             }

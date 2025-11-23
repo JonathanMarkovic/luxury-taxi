@@ -4,11 +4,11 @@ use App\Helpers\ViewHelper;
 
 $page_title = 'Create Car';
 ViewHelper::loadAdminHeader($page_title);
-
 ?>
 
-<form action="<?= APP_ADMIN_URL ?>/cars" method="POST" enctype="multipart/form-data">
+<form action="<?= APP_ADMIN_URL ?>/cars/store" method="POST" enctype="multipart/form-data">
     <div class="d-grid gap-3" style="margin: 50px;">
+        <?= App\Helpers\FlashMessage::render() ?>
         <div class="row g-2"> <!-- First row container -->
             <div class="col-md">
                 <!-- Brand input -->
@@ -72,3 +72,6 @@ ViewHelper::loadAdminHeader($page_title);
         </div>
     </div>
 </form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
