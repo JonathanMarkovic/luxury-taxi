@@ -7,7 +7,7 @@ ViewHelper::loadAdminHeader($page_title);
 
 ?>
 
-<form action="<?=APP_ADMIN_URL?>/cars/store" method="POST" enctype="multipart/form-data">
+<form action="<?= APP_ADMIN_URL ?>/cars" method="POST" enctype="multipart/form-data">
     <div class="d-grid gap-3" style="margin: 50px;">
         <div class="row g-2"> <!-- First row container -->
             <div class="col-md">
@@ -52,19 +52,19 @@ ViewHelper::loadAdminHeader($page_title);
             <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="description"></textarea>
             <label for="floatingTextarea2">Description</label>
         </div>
-        <!-- <div class="mb-3">
+        <div class="mb-3">
             <input
                 type="file"
                 class="form-control"
                 id="myfile"
-                name="myfile"
+                name="myfile[]"
                 accept="image/*"
                 multiple
                 required>
             <div class="form-text">
                 Select one or more images to upload (JPEG, PNG).
             </div>
-        </div> -->
+        </div>
         <div class="button-container" style="text-align: right;">
             <!-- Cancel button (redirect to cars index view) -->
             <button type="button" class="btn btn-danger" onclick="">Cancel</button>

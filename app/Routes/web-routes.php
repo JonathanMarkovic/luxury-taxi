@@ -34,10 +34,10 @@ return static function (Slim\App $app): void {
         //* Cars Routes
         $group->get('/cars', [CarsController::class, 'index'])->setName('cars.index');
         $group->get('/cars/create', [CarsController::class, 'create'])->setName('cars.create');
-        // $group->get('/cars/store', [CarsController::class, 'store'])->setName('cars.store');
         $group->post('/cars/store', [CarsController::class, 'store'])->setName('cars.store');
         $group->post('/cars/delete/{car_id}', [CarsController::class, 'delete'])->setName('cars.delete');
         $group->post('/cars/update/{car_id}', [CarsController::class, 'update']);
+
 
         //* Car Images Routes
         $group->get('/carImage', [CarImageController::class, 'index'])->setName('carImage.index');
