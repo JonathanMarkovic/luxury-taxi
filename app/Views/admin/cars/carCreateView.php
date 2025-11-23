@@ -67,7 +67,7 @@ ViewHelper::loadAdminHeader($page_title);
         </div>
         <div class="button-container" style="text-align: right;">
             <!-- Cancel button (redirect to cars index view) -->
-            <button type="button" class="btn btn-danger" onclick="">Cancel</button>
+            <a href="<?=APP_ADMIN_URL?>/cars" class="btn btn-danger">Cancel</a>
             <button type="submit" class="btn btn-primary">Create</button>
         </div>
     </div>
