@@ -2,7 +2,7 @@
 
 use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
-$page_title = 'FAQ ';
+$page_title = 'List of FAQs';
 $faqs = $data['faq'];
 
 
@@ -13,28 +13,29 @@ ViewHelper::loadAdminHeader($page_title);
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <!-- Flash Messages Display Area -->
- <div class="mb-4">
-            <?= App\Helpers\FlashMessage::render() ?>
-        </div>
+    <div class="mb-4">
+        <?= App\Helpers\FlashMessage::render() ?>
+    </div>
 
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">FAQ</h1>
+        <h2><?=$page_title?></h2>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div>
+                <!--ADD this to route and redirect to faqCreateView.php -->
+                <a class="btn btn-primary" href="<?= APP_ADMIN_URL ?>/faq/add">+ New FAQ</a>
+            </div>
+        </div>
 
     </div>
-<div>
-<!--ADD this to route and redirect to faqCreateView.php -->
-    <a class="btn btn-primary" href="<?= APP_ADMIN_URL?>/faq/add"> Create New FAQ</a>
-</div>
-
     <br>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <th>Question</th>
                 <th>Answer</th>
-                <th>Action</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -53,7 +54,7 @@ ViewHelper::loadAdminHeader($page_title);
                     </td>
 
                 </tr>
-                <div class="modal fade" id="deleteModal<?= $faq['faq_id']?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel<?= $faq['faq_id']?>" aria-hidden="true">
+                <div class="modal fade" id="deleteModal<?= $faq['faq_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel<?= $faq['faq_id'] ?>" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">

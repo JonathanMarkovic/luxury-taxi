@@ -2,32 +2,23 @@
 
 use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
-$page_title = 'Home';
+$page_title = 'List of Reservations';
 ViewHelper::loadAdminHeader($page_title);
 $reservations = $data['reservations'];
 ?>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="mb-4">
+        <?= App\Helpers\FlashMessage::render() ?>
+    </div>
     <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h2><?= $page_title ?></h2>
         <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">
-                    Share
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">
-                    Export
-                </button>
+            <div>
+                <!--ADD this to route and redirect to faqCreateView.php -->
+                <a class="btn btn-primary" href="<?= APP_ADMIN_URL ?>/reservations/create">+ New Reservation</a>
             </div>
-            <button
-                type="button"
-                class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1">
-                <svg class="bi" aria-hidden="true">
-                    <use xlink:href="#calendar3"></use>
-                </svg>
-                This week
-            </button>
         </div>
     </div>
     <!-- Canvas is the graph that would show on the main page -->
