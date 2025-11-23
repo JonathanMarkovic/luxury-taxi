@@ -46,13 +46,14 @@ class CarModel extends BaseModel
      */
     public function createAndGetId($data): int
     {
-        $sql = "INSERT INTO cars (brand, model, year, capacity, approx_price) VALUES (:brand, :model, :year, :capacity, :approx_price)";
+        $sql = "INSERT INTO cars (brand, model, year, capacity, approx_price, description) VALUES (:brand, :model, :year, :capacity, :approx_price, :description)";
         $this->execute($sql, [
             'brand' => $data['brand'],
             'model' => ['model'],
             'year' => $data['year'],
             'capacity' => $data['capacity'],
-            'approx_price' => $data['approx_price']
+            'approx_price' => $data['approx_price'],
+            'description' => $data['description']
         ]);
 
         $last_id = $this->pdo->lastInsertId();

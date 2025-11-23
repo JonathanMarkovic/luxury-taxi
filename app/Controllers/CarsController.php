@@ -43,7 +43,7 @@ class CarsController extends BaseController
             'message' => 'Welcome to the Cars Creation page'
         ];
 
-        return $this->render($response, 'cars.create', $data);
+        return $this->render($response, 'admin/cars/carCreateView.php', $data);
     }
 
     /**
