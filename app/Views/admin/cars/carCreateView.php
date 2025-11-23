@@ -5,10 +5,9 @@ use App\Helpers\ViewHelper;
 $page_title = 'Create Car';
 ViewHelper::loadAdminHeader($page_title);
 
-// require_once('admin_header');
 ?>
 
-<form action="" method="POST">
+<form action="<?=APP_ADMIN_URL?>/cars/store" method="POST" enctype="multipart/form-data">
     <div class="d-grid gap-3" style="margin: 50px;">
         <div class="row g-2"> <!-- First row container -->
             <div class="col-md">

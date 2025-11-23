@@ -58,13 +58,75 @@ class CarsController extends BaseController
      */
     public function store(Request $request, Response $response, array $args): Response
     {
-        $data = $request->getParsedBody();
+        // Get form data
+        $formData = $request->getParsedBody();
+
+        // Extract fields from $formData
+        $brand = $formData['brand'];
+        $model = $formData['model'];
+        $year = $formData['year'];
+        $capacity = $formData['capacity'];
+        $approx_price = $formData['approx_price'];
+        $description = $formData['description'];
 
         //todo validate the values
+        $errors = [];
 
-        // Create and redirect
-        $this->car_model->createAndGetId($data);
-        return $this->redirect($request, $response, 'cars.index');
+        if (empty($brand)) {
+            $errors[] = "Please fill out Brand field";
+        }
+
+        if (empty($model)) {
+            $errors[] = "Please fill out Brand field";
+        }
+
+        if (empty($year)) {
+            $errors[] = "Please fill out Brand field";
+        }
+
+        if (empty($capacity)) {
+            $errors[] = "Please fill out Brand field";
+        }
+
+        if (empty($approx_price)) {
+            $errors[] = "Please fill out Brand field";
+        }
+
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                FlashMessage::error($error);
+            }
+
+            return $this->redirect($request, $response, 'cars.create');
+        }
+
+        // If validation passes, create the car
+        try {
+            // Create $userData array with keys:
+            $carData = [
+                'brand' => $brand,
+                'model' => $model,
+                'year' => $year,
+                'capacity' => $capacity,
+                'approx_price' => $approx_price,
+                'description' => 'description'
+            ];
+
+            // Call $this->userModel->createAndGetId($carData)
+            $userId = $this->car_model->createAndGetId($carData);
+
+            // Display success message using FlashMessage::success()
+            FlashMessage::success("Car created successfully!");
+
+            // Redirect to 'auth.login' route
+            return $this->redirect($request, $response, 'cars.index');
+        } catch (\Exception $e) {
+            // Display error message using FlashMessage::error()
+            FlashMessage::error("Car creation failed. Please try again.");
+
+            // Redirect back to 'auth.register' route
+            return $this->redirect($request, $response, 'cars.store');
+        }
     }
 
     /**

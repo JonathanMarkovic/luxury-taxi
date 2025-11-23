@@ -27,13 +27,13 @@ class CarModel extends BaseModel
     /**
      * Summary of fetchCarByID
      * Fetches a single car based on ID
-     * @param mixed $car_id
+     * @param mixed $cars_id
      * @return array|bool
      */
-    public function fetchCarByID($car_id): mixed
+    public function fetchCarByID($cars_id): mixed
     {
         $sql = "SELECT * FROM cars WHERE cars_id = :id";
-        $car = $this->selectOne($sql, ['id' => $car_id]);
+        $car = $this->selectOne($sql, ['id' => $cars_id]);
         return $car;
     }
 
@@ -49,7 +49,7 @@ class CarModel extends BaseModel
         $sql = "INSERT INTO cars (brand, model, year, capacity, approx_price, description) VALUES (:brand, :model, :year, :capacity, :approx_price, :description)";
         $this->execute($sql, [
             'brand' => $data['brand'],
-            'model' => ['model'],
+            'model' => $data['model'],
             'year' => $data['year'],
             'capacity' => $data['capacity'],
             'approx_price' => $data['approx_price'],
@@ -65,28 +65,28 @@ class CarModel extends BaseModel
      * Deletes a car from the database based on
      * ID
      * Also deletes all images related to this specific car
-     * @param mixed $car_id
+     * @param mixed $cars_id
      * @return void
      */
-    public function deleteCar($car_id): int
+    public function deleteCar($cars_id): int
     {
         //* Need to first delete all the images related to this car
-        $sql1 = "DELETE FROM car_images WHERE car_id = :car_id";
-        $this->execute($sql1, ['car_id' => $car_id]);
+        $sql1 = "DELETE FROM car_images WHERE cars_id = :cars_id";
+        $this->execute($sql1, ['cars_id' => $cars_id]);
         //* Then we can delete the car from the database without worrying about foreign key constraints
-        $sql2 = "DELETE FROM cars WHERE car_id = :car_id";
-        return $this->execute($sql2, ['car_id' => $car_id]);
+        $sql2 = "DELETE FROM cars WHERE cars_id = :cars_id";
+        return $this->execute($sql2, ['cars_id' => $cars_id]);
     }
 
     /**
      * Summary of updateCar
      * Updates a car from the car table based
      * on ID
-     * @param mixed $car_id
+     * @param mixed $cars_id
      * @param mixed $data
      * @return int
      */
-    public function updateCar($car_id, $data): int
+    public function updateCar($cars_id, $data): int
     {
         $sql = "UPDATE cars
                 SET brand = :brand,
@@ -96,7 +96,7 @@ class CarModel extends BaseModel
                 approx_price = :approx_price";
         return $this->execute($sql, [
             'brand' => $data['brand'],
-            'model' => ['model'],
+            'model' => $data['model'],
             'year' => $data['year'],
             'capacity' => $data['capacity'],
             'approx_price' => $data['approx_price']

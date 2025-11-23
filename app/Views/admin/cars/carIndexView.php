@@ -52,15 +52,15 @@ $cars = $data['cars'];
             <?php foreach ($cars as $key => $car): ?>
                 <!-- Create a <tr> element for each coffee shop in the list -->
                 <tr>
-                    <td> <?= $car['car_id'] ?> </td>
+                    <td> <?= $car['cars_id'] ?> </td>
                     <td><?= $car['brand'] ?></td>
                     <td><?= $car['model'] ?></td>
                     <td><?= $car['year'] ?></td>
                     <td><?= $car['capacity'] ?></td>
                     <td><?= $car['approx_price'] ?></td>
                     <td><?= $car['description'] ?></td>
-                    <td><?= $reservation['created_at'] ?></td>
-                    <td><?= $reservation['updated_at'] ?></td>
+                    <td><?= $car['created_at'] ?></td>
+                    <td><?= $car['updated_at'] ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
