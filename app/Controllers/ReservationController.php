@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Domain\Models\ReservationModel;
+use App\Domain\Models\UserModel;
 use App\Helpers\FlashMessage;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -11,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ReservationController extends BaseController
 {
-    public function __construct(Container $container, private ReservationModel $reservation_model)
+    public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model)
     {
         parent::__construct($container);
     }
@@ -47,7 +48,7 @@ class ReservationController extends BaseController
             'message' => 'Welcome to the Reservations Creation page'
         ];
 
-        return $this->render($response, 'reservations.create', $data);
+        return $this->render($response, 'admin/reservations/reservationCreateView.php', $data);
     }
 
     /**
@@ -65,11 +66,44 @@ class ReservationController extends BaseController
         $data = $request->getParsedBody();
 
         //todo validate the values
+
+        if (empty($data['email'])) {
+            FlashMessage::error("Must include your email");
+        } else {
+            $user = $this->user_model->findByEmail($data['email']);
+            $data['user_id'] = $user['user_id'];
+        }
+
+        $reservation_type = $data['reservation_type'];
+        if ($reservation_type == null) {
+            FlashMessage::error("Must choose a reservation type");
+        } elseif ($reservation_type === 'trip') {
+            if (empty($data['dropoff'])) {
+                FlashMessage::error("Must include a dropoff location for trip reservations");
+            }
+        } elseif ($reservation_type === 'hourly') {
+            if (empty($data['end_time'])) {
+                FlashMessage::error("Must include an end time for hourly reservations");
+            }
+        }
+
         if (empty($data['pickup'])) {
             FlashMessage::error("Must include a pickup Address");
         }
+
+        if (empty($data['start_time'])) {
+            FlashMessage::error("Must include a start time");
+        }
+
+
         // Create and redirect
-        $this->reservation_model->createAndGetId($data);
+        try {
+            $this->reservation_model->createAndGetId($data);
+        } catch (\Throwable $th) {
+            FlashMessage::error("Something went wrong");
+        }
+        FlashMessage::success("Reservation added");
+        
         return $this->redirect($request, $response, 'cars.index');
     }
 
