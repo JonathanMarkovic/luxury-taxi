@@ -13,6 +13,7 @@ use App\Controllers\CustomerController;
 use App\Controllers\DashboardController;
 use App\Controllers\FAQController;
 use App\Controllers\HomeController;
+use App\Controllers\PublicCarsController;
 use App\Controllers\UserController;
 use App\Controllers\ReservationController;
 use App\Middleware\AdminAuthMiddleware;
@@ -28,6 +29,15 @@ return static function (Slim\App $app): void {
     $app->get('/home', [HomeController::class, 'index'])
         ->setName('home.index');
 
+    // Public Routes
+    $app->group('/public', function ($group) {
+        // Public car list
+        $group->get('/cars', [PublicCarsController::class, 'index'])->setName('public.cars');
+        $group->get('/reservations', [PublicCarsController::class, 'index'])->setName('public.reservations');
+        $group->get('/faqs', [PublicCarsController::class, 'index'])->setName('public.faqs');
+    });
+
+    // Admin Routes
     $app->group('/admin', function ($group) {
         $group->get('/dashboard', [DashboardController::class, 'index'])->setName('admin.dashboard');
 
