@@ -23,6 +23,14 @@ class CarsController extends BaseController
     public function index(Request $request, Response $response, array $args): Response
     {
         $cars = $this->car_model->fetchCars();
+
+        // Reference operator (&) creates a copy so images are added to the copy
+        foreach ($cars as &$car) {
+            $car['images'] = $this->car_image_model->fetchImagesById($car['cars_id']);
+        }
+        unset($car);
+
+        // Debugging: without nesting inside 'data'
         $data['data'] = [
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
@@ -192,7 +200,11 @@ class CarsController extends BaseController
 
         if (is_numeric($cars_id)) {
             $this->car_model->deleteCar($cars_id);
+            FlashMessage::success("Car has been successfully deleted.");
+        } else {
+            FlashMessage::error('Error deleting this car.');
         }
+
 
         return $this->redirect($request, $response, 'cars.index');
     }

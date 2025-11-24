@@ -84,8 +84,91 @@ $cars = $data['cars'];
     </table>
 
     <h2>Client View</h2>
-    <div id="car-list-container">
+    <!-- Cards with Carousels -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+        <?php foreach ($cars as $car): ?>
+            <div class="col">
+                <div class="card h-100">
+                    <!-- Carousel -->
+                    <?php if (!empty($car['images'])): ?>
+                        <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <?php foreach ($car['images'] as $index => $image): ?>
+                                    <button type="button"
+                                        data-bs-target="#carousel<?= $car['cars_id'] ?>"
+                                        data-bs-slide-to="<?= $index ?>"
+                                        class="<?= $index === 0 ? 'active' : '' ?>"
+                                        aria-current="<?= $index === 0 ? 'true' : 'false' ?>"
+                                        aria-label="Slide <?= $index + 1 ?>">
+                                    </button>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="carousel-inner">
+                                <?php foreach ($car['images'] as $index => $image): ?>
+                                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                        <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>"
+                                            class="d-block w-100"
+                                            alt="<?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?>"
+                                            style="height: 250px; object-fit: cover;">
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $car['cars_id'] ?>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $car['cars_id'] ?>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    <?php else: ?>
+                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <span class="text-white">No Image Available</span>
+                        </div>
+                    <?php endif; ?>
 
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' ' . $car['year']) ?></h5>
+                        <p class="card-text">
+                            <strong>ID:</strong> <?= htmlspecialchars($car['cars_id']) ?><br>
+                            <strong>Capacity:</strong> <?= htmlspecialchars($car['capacity']) ?> passengers<br>
+                            <strong>Price:</strong> $<?= number_format($car['approx_price']) ?> / hour<br>
+                            <small class="text-muted"><?= htmlspecialchars(substr($car['description'], 0, 100)) ?><?= strlen($car['description']) > 100 ? '...' : '' ?></small>
+                        </p>
+                    </div>
+
+                    <!-- Card Footer with Actions -->
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex gap-2">
+                            <a href="<?= APP_ADMIN_URL ?>/cars/edit/<?= $car['cars_id'] ?>" class="btn btn-sm btn-primary flex-fill">Edit</a>
+                            <button type="button" class="btn btn-sm btn-danger flex-fill" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $car['cars_id'] ?>">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal<?= $car['cars_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel<?= $car['cars_id'] ?>" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel<?= $car['cars_id'] ?>">Confirm Deletion</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete <strong><?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?></strong>?
+                            <br><small class="text-muted">This action cannot be undone.</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <a href="<?= APP_ADMIN_URL ?>/cars/delete/<?= $car['cars_id'] ?>" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
 
 </main>
