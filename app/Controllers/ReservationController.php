@@ -65,7 +65,9 @@ class ReservationController extends BaseController
         $data = $request->getParsedBody();
 
         //todo validate the values
-
+        if (empty($data['pickup'])) {
+            FlashMessage::error("Must include a pickup Address");
+        }
         // Create and redirect
         $this->reservation_model->createAndGetId($data);
         return $this->redirect($request, $response, 'cars.index');

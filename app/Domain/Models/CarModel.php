@@ -6,7 +6,7 @@ use App\Helpers\Core\PDOService;
 
 class CarModel extends BaseModel
 {
-    public function __construct(PDOService $pdoservice)
+    public function __construct(PDOService $pdoservice, private CarImageModel $car_image_model)
     {
         parent::__construct($pdoservice);
     }
@@ -21,6 +21,11 @@ class CarModel extends BaseModel
         $sql = "SELECT * FROM cars";
 
         $cars = $this->selectAll($sql);
+
+        // dd($cars);
+        foreach ($cars as $key => $car) {
+            $car['image_path'] = $this->car_image_model->fetchImageById($car['cars_id']);
+        }
         return $cars;
     }
 
@@ -71,7 +76,7 @@ class CarModel extends BaseModel
     public function deleteCar($cars_id): int
     {
         //* Need to first delete all the images related to this car
-        $sql1 = "DELETE FROM car_images WHERE cars_id = :cars_id";
+        $sql1 = "DELETE FROM car_images WHERE car_id = :cars_id";
         $this->execute($sql1, ['cars_id' => $cars_id]);
         //* Then we can delete the car from the database without worrying about foreign key constraints
         $sql2 = "DELETE FROM cars WHERE cars_id = :cars_id";
