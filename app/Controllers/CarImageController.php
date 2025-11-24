@@ -94,10 +94,10 @@ class CarImageController extends BaseController
 
     public function update(Request $request, Response $response, array $args): Response
     {
-        $car_id = $args['car_id'];
+        $cars_id = $args['cars_id'];
 
-        $car = $this->car_model->fetchCarByID($car_id);
-        $car_images = $this->car_image_model->fetchImagesById($car_id);
+        $car = $this->car_model->fetchCarByID($cars_id);
+        $car_images = $this->car_image_model->fetchImagesById($cars_id);
 
         $data['data'] = [
             'title' => 'Edit Car',
@@ -106,5 +106,34 @@ class CarImageController extends BaseController
         ];
 
         return $this->render($response, 'admin/cars/carEditView.php', $data);
+    }
+
+    public function delete(Request $request, Response $response, array $args): Response
+    {
+        $image_id = $args['image_id'] ?? null;
+
+        if (!empty($image_id)) {
+            // Get the image to find which car it belongs to
+            $image = $this->car_image_model->fetchImageById($image_id);
+
+            if ($image) {
+                $cars_id = $image['cars_id'];
+
+                try {
+                    $this->car_image_model->delete($image_id);
+                    FlashMessage::success('Image deleted successfully.');
+                } catch (\Exception $e) {
+                    FlashMessage::error('Failed to delete image: ' . $e->getMessage());
+                }
+
+                return $this->redirect($request, $response, 'cars.edit', ['cars_id' => $cars_id]);
+            } else {
+                FlashMessage::error('Image not found.');
+            }
+        } else {
+            FlashMessage::error('Invalid image ID.');
+        }
+
+        return $this->redirect($request, $response, 'cars.index');
     }
 }

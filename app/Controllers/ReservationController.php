@@ -73,7 +73,7 @@ class ReservationController extends BaseController
 
     /**
      * Summary of delete
-     * Extracts the car_id from the arguments section of the URI and sends it to
+     * Extracts the cars_id from the arguments section of the URI and sends it to
      * the ReservationModel for removal from the database.
      * @param Request $request
      * @param Response $response

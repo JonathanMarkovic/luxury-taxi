@@ -35,9 +35,19 @@ class CarImageModel extends BaseModel
     {
         $sql = "SELECT * FROM car_images WHERE cars_id = :id";
 
-        $car_images = $this->selectAll($sql, [':id' => $cars_id]);
+        $car_images = $this->selectAll($sql, ['id' => $cars_id]);
 
         return $car_images;
+    }
+
+    /**
+     * Fetch a single image by its ID
+     * @param $image_id
+     */
+    public function fetchImageById($image_id): mixed
+    {
+        $sql = "SELECT * FROM car_images WHERE image_id = :id";
+        return $this->selectOne($sql, ['id' => $image_id]);
     }
 
     /**
@@ -61,11 +71,18 @@ class CarImageModel extends BaseModel
         return $lastId;
     }
 
-    public function addImage($cars_id, $image_path) {
+    public function addImage($cars_id, $image_path)
+    {
         $sql = "INSERT INTO car_images (cars_id, image_path) VALUES (:cars_id, :image_path)";
         return $this->execute($sql, [
             'cars_id' => $cars_id,
             'image_path' => $image_path
         ]);
+    }
+
+    public function delete($image_id)
+    {
+        $sql = "DELETE FROM car_images WHERE image_id = :image_id";
+        $this->execute($sql, ['image_id' => $image_id]);
     }
 }

@@ -35,17 +35,17 @@ return static function (Slim\App $app): void {
         $group->get('/cars', [CarsController::class, 'index'])->setName('cars.index');
         $group->get('/cars/create', [CarsController::class, 'create'])->setName('cars.create');
         $group->post('/cars/store', [CarsController::class, 'store'])->setName('cars.store');
-        $group->post('/cars/delete/{car_id}', [CarsController::class, 'delete'])->setName('cars.delete');
-        $group->get('/cars/edit/{car_id}', [CarsController::class, 'edit'])->setName('cars.edit');
-        $group->post('/cars/update/{car_id}', [CarsController::class, 'update'])->setName('cars.update');
+        $group->post('/cars/delete/{cars_id}', [CarsController::class, 'delete'])->setName('cars.delete');
+        $group->get('/cars/edit/{cars_id}', [CarsController::class, 'edit'])->setName('cars.edit');
+        $group->post('/cars/update/{cars_id}', [CarsController::class, 'update'])->setName('cars.update');
 
 
         //* Car Images Routes
         $group->get('/carImage', [CarImageController::class, 'index'])->setName('carImage.index');
         $group->get('/carImage/upload/{car_image_id}', [CarImageController::class, 'upload'])->setName('carImage.upload');
         $group->post('/carImage', [CarImageController::class, 'store']);
-        $group->get('/carImage/delete/{car_image_id}', [CarImageController::class, 'delete'])->setName('carImage.delete');
-        $group->post('/carImage/update/{car_image_id}', [CarImageController::class, 'update']);
+        $group->get('/carImage/delete/{image_id}', [CarImageController::class, 'delete'])->setName('carImage.delete');
+        $group->post('/carImage/update/{image_id}', [CarImageController::class, 'update']);
 
         //* Reservations Routes
         $group->get('/reservations', [ReservationController::class, 'index'])->setName('reservations.index');

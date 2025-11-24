@@ -3,6 +3,7 @@
 use App\Helpers\ViewHelper;
 
 $car = $data['car'];
+$car_images = $data['car_images'] ?? [];
 $page_title = 'Edit a Car';
 ViewHelper::loadAdminHeader($page_title);
 ?>
@@ -52,7 +53,7 @@ ViewHelper::loadAdminHeader($page_title);
                 </div>
             </div>
             <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="description"><?= $car['brand'] ?></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px" name="description"><?= $car['description'] ?></textarea>
                 <label for="floatingTextarea2">Description</label>
             </div>
 
@@ -64,7 +65,7 @@ ViewHelper::loadAdminHeader($page_title);
                         <?php foreach ($car_images as $image): ?>
                             <div class="col-md-3">
                                 <div class="card">
-                                    <img src="/public/uploads/images/<?= htmlspecialchars($image['image_path']) ?>" class="card-img-top" alt="Car image">
+                                    <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>" class="card-img-top" alt="Car image">
                                     <div class="card-body p-2">
                                         <button type="button" class="btn btn-sm btn-danger w-100"
                                             onclick="return confirm('Delete this image?') && (window.location.href='<?= APP_ADMIN_URL ?>/carImage/delete/<?= $image['image_id'] ?>')">

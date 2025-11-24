@@ -121,16 +121,14 @@ class CarsController extends BaseController
 
             //* Try to upload files
 
-            // Log for debugging
+            // Debugging
             error_log("Car created with ID: " . $carId);
 
             // Process file uploads
             $uploadedFiles = $request->getUploadedFiles();
-            error_log("Uploaded files: " . print_r($uploadedFiles, true));
 
             if (isset($uploadedFiles['myfile']) && !empty($uploadedFiles['myfile'])) {
                 $files = $uploadedFiles['myfile'];
-                error_log("Number of files: " . count($files));
 
                 $config = [
                     'directory' => APP_BASE_DIR_PATH . '/public/uploads/images',
@@ -140,31 +138,24 @@ class CarsController extends BaseController
                 ];
 
                 foreach ($files as $file) {
-                    error_log("Processing file...");
                     if ($file->getError() !== UPLOAD_ERR_OK) {
-                        error_log("File upload error: " . $file->getError());
                         FlashMessage::error("Error uploading one of the files.");
                         continue;
                     }
 
                     $result = FileUploadHelper::upload($file, $config);
-                    error_log("Upload result: " . print_r($result, true));
 
                     if ($result->isSuccess()) {
                         $fileName = $result->getData()['filename'];
-                        error_log("File uploaded successfully: " . $fileName);
 
                         try {
                             // save to database
                             $this->car_image_model->addImage($carId, $fileName);
-                            error_log("Image added to database: " . $fileName);
                             FlashMessage::success("Successfully uploaded: {$fileName}");
                         } catch (\Exception $imgException) {
-                            error_log("Error saving image to database: " . $imgException->getMessage());
                             FlashMessage::error("Error saving image: " . $imgException->getMessage());
                         }
                     } else {
-                        error_log("Upload failed: " . $result->getMessage());
                         FlashMessage::error($result->getMessage());
                     }
                 }
@@ -178,7 +169,6 @@ class CarsController extends BaseController
             // Redirect back to 'upload.index'
             return $this->redirect($request, $response, 'cars.index');
         } catch (\Exception $e) {
-            error_log("Exception in store: " . $e->getMessage() . " at " . $e->getFile() . $e->getLine());
             // Display error message using FlashMessage::error()
             FlashMessage::error("Car creation failed. Please try again.");
 
@@ -189,7 +179,7 @@ class CarsController extends BaseController
 
     /**
      * Summary of delete
-     * Extracts the car_id from the arguments section of the URI and sends it to
+     * Extracts the cars_id from the arguments section of the URI and sends it to
      * the CarsModel for removal from the database.
      * @param Request $request
      * @param Response $response
@@ -198,10 +188,10 @@ class CarsController extends BaseController
      */
     public function delete(Request $request, Response $response, array $args): Response
     {
-        $car_id = $args['car_id'];
+        $cars_id = $args['cars_id'];
 
-        if (is_numeric($car_id)) {
-            $this->car_model->deleteCar($car_id);
+        if (is_numeric($cars_id)) {
+            $this->car_model->deleteCar($cars_id);
         }
 
         return $this->redirect($request, $response, 'cars.index');
@@ -218,7 +208,7 @@ class CarsController extends BaseController
      */
     public function update(Request $request, Response $response, array $args): Response
     {
-        $car_id = $args['car_id'];
+        $cars_id = $args['cars_id'];
 
         // Get form data
         $formData = $request->getParsedBody();
@@ -259,7 +249,7 @@ class CarsController extends BaseController
                 FlashMessage::error($error);
             }
 
-            return $this->redirect($request, $response, 'cars.edit', ['car_id' => $car_id]);
+            return $this->redirect($request, $response, 'cars.edit', ['cars_id' => $cars_id]);
         }
 
         // If validation passes, update the car
@@ -275,13 +265,12 @@ class CarsController extends BaseController
             ];
 
             // Update the car
-            $this->car_model->updateCar($car_id, $carData);
+            $this->car_model->updateCar($cars_id, $carData);
 
-            error_log("Car updated with ID: " . $car_id);
+            error_log("Car updated with ID: " . $cars_id);
 
             // Process file uploads (if any new files were uploaded)
             $uploadedFiles = $request->getUploadedFiles();
-            error_log("Uploaded files: " . print_r($uploadedFiles, true));
 
             if (isset($uploadedFiles['myfile']) && !empty($uploadedFiles['myfile'])) {
                 $files = $uploadedFiles['myfile'];
@@ -302,38 +291,31 @@ class CarsController extends BaseController
                         'directory' => APP_BASE_DIR_PATH . '/public/uploads/images',
                         'allowedTypes' => ['image/jpeg', 'image/png'],
                         'maxSize' => 2 * 1024 * 1024,
-                        'filenamePrefix' => 'car_' . $car_id . "_"
+                        'filenamePrefix' => 'car_' . $cars_id . "_"
                     ];
 
                     foreach ($files as $file) {
-                        error_log("Processing file...");
 
                         if ($file->getError() !== UPLOAD_ERR_OK) {
                             if ($file->getError() !== UPLOAD_ERR_NO_FILE) {
-                                error_log("File upload error: " . $file->getError());
                                 FlashMessage::error("Error uploading one of the files.");
                             }
                             continue;
                         }
 
                         $result = FileUploadHelper::upload($file, $config);
-                        error_log("Upload result: " . print_r($result, true));
 
                         if ($result->isSuccess()) {
                             $fileName = $result->getData()['filename'];
-                            error_log("File uploaded successfully: " . $fileName);
 
                             try {
                                 // Add new image to database
-                                $this->car_image_model->addImage($car_id, $fileName);
-                                error_log("Image added to database: " . $fileName);
+                                $this->car_image_model->addImage($cars_id, $fileName);
                                 FlashMessage::success("Successfully uploaded: {$fileName}");
                             } catch (\Exception $imgException) {
-                                error_log("Error saving image to database: " . $imgException->getMessage());
                                 FlashMessage::error("Error saving image: " . $imgException->getMessage());
                             }
                         } else {
-                            error_log("Upload failed: " . $result->getMessage());
                             FlashMessage::error($result->getMessage());
                         }
                     }
@@ -348,10 +330,9 @@ class CarsController extends BaseController
             // Redirect back to cars index
             return $this->redirect($request, $response, 'cars.index');
         } catch (\Exception $e) {
-            error_log("Exception in update: " . $e->getMessage() . " at " . $e->getFile() . ":" . $e->getLine());
             FlashMessage::error("Car update failed: " . $e->getMessage());
 
-            return $this->redirect($request, $response, 'cars.edit', ['car_id' => $car_id]);
+            return $this->redirect($request, $response, 'cars.edit', ['cars_id' => $cars_id]);
         }
     }
 
@@ -360,10 +341,17 @@ class CarsController extends BaseController
      */
     public function edit(Request $request, Response $response, array $args): Response
     {
-        $car_id = $args['car_id'];
+        $cars_id = $args['cars_id'];
 
-        $car = $this->car_model->fetchCarByID($car_id);
-        $car_images = $this->car_image_model->fetchImagesById($car_id);
+        $car = $this->car_model->fetchCarByID($cars_id);
+        $car_images = $this->car_image_model->fetchImagesById($cars_id);
+
+        // Debug logging
+        error_log("=== EDIT METHOD DEBUG ===");
+        error_log("Car ID: " . $cars_id);
+        error_log("Car data: " . print_r($car, true));
+        error_log("Car images: " . print_r($car_images, true));
+        error_log("Number of images: " . (is_array($car_images) ? count($car_images) : 'not an array'));
 
         if (!$car) {
             FlashMessage::error("Car not found.");
