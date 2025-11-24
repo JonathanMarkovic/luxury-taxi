@@ -102,8 +102,15 @@ class ReservationController extends BaseController
         } catch (\Throwable $th) {
             FlashMessage::error("Something went wrong");
         }
-        FlashMessage::success("Reservation added");
-        
+        FlashMessage::success("Reservation added: You will get an email with your reservation details");
+
+        $to = $data['email'];
+        $subject = "Reservation Created";
+        $message = "Solaf Performance has received your reservation request. You will get a response soon";
+        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+            "X-Mailer: PHP/" . phpversion();
+
         return $this->redirect($request, $response, 'cars.index');
     }
 
