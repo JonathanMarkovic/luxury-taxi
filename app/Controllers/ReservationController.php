@@ -65,8 +65,6 @@ class ReservationController extends BaseController
     {
         $data = $request->getParsedBody();
 
-        //todo validate the values
-
         if (empty($data['email'])) {
             FlashMessage::error("Must include your email");
         } else {
@@ -104,6 +102,7 @@ class ReservationController extends BaseController
         }
         FlashMessage::success("Reservation added: You will get an email with your reservation details");
 
+        //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
         $subject = "Reservation Created";
         $message = "Solaf Performance has received your reservation request. You will get a response soon";
@@ -149,9 +148,50 @@ class ReservationController extends BaseController
 
         $data = $request->getParsedBody();
 
-        //todo validate inputs here
+        if (empty($data['email'])) {
+            FlashMessage::error("Must include your email");
+        } else {
+            $user = $this->user_model->findByEmail($data['email']);
+            $data['user_id'] = $user['user_id'];
+        }
 
-        $this->reservation_model->updateReservation($reservation_id, $data);
+        $reservation_type = $data['reservation_type'];
+        if ($reservation_type == null) {
+            FlashMessage::error("Must choose a reservation type");
+        } elseif ($reservation_type === 'trip') {
+            if (empty($data['dropoff'])) {
+                FlashMessage::error("Must include a dropoff location for trip reservations");
+            }
+        } elseif ($reservation_type === 'hourly') {
+            if (empty($data['end_time'])) {
+                FlashMessage::error("Must include an end time for hourly reservations");
+            }
+        }
+
+        if (empty($data['pickup'])) {
+            FlashMessage::error("Must include a pickup Address");
+        }
+
+        if (empty($data['start_time'])) {
+            FlashMessage::error("Must include a start time");
+        }
+
+        // Create and redirect
+        try {
+            $this->reservation_model->updateReservation($reservation_id, $data);
+        } catch (\Throwable $th) {
+            FlashMessage::error("Something went wrong");
+        }
+        FlashMessage::success("Reservation updated: You will get an email with your reservation details");
+
+        //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
+        $to = $data['email'];
+        $subject = "Reservation Created";
+        $message = "Solaf Performance has received your reservation request. You will get a response soon";
+        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+            "X-Mailer: PHP/" . phpversion();
+
         FlashMessage::success("Reservation Added Successfully");
 
         return $this->redirect($request, $response, 'cars.index');
