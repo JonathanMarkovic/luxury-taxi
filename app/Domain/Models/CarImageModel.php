@@ -31,11 +31,11 @@ class CarImageModel extends BaseModel
      * @param mixed $id
      * @return array
      */
-    public function fetchImagesById($car_id): mixed
+    public function fetchImagesById($cars_id): mixed
     {
-        $sql = "SELECT * FROM car_images WHERE car_id = :id";
+        $sql = "SELECT * FROM car_images WHERE cars_id = :id";
 
-        $car_images = $this->selectAll($sql, ['id' => $car_id]);
+        $car_images = $this->selectAll($sql, ['id' => $cars_id]);
 
         return $car_images;
     }
@@ -58,24 +58,24 @@ class CarImageModel extends BaseModel
      * @param mixed $fileName
      * @return bool|string
      */
-    public function upload($car_id, $config, $fileName): int
+    public function upload($cars_id, $config, $fileName): int
     {
         // The file path to be stored in the database
         $image_path = $config['directory'] . DIRECTORY_SEPARATOR . $fileName;
 
-        $sql = "INSERT INTO car_images (car_id, image_path) VALUES (:car_id, :image_path)";
+        $sql = "INSERT INTO car_images (cars_id, image_path) VALUES (:cars_id, :image_path)";
 
-        $this->execute($sql, ['car_id' => $car_id, 'image_path' => $image_path]);
+        $this->execute($sql, ['cars_id' => $cars_id, 'image_path' => $image_path]);
 
         $lastId = $this->pdo->lastInsertId();
         return $lastId;
     }
 
-    public function addImage($car_id, $image_path)
+    public function addImage($cars_id, $image_path)
     {
-        $sql = "INSERT INTO car_images (car_id, image_path) VALUES (:car_id, :image_path)";
+        $sql = "INSERT INTO car_images (cars_id, image_path) VALUES (:cars_id, :image_path)";
         return $this->execute($sql, [
-            'car_id' => $car_id,
+            'cars_id' => $cars_id,
             'image_path' => $image_path
         ]);
     }

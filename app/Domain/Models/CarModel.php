@@ -6,7 +6,7 @@ use App\Helpers\Core\PDOService;
 
 class CarModel extends BaseModel
 {
-    public function __construct(PDOService $pdoservice)
+    public function __construct(PDOService $pdoservice, private CarImageModel $car_image_model)
     {
         parent::__construct($pdoservice);
     }
@@ -21,6 +21,11 @@ class CarModel extends BaseModel
         $sql = "SELECT * FROM cars";
 
         $cars = $this->selectAll($sql);
+
+        // dd($cars);
+        foreach ($cars as $key => $car) {
+            $car['image_path'] = $this->car_image_model->fetchImageById($car['cars_id']);
+        }
         return $cars;
     }
 

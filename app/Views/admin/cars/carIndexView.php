@@ -35,6 +35,7 @@ $cars = $data['cars'];
                 <td>Capacity</td>
                 <td>Approximate Price</td>
                 <td>Description</td>
+                <td>image</td>
                 <td>Created at</td>
                 <td>Updated at</td>
                 <td>Actions</td>
@@ -51,6 +52,7 @@ $cars = $data['cars'];
                     <td><?= htmlspecialchars($car['capacity'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($car['approx_price'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($car['description'], ENT_QUOTES, 'UTF-8') ?></td>
+                    <td><img src=" <?=  $car['image_path'] ?>" alt="<?= $car['brand'] ?> <?= $car['model'] ?> image"></td>
                     <td><?= htmlspecialchars($car['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($car['updated_at'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
