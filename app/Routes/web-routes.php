@@ -33,8 +33,8 @@ return static function (Slim\App $app): void {
     $app->group('/public', function ($group) {
         // Public car list
         $group->get('/cars', [PublicCarsController::class, 'index'])->setName('public.cars');
-        $group->get('/reservations', [PublicCarsController::class, 'index'])->setName('public.reservations');
-        $group->get('/faqs', [PublicCarsController::class, 'index'])->setName('public.faqs');
+        // $group->get('/reservations', [PublicCarsController::class, 'index'])->setName('public.reservations');
+        // $group->get('/faqs', [PublicCarsController::class, 'index'])->setName('public.faqs');
     });
 
     // Admin Routes

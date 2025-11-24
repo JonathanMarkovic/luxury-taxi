@@ -1,7 +1,10 @@
 <?php
 
-require_once 'customerHeader.php';
+use App\Helpers\ViewHelper;
 
+$page_title = 'List of Cars';
+ViewHelper::loadCustomerHeader($page_title);
+$cars = $data['cars'];
 ?>
 
 <!-- Hero Section -->
@@ -12,58 +15,70 @@ require_once 'customerHeader.php';
     </div>
 </section>
 
-<!-- Cars Section -->
-<section class="cars-section">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <!-- Car Card 1 -->
-        <div class="col">
-            <div class="car-card">
-                <div id="carousel1" class="carousel slide car-carousel" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800" alt="GMC Yukon Denali">
+<div class="page-content">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" class="cars-section">
+        <?php foreach ($cars as $car): ?>
+            <div class="col">
+                <div class="car-card">
+                    <!-- Carousel -->
+                    <?php if (!empty($car['images'])): ?>
+                        <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <?php foreach ($car['images'] as $index => $image): ?>
+                                    <button type="button"
+                                        data-bs-target="#carousel<?= $car['cars_id'] ?>"
+                                        data-bs-slide-to="<?= $index ?>"
+                                        class="<?= $index === 0 ? 'active' : '' ?>"
+                                        aria-current="<?= $index === 0 ? 'true' : 'false' ?>"
+                                        aria-label="Slide <?= $index + 1 ?>">
+                                    </button>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="carousel-inner">
+                                <?php foreach ($car['images'] as $index => $image): ?>
+                                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                        <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>"
+                                            class="d-block w-100"
+                                            alt="<?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?>"
+                                            style="height: 250px; object-fit: cover;">
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $car['cars_id'] ?>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $car['cars_id'] ?>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
-                </div>
-                <div class="car-card-body">
-                    <h3 class="car-title">GMC Yukon Denali 2025</h3>
-                    <div class="car-details">
-                        <div class="car-detail-item">
-                            <span class="car-detail-label">Brand:</span>
-                            <span class="car-detail-value">GMC</span>
+                    <?php else: ?>
+                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <span class="text-white">No Image Available</span>
                         </div>
-                        <div class="car-detail-item">
-                            <span class="car-detail-label">Model:</span>
-                            <span class="car-detail-value">Yukon Denali</span>
-                        </div>
-                        <div class="car-detail-item">
-                            <span class="car-detail-label">Year:</span>
-                            <span class="car-detail-value">2025</span>
-                        </div>
+                    <?php endif; ?>
+
+                    <!-- Card Body -->
+                    <div class="car-card-body">
+                        <h3 class="car-title"><?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' ' . $car['year']) ?></h3>
+                        <p class="card-details">
                         <div class="car-detail-item">
                             <span class="car-detail-label">Capacity:</span>
-                            <span class="car-detail-value">7</span>
+                            <span class="car-detail-value"><?= htmlspecialchars($car['capacity']) ?></span>
                         </div>
-                        <div class="car-detail-item" style="grid-column: 1 / -1;">
-                            <span class="car-detail-label">Average Price:</span>
-                            <span class="car-detail-value">$120/hour</span>
+                        <div class="car-detail-item">
+                            <span class="car-detail-label">Price:</span>
+                            <span class="car-detail-value">$ <?= htmlspecialchars($car['approx_price'])?> / hour</span>
                         </div>
+                        </p>
                     </div>
-                    <p class="car-description">The 2025 GMC Yukon Denali blends commanding presence with refined luxury, featuring a 6.2-litre V8 delivering 420 hp and 460 lb-ft of torque alongside a 10-speed automatic transmission.</p>
                 </div>
             </div>
-        </div>
+        <?php endforeach; ?>
     </div>
-</section>
+</div>
 
 <?php
-
-require_once 'customerFooter.php';
-
+ViewHelper::loadCustomerFooter();
 ?>

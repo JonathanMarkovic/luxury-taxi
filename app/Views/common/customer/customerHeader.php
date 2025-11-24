@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="luxury-taxi/public/assets/css/clientSideStyles.css">
-
+    <link rel="stylesheet" href="/luxury-taxi/assets/css/clientSideStyles.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -32,7 +33,6 @@
                 <div class="d-flex gap-3">
                     <a href="#" class="nav-link">Login</a>
                     <a href="#" class="nav-link">Sign Up</a>
-                    <a href="#" class="nav-link">EN 🌐</a>
                 </div>
             </div>
         </div>

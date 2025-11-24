@@ -90,13 +90,13 @@ body {
 }
 
 .car-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary-gold);
+    /* border-color: var(--primary-gold); */
+    box-shadow: 1px 1px 15px var(--primary-gold);
 }
 
 .car-carousel {
     position: relative;
-    height: 300px;
+     height: 300px;  /* adds a space for carousel index */
     background-color: #1a1a1a;
 }
 
@@ -113,7 +113,6 @@ body {
     background-color: rgba(166, 129, 76, 0.8);
     border-radius: 50%;
     top: 50%;
-    transform: translateY(-50%);
 }
 
 .carousel-control-prev {
@@ -231,4 +230,8 @@ body {
     .footer-content {
         grid-template-columns: 1fr;
     }
+}
+
+.page-content {
+    margin: 50px;
 }

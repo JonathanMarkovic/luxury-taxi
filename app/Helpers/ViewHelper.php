@@ -110,4 +110,15 @@ class ViewHelper
 
         return $options;
     }
+
+    public static function loadCustomerHeader(string $page_title): void
+    {
+        $page_title = $page_title ?? 'Default Title';
+        require_once APP_VIEWS_PATH . '/common/customer/customerHeader.php';
+    }
+
+    public static function loadCustomerFooter(): void
+    {
+        require_once APP_VIEWS_PATH . '/common/customer/customerFooter.php';
+    }
 }
