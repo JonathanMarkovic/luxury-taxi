@@ -35,7 +35,6 @@ $cars = $data['cars'];
                 <td>Capacity</td>
                 <td>Approximate Price</td>
                 <td>Description</td>
-                <td>image</td>
                 <td>Created at</td>
                 <td>Updated at</td>
                 <td>Actions</td>
