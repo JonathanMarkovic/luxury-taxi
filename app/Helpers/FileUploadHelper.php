@@ -48,7 +48,7 @@ class FileUploadHelper
         }
 
         if ($uploadedFile->getSize() > $maxSize) {
-            return Result::failure("File too large (max {$maxSize}MB");
+            return Result::failure("File too large (max {$maxSize}MB)");
         }
 
         if (!in_array($uploadedFile->getClientMediaType(), $allowedTypes)) {
