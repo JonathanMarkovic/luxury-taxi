@@ -36,7 +36,8 @@ return static function (Slim\App $app): void {
         $group->get('/cars/create', [CarsController::class, 'create'])->setName('cars.create');
         $group->post('/cars/store', [CarsController::class, 'store'])->setName('cars.store');
         $group->post('/cars/delete/{car_id}', [CarsController::class, 'delete'])->setName('cars.delete');
-        $group->post('/cars/update/{car_id}', [CarsController::class, 'update']);
+        $group->get('/cars/edit/{car_id}', [CarsController::class, 'edit'])->setName('cars.edit');
+        $group->post('/cars/update/{car_id}', [CarsController::class, 'update'])->setName('cars.update');
 
 
         //* Car Images Routes

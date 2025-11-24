@@ -55,7 +55,7 @@ $cars = $data['cars'];
                     <td><?= htmlspecialchars($car['updated_at'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <!-- ADD route and redirect to carEditView.php-->
-                        <a class="btn btn-primary" href="<?= APP_ADMIN_URL ?>/cars/update/<?= $car['cars_id'] ?>"> Edit</a>
+                        <a class="btn btn-primary" href="<?= APP_ADMIN_URL ?>/cars/edit/<?= $car['cars_id'] ?>"> Edit</a>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $car['cars_id'] ?>">Delete</button>
                     </td>
                 </tr>

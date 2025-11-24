@@ -220,14 +220,162 @@ class CarsController extends BaseController
     {
         $car_id = $args['car_id'];
 
-        $data = $request->getParsedBody();
+        // Get form data
+        $formData = $request->getParsedBody();
 
-        //todo validate inputs here
+        // Extract fields from $formData
+        $brand = $formData['brand'] ?? '';
+        $model = $formData['model'] ?? '';
+        $year = $formData['year'] ?? '';
+        $capacity = $formData['capacity'] ?? '';
+        $approx_price = $formData['approx_price'] ?? '';
+        $description = $formData['description'] ?? '';
 
-        $this->car_model->updateCar($car_id, $data);
-        FlashMessage::success("Car Added Successfully");
+        // Validate the values
+        $errors = [];
 
-        return $this->redirect($request, $response, 'cars.index');
+        if (empty($brand)) {
+            $errors[] = "Please fill out Brand field";
+        }
+
+        if (empty($model)) {
+            $errors[] = "Please fill out Model field";
+        }
+
+        if (empty($year)) {
+            $errors[] = "Please fill out Year field";
+        }
+
+        if (empty($capacity)) {
+            $errors[] = "Please fill out Capacity field";
+        }
+
+        if (empty($approx_price)) {
+            $errors[] = "Please fill out Price field";
+        }
+
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                FlashMessage::error($error);
+            }
+
+            return $this->redirect($request, $response, 'cars.edit', ['car_id' => $car_id]);
+        }
+
+        // If validation passes, update the car
+        try {
+            // Create car data array
+            $carData = [
+                'brand' => $brand,
+                'model' => $model,
+                'year' => $year,
+                'capacity' => $capacity,
+                'approx_price' => $approx_price,
+                'description' => $description
+            ];
+
+            // Update the car
+            $this->car_model->updateCar($car_id, $carData);
+
+            error_log("Car updated with ID: " . $car_id);
+
+            // Process file uploads (if any new files were uploaded)
+            $uploadedFiles = $request->getUploadedFiles();
+            error_log("Uploaded files: " . print_r($uploadedFiles, true));
+
+            if (isset($uploadedFiles['myfile']) && !empty($uploadedFiles['myfile'])) {
+                $files = $uploadedFiles['myfile'];
+
+                // Check if any files were actually uploaded
+                $hasFiles = false;
+                foreach ($files as $file) {
+                    if ($file->getError() === UPLOAD_ERR_OK) {
+                        $hasFiles = true;
+                        break;
+                    }
+                }
+
+                if ($hasFiles) {
+                    error_log("Number of files: " . count($files));
+
+                    $config = [
+                        'directory' => APP_BASE_DIR_PATH . '/public/uploads/images',
+                        'allowedTypes' => ['image/jpeg', 'image/png'],
+                        'maxSize' => 2 * 1024 * 1024,
+                        'filenamePrefix' => 'car_' . $car_id . "_"
+                    ];
+
+                    foreach ($files as $file) {
+                        error_log("Processing file...");
+
+                        if ($file->getError() !== UPLOAD_ERR_OK) {
+                            if ($file->getError() !== UPLOAD_ERR_NO_FILE) {
+                                error_log("File upload error: " . $file->getError());
+                                FlashMessage::error("Error uploading one of the files.");
+                            }
+                            continue;
+                        }
+
+                        $result = FileUploadHelper::upload($file, $config);
+                        error_log("Upload result: " . print_r($result, true));
+
+                        if ($result->isSuccess()) {
+                            $fileName = $result->getData()['filename'];
+                            error_log("File uploaded successfully: " . $fileName);
+
+                            try {
+                                // Add new image to database
+                                $this->car_image_model->addImage($car_id, $fileName);
+                                error_log("Image added to database: " . $fileName);
+                                FlashMessage::success("Successfully uploaded: {$fileName}");
+                            } catch (\Exception $imgException) {
+                                error_log("Error saving image to database: " . $imgException->getMessage());
+                                FlashMessage::error("Error saving image: " . $imgException->getMessage());
+                            }
+                        } else {
+                            error_log("Upload failed: " . $result->getMessage());
+                            FlashMessage::error($result->getMessage());
+                        }
+                    }
+                }
+            } else {
+                error_log("No new files uploaded");
+            }
+
+            // Display success message
+            FlashMessage::success("Car updated successfully!");
+
+            // Redirect back to cars index
+            return $this->redirect($request, $response, 'cars.index');
+        } catch (\Exception $e) {
+            error_log("Exception in update: " . $e->getMessage() . " at " . $e->getFile() . ":" . $e->getLine());
+            FlashMessage::error("Car update failed: " . $e->getMessage());
+
+            return $this->redirect($request, $response, 'cars.edit', ['car_id' => $car_id]);
+        }
     }
 
+    /**
+     * Display the edit form for a car
+     */
+    public function edit(Request $request, Response $response, array $args): Response
+    {
+        $car_id = $args['car_id'];
+
+        $car = $this->car_model->fetchCarByID($car_id);
+        $car_images = $this->car_image_model->fetchImagesById($car_id);
+
+        if (!$car) {
+            FlashMessage::error("Car not found.");
+            return $this->redirect($request, $response, 'cars.index');
+        }
+
+        $data['data'] = [
+            'title' => 'Edit Car',
+            'car' => $car,
+            'car_images' => $car_images ?? []
+        ];
+
+        return $this->render($response, 'admin/cars/carEditView.php', $data);
+    }
 }

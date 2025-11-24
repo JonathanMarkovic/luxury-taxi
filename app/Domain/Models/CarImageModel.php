@@ -43,19 +43,19 @@ class CarImageModel extends BaseModel
     /**
      * Summary of upload
      * Uploads the image file path to the database for later loading
-     * @param mixed $car_id
+     * @param mixed $cars_id
      * @param mixed $config array of all the information needed for the file upload
      * @param mixed $fileName
      * @return bool|string
      */
-    public function upload($car_id, $config, $fileName): int
+    public function upload($cars_id, $config, $fileName): int
     {
         // The file path to be stored in the database
         $image_path = $config['directory'] . DIRECTORY_SEPARATOR . $fileName;
 
-        $sql = "INSERT INTO car_images (car_id, image_path) VALUES (:car_id, :image_path)";
+        $sql = "INSERT INTO car_images (cars_id, image_path) VALUES (:cars_id, :image_path)";
 
-        $this->execute($sql, ['car_id' => $car_id, 'image_path' => $image_path]);
+        $this->execute($sql, ['cars_id' => $cars_id, 'image_path' => $image_path]);
 
         $lastId = $this->pdo->lastInsertId();
         return $lastId;

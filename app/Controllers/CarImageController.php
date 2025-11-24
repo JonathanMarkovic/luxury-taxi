@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Domain\Models\CarImageModel;
+use App\Domain\Models\CarModel;
 use App\Helpers\FileUploadHelper;
 use App\Helpers\FlashMessage;
 use App\Helpers\SessionManager;
@@ -13,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class CarImageController extends BaseController
 {
-    public function __construct(Container $container, private CarImageModel $car_image_model)
+    public function __construct(Container $container, private CarImageModel $car_image_model, private CarModel $car_model)
     {
         parent::__construct($container);
     }
@@ -89,5 +90,21 @@ class CarImageController extends BaseController
 
         // Redirect back to 'upload.index'
         return $this->redirect($request, $response, 'cars.index');
+    }
+
+    public function update(Request $request, Response $response, array $args): Response
+    {
+        $car_id = $args['car_id'];
+
+        $car = $this->car_model->fetchCarByID($car_id);
+        $car_images = $this->car_image_model->fetchImagesById($car_id);
+
+        $data['data'] = [
+            'title' => 'Edit Car',
+            'car' => $car,
+            'car_images' => $car_images
+        ];
+
+        return $this->render($response, 'admin/cars/carEditView.php', $data);
     }
 }
