@@ -3,13 +3,14 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Domain\Models\ReservationModel;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class DashboardController extends BaseController
 {
-    public function __construct(Container $container)
+    public function __construct(Container $container,  private ReservationModel $reservation_model)
     {
         parent::__construct($container);
     }
@@ -24,9 +25,36 @@ class DashboardController extends BaseController
      */
     public function index(Request $request, Response $response, array $args): Response
     {
-        $data['data'] = [
+        $reservations=$this->reservation_model->fetchReservations();
+        $events = array();
+
+        foreach ($reservations as $reservation) {
+            $color = null;
+            if($reservation['reservation_status']=='pending'){
+                $color= 'orange';
+            };
+            if($reservation['reservation_status']=='approved'){
+                $color= '#13fe1e';
+            };
+            if($reservation['reservation_status']=='cancelled'){
+                $color= 'red';
+            };
+            if($reservation['reservation_status']=='denied'){
+                $color= 'black';
+            };
+
+            $events[] =[
+                'title' => $reservation['reservation_status'],
+                'start' => $reservation['start_time'],
+                'end' => $reservation['end_time'],
+                'color' => $color
+            ];
+
+        };
+        $data = [
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
+            'events' => $events
         ];
 
         return $this->render(
@@ -36,14 +64,6 @@ class DashboardController extends BaseController
         );
     }
 
-    public function show(Request $request, Response $response, array $args): Response
-    {
-        return $response;
-    }
 
-    public function create(Request $request, Response $response, array $args): Response
-    {
-        return $response;
-    }
 
 }

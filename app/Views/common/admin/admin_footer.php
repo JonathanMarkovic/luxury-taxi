@@ -12,6 +12,7 @@
     crossorigin="anonymous"
     class="astro-vvvwv3sm"></script>
 <script src="<?= APP_ASSETS_DIR_URL ?>/js/dashboard.js" class="astro-vvvwv3sm"></script>
+
 </body>
 
 </html>
