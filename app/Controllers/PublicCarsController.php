@@ -33,6 +33,6 @@ class PublicCarsController extends BaseController
             'cars' => $cars
         ];
 
-        return $this->render($response, 'public/cars/carsListView.php', $data);
+        return $this->render($response, 'public/cars/carListView.php', $data);
     }
 }

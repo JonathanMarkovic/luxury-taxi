@@ -188,4 +188,5 @@ class ReservationModel extends BaseModel
 
         return $this->execute($sql, ['start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type']]);
     }
+
 }

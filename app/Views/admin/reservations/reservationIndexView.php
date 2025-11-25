@@ -16,15 +16,12 @@ $reservations = $data['reservations'];
         <h2><?= $page_title ?></h2>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div>
-                <!--ADD this to route and redirect to faqCreateView.php -->
+                <!--ADD this to route and redirect to reservationCreateView.php -->
                 <a class="btn btn-primary" href="<?= APP_ADMIN_URL ?>/reservations/create">+ New Reservation</a>
             </div>
         </div>
     </div>
-    <!-- Canvas is the graph that would show on the main page -->
-    <!-- <canvas
-    <h2>Products List</h2>
-        <!-- Table of products should go here -->
+    <!-- Table of Reservations should go here -->
     <table class="table table-striped table-hover">
         <thead>
             <tr>
@@ -43,7 +40,6 @@ $reservations = $data['reservations'];
         </thead>
         <tbody>
             <?php foreach ($reservations as $key => $reservation): ?>
-                <!-- Create a <tr> element for each coffee shop in the list -->
                 <tr>
                     <td> <?= $reservation['reservation_id'] ?> </td>
                     <td><?= $reservation['user_id'] ?></td>

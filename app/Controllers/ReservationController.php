@@ -65,41 +65,89 @@ class ReservationController extends BaseController
     {
         $data = $request->getParsedBody();
 
+        $errors = [];
+
+        $firstName = $data['first_name'];
+        $lastName = $data['last_name'];
+        $email = $data['email'];
+        $phone = $data['phone'];
+
+        // Check if email is empty
         if (empty($data['email'])) {
-            FlashMessage::error("Must include your email");
-        } else {
-            $user = $this->user_model->findByEmail($data['email']);
-            $data['user_id'] = $user['user_id'];
+            $errors[] = "Must include your email";
+
+            // Check if the email exists
         }
 
+        if ($this->user_model->emailExists($data['email'])) {
+            $user = $this->user_model->findByEmail($data['email']);
+            // if email exists, grab user_id
+            $data['user_id'] = $user['user_id'];
+        } else {
+            // if user does not exist create the user
+            if (
+                empty($firstName) ||
+                empty($lastName) ||
+                empty($email) ||
+                empty($phone)
+            ) {
+                $errors[] = "Please fill in all fields.";
+            }
+
+            // Validate email format
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Please enter a valid email format: example@email.com";
+            }
+
+            // Validate phone number format
+            $pattern = "/^(?:\d{3}[- ]\d{3}[- ]\d{4}|\(\d{3}\)[ ]?\d{3}[- ]\d{4}|\d{10})$/";
+            if (!filter_var($phone, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => $pattern)))) {
+                $errors[] = "Please enter a valid phone number format: 123-456-7890, 123 456 7890, (123) 456 7890";
+            }
+
+            // Validation complete Create the user
+            $data['user_id'] = $this->user_model->createGuestAndGetId($data);
+        }
+
+        // Checking reservation type related validation
         $reservation_type = $data['reservation_type'];
         if ($reservation_type == null) {
-            FlashMessage::error("Must choose a reservation type");
+            $errors = "Must choose a reservation type";
         } elseif ($reservation_type === 'trip') {
             if (empty($data['dropoff'])) {
-                FlashMessage::error("Must include a dropoff location for trip reservations");
+                $errors[] = "Must include a dropoff location for trip reservations";
             }
         } elseif ($reservation_type === 'hourly') {
             if (empty($data['end_time'])) {
-                FlashMessage::error("Must include an end time for hourly reservations");
+                $errors[] = "Must include an end time for hourly reservations";
             }
         }
 
+        // verifying pickup location
         if (empty($data['pickup'])) {
-            FlashMessage::error("Must include a pickup Address");
+            $errors[] = "Must include a pickup Address";
         }
 
+        // Verifying Start time
         if (empty($data['start_time'])) {
-            FlashMessage::error("Must include a start time");
+            $errors[] = "Must include a start time";
         }
-
 
         // Create and redirect
         try {
             $this->reservation_model->createAndGetId($data);
         } catch (\Throwable $th) {
-            FlashMessage::error("Something went wrong");
+            $errors[] = "Something went wrong";
         }
+
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                FlashMessage::error($error);
+            }
+
+            return $this->redirect($request, $response, 'reservations.create');
+        }
+
         FlashMessage::success("Reservation added: You will get an email with your reservation details");
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
@@ -110,7 +158,7 @@ class ReservationController extends BaseController
             "Reply-to: SOLAFEMAILHERE" . "\r\n" .
             "X-Mailer: PHP/" . phpversion();
 
-        return $this->redirect($request, $response, 'cars.index');
+        return $this->redirect($request, $response, 'reservations.index');
     }
 
     /**
