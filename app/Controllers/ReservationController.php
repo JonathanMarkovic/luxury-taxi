@@ -39,6 +39,10 @@ class ReservationController extends BaseController
         );
     }
 
+    public function show(Request $request, Response $response, array $args): Response {
+        
+    }
+
     /**
      * Summary of create
      * Loads the reservation creation page for the user
@@ -73,93 +77,6 @@ class ReservationController extends BaseController
 
         $errors = [];
         // dd($data);
-
-        // $firstName = $data['first_name'];
-        // $lastName = $data['last_name'];
-        // $email = $data['email'];
-        // $phone = $data['phone'];
-        // $start_time = $data['start_time'];
-        // $end_time = $data['end_time'];
-        // $pickup = $data['pickup'];
-        // $dropoff = $data['dropoff'];
-
-        // // Check if email is empty
-        // if (empty($email)) {
-        //     $errors[] = "Must include your email";
-
-        //     // Check if the email exists
-        // }
-
-        // if ($this->user_model->emailExists($email)) {
-        //     $user = $this->user_model->findByEmail($email);
-        //     // if email exists, grab user_id
-        //     $data['user_id'] = $user['user_id'];
-        // } else {
-        //     // if user does not exist create the user
-        //     if (
-        //         empty($firstName) ||
-        //         empty($lastName) ||
-        //         empty($email) ||
-        //         empty($phone) ||
-        //         empty($start_time) ||
-        //         empty($pickup)
-        //     ) {
-        //         $errors[] = "Please fill in all fields.";
-        //     }
-
-        //     // Validate email format
-        //     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        //         $errors[] = "Please enter a valid email format: example@email.com";
-        //     }
-
-        //     // Validate phone number format
-        //     $pattern = "/^(?:\d{3}[- ]\d{3}[- ]\d{4}|\(\d{3}\)[ ]?\d{3}[- ]\d{4}|\d{10})$/";
-        //     if (!filter_var($phone, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => $pattern)))) {
-        //         $errors[] = "Please enter a valid phone number format: 123-456-7890, 123 456 7890, (123) 456 7890";
-        //     }
-
-        //     // Validation complete Create the user
-        //     $data['user_id'] = $this->user_model->createGuestAndGetId($data);
-        // }
-
-        // // Checking reservation type related validation
-        // $reservation_type = $data['reservation_type'];
-        // if ($reservation_type == null) {
-        //     $errors = "Must choose a reservation type";
-        // } elseif ($reservation_type === 'trip') {
-        //     if (empty($dropoff)) {
-        //         $errors[] = "Must include a dropoff location for trip reservations";
-        //     }
-        // } elseif ($reservation_type === 'hourly') {
-        //     if (empty($end_time)) {
-        //         $errors[] = "Must include an end time for hourly reservations";
-        //     }
-        // }
-
-        // // verifying pickup location
-        // if (empty($pickup)) {
-        //     $errors[] = "Must include a pickup Address";
-        // }
-
-        // // Verifying Start time
-        // if (empty($start_time)) {
-        //     $errors[] = "Must include a start time";
-        // }
-
-        // // Create and redirect
-        // // try {
-        // // $this->reservation_model->createAndGetId($data);
-        // // } catch (\Throwable $th) {
-        // //     $errors[] = "Something went wrong";
-        // // }
-
-        // if () {
-        //     foreach ($errors as $error) {
-        //         FlashMessage::error($error);
-        //     }
-
-        //     return $this->redirect($request, $response, 'reservations.create');
-        // }
 
         if ($this->validate($data)) {
             if ($this->user_model->emailExists($data['email'])) {
