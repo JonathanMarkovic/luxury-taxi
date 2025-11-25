@@ -14,6 +14,7 @@ use App\Controllers\DashboardController;
 use App\Controllers\FAQController;
 use App\Controllers\HomeController;
 use App\Controllers\PublicCarsController;
+use App\Controllers\PublicFaqController;
 use App\Controllers\UserController;
 use App\Controllers\ReservationController;
 use App\Middleware\AdminAuthMiddleware;
@@ -34,7 +35,7 @@ return static function (Slim\App $app): void {
         // Public car list
         $group->get('/cars', [PublicCarsController::class, 'index'])->setName('public.cars');
         // $group->get('/reservations', [PublicCarsController::class, 'index'])->setName('public.reservations');
-        // $group->get('/faqs', [PublicCarsController::class, 'index'])->setName('public.faqs');
+        $group->get('/faqs', [PublicFaqController::class, 'index'])->setName('public.faqs');
     });
 
     // Admin Routes
