@@ -3,7 +3,7 @@
     <div class="footer-content">
         <div class="footer-section">
             <h3>Solaf Performance</h3>
-            <p>Luxury, reliable transport for every journey.</p>
+            <p>Luxurious & reliable transport for every journey.</p>
         </div>
         <div class="footer-section">
             <h3>Helpful Links</h3>
