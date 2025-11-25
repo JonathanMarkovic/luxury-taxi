@@ -233,5 +233,105 @@ body {
 }
 
 .page-content {
-    margin: 50px;
+    margin: 0px 50px 0px 50px;
+}
+
+/* FAQ Page
+
+/* Accordion Container */
+.page-content {
+    background-color: #1a1a1a;
+    padding: 2rem;
+}
+
+.accordion {
+    background-color: transparent;
+}
+
+/* Accordion Items */
+.accordion-item {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #444;
+    margin-bottom: 0;
+}
+
+.accordion-item:last-child {
+    border-bottom: 1px solid #444;
+}
+
+/* Accordion Button */
+.accordion-button {
+    background-color: transparent;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 1.5rem 0;
+    border: none;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent;
+    color: #fff;
+    box-shadow: none;
+}
+
+.accordion-button:hover {
+    background-color: transparent;
+    color: #a6814c;
+}
+
+.accordion-button:focus {
+    border: none;
+    box-shadow: none;
+}
+
+/* Change icon to + and - */
+.accordion-button::after {
+    background-image: none;
+    content: '+';
+    font-size: 2rem;
+    color: #a6814c;
+    font-weight: 300;
+    width: auto;
+    height: auto;
+    background-size: 0;
+}
+
+.accordion-button:not(.collapsed)::after {
+    content: '−';
+    transform: none;
+    color: #a6814c;
+}
+
+/* Accordion Body */
+.accordion-body {
+    background-color: transparent;
+    color: #ccc;
+    padding: 1rem 0 1.5rem 0;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.accordion-collapse {
+    border: none;
+}
+
+/* Remove default Bootstrap accordion styling */
+.accordion-flush .accordion-item {
+    border-right: 0;
+    border-left: 0;
+}
+
+.accordion-flush .accordion-item:first-child {
+    border-top: 0;
+}
+
+.accordion-flush .accordion-item:last-child {
+    border-bottom: 1px solid #444;
+}
+
+.accordion-flush .accordion-button {
+    border-radius: 0;
 }

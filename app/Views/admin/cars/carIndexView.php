@@ -170,7 +170,6 @@ $cars = $data['cars'];
             </div>
         <?php endforeach; ?>
     </div>
-
 </main>
 
 
