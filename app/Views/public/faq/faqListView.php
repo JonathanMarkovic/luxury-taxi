@@ -15,8 +15,28 @@ $faqs = $data['faq'];
     </div>
 </section>
 
+<div class="page-content">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <?php foreach ($faqs as $faq): ?>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <?= htmlspecialchars($faq['question']) ?>
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <?= htmlspecialchars($faq['answer']) ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
 <?php
 
-ViewHelper::loadCustomerHeader($page_title);
+ViewHelper::loadCustomerFooter();
 
 ?>
