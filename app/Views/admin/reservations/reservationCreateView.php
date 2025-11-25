@@ -59,7 +59,7 @@ ViewHelper::loadAdminHeader($page_title);
                 <div class="col-md">
                     <!-- Start Time input -->
                     <div class="form-floating">
-                        <input type="time" class="form-control" id="floatingInputGrid" name="start_time">
+                        <input type="datetime-local" class="form-control" id="floatingInputGrid" name="start_time">
                         <label for="floatingInputGrid">Start Time</label>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ ViewHelper::loadAdminHeader($page_title);
                 <div class="col-md">
                     <!-- End Time input -->
                     <div class="form-floating">
-                        <input type="time" class="form-control" id="floatingInputGrid" name="end_time">
+                        <input type="datetime-local" class="form-control" id="floatingInputGrid" name="end_time">
                         <label for="floatingInputGrid">End Time</label>
                     </div>
                 </div>

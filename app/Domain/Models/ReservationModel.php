@@ -64,7 +64,8 @@ class ReservationModel extends BaseModel
      */
     public function fetchReservations(): mixed
     {
-        $sql = "SELECT * FROM reservations";
+        $sql = "SELECT reservations.*, users.email FROM reservations
+        JOIN users ON users.user_id = reservations.user_id";
         $reservations = $this->selectAll($sql);
         return $reservations;
     }
@@ -188,5 +189,4 @@ class ReservationModel extends BaseModel
 
         return $this->execute($sql, ['start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type']]);
     }
-
 }

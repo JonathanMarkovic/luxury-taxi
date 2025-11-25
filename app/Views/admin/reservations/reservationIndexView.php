@@ -25,24 +25,24 @@ $reservations = $data['reservations'];
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <td>reservation id</td>
-                <td>user id</td>
-                <td>start time</td>
-                <td>end time</td>
-                <td>pickup</td>
-                <td>dropoff</td>
-                <td>comments</td>
-                <td>reservation type</td>
-                <td>reservation status</td>
-                <td>created at</td>
-                <td>updated at</td>
+                <td>Reservation id</td>
+                <td>User Email</td>
+                <td>Start Time</td>
+                <td>End Time</td>
+                <td>Pickup</td>
+                <td>Dropoff</td>
+                <td>Comments</td>
+                <td>Reservation Type</td>
+                <td>Reservation Status</td>
+                <td>Created at</td>
+                <td>Updated at</td>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($reservations as $key => $reservation): ?>
                 <tr>
                     <td> <?= $reservation['reservation_id'] ?> </td>
-                    <td><?= $reservation['user_id'] ?></td>
+                    <td><?= $reservation['email'] ?></td>
                     <td><?= $reservation['start_time'] ?></td>
                     <td><?= $reservation['end_time'] ?></td>
                     <td><?= $reservation['pickup'] ?></td>

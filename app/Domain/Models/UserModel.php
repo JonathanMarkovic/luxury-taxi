@@ -32,7 +32,7 @@ class UserModel extends BaseModel
      */
     public function fetchUserById($user_id)
     {
-        $sql = "SELECT * FROM users WHERE id = :id";
+        $sql = "SELECT * FROM users WHERE user_id = :id";
 
         $user = $this->selectOne($sql, [':id' => $user_id]);
 
@@ -43,7 +43,7 @@ class UserModel extends BaseModel
     {
         $sql = "UPDATE users
         SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone
-        WHERE id = :id";
+        WHERE user_id = :id";
 
         return $this->execute($sql, ['id' => $user_id, 'first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone']]);
     }

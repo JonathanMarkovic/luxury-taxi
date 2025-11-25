@@ -20,6 +20,12 @@ class ReservationController extends BaseController
     public function index(Request $request, Response $response, array $args): Response
     {
         $reservations = $this->reservation_model->fetchReservations();
+        foreach ($reservations as $key => $reservation) {
+            $customer = $this->user_model->fetchUserById($reservation['user_id']);
+            // $reservation['email'] = $customer['email'];
+            // dd($reservation);
+        }
+        // dd($reservations);
         $data['data'] = [
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
@@ -71,6 +77,7 @@ class ReservationController extends BaseController
         $lastName = $data['last_name'];
         $email = $data['email'];
         $phone = $data['phone'];
+
 
         // Check if email is empty
         if (empty($data['email'])) {
@@ -134,11 +141,11 @@ class ReservationController extends BaseController
         }
 
         // Create and redirect
-        try {
-            $this->reservation_model->createAndGetId($data);
-        } catch (\Throwable $th) {
-            $errors[] = "Something went wrong";
-        }
+        // try {
+        $this->reservation_model->createAndGetId($data);
+        // } catch (\Throwable $th) {
+        //     $errors[] = "Something went wrong";
+        // }
 
         if (!empty($errors)) {
             foreach ($errors as $error) {
