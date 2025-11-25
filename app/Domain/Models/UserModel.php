@@ -54,12 +54,14 @@ class UserModel extends BaseModel
      * @param array $data
      * @return void
      */
-    public function createCustomerAndGetId(array $data)
+    public function createCustomerAndGetId(array $data): int
     {
         $sql = "INSERT INTO users (first_name, last_name, email, phone, password, role) VALUES (:first_name, :last_name, :email, :phone, :password, :role)";
 
         // TODO: Need to include the hashing of the password here
         $this->execute($sql, ['first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone'], 'password' => $data['password'], 'role' => 'customer']);
+
+        return $this->pdo->lastInsertId();
     }
 
     /**
@@ -68,12 +70,14 @@ class UserModel extends BaseModel
      * @param array $data
      * @return void
      */
-    public function createGuestAndGetId(array $data)
+    public function createGuestAndGetId(array $data): int
     {
-        $sql = "INSERT INTO users (first_name, last_name, email, phone, password, role) VALUES (:first_name, :last_name, :email, :phone, :password, :role)";
+        $sql = "INSERT INTO users (first_name, last_name, email, phone, role) VALUES (:first_name, :last_name, :email, :phone, :role)";
 
         // TODO: Need to include the hashing of the password here
-        $this->execute($sql, ['first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone'], 'password' => $data['password'], 'role' => 'guest']);
+        $this->execute($sql, ['first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone'], 'role' => 'guest']);
+
+        return $this->pdo->lastInsertId();
     }
 
     /**
