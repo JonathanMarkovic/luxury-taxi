@@ -30,7 +30,8 @@ class PublicCarsController extends BaseController
 
         $data = [
             'title' => 'Our Cars',
-            'cars' => $cars
+            'cars' => $cars,
+            'current_page' => 'cars'
         ];
 
         return $this->render($response, 'public/cars/carListView.php', $data);

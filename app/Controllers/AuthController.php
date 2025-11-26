@@ -25,11 +25,12 @@ class AuthController extends BaseController
     {
         // Create a $data array with 'title' => 'Register'
         $data = [
-            'title' => 'Register'
+            'title' => 'Register',
+            'current_page' => 'register'
         ];
 
         // Render 'auth/register.php' view and pass $data
-        return $this->render($response, 'auth/register.php');
+        return $this->render($response, 'auth/register.php', $data);
     }
 
     /**
@@ -144,7 +145,8 @@ class AuthController extends BaseController
     {
         // Create a $data array with 'title' => 'Login'
         $data = [
-            'title' => 'Login'
+            'title' => 'Login',
+            'current_page' => 'login'
         ];
 
         // Render 'auth/login.php' view and pass $data

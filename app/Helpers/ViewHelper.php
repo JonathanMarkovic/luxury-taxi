@@ -111,9 +111,10 @@ class ViewHelper
         return $options;
     }
 
-    public static function loadCustomerHeader(string $page_title): void
+    public static function loadCustomerHeader(string $page_title, string $current_page = ''): void
     {
         $page_title = $page_title ?? 'Default Title';
+        $current_page = $current_page ?? '';
         require_once APP_VIEWS_PATH . '/common/customer/customerHeader.php';
     }
 

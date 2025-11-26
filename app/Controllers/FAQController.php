@@ -35,7 +35,7 @@ class FAQController extends BaseController
             '/admin/faq/faqIndexView.php',
             $data
         );
-}
+    }
 
     public function edit(Request $request, Response $response, array $args): Response
     {
@@ -48,23 +48,25 @@ class FAQController extends BaseController
         ];
 
         return $this->render(
-            $response, '/admin/faq/faqEditView.php', $data);
+            $response,
+            '/admin/faq/faqEditView.php',
+            $data
+        );
     }
 
     public function update(Request $request, Response $response, array $args): Response
     {
         $faq_id = $args['faq_id'] ?? null;
-        if(!empty($faq_id)){
+        if (!empty($faq_id)) {
             $this->faqModel->updateFAQ($faq_id, $request->getParsedBody());
             FlashMessage::success('FAQ updated successfully.');
         }
-        return $response-> withHeader('Location', APP_ADMIN_URL . '/faq')->withStatus(302);
-
+        return $response->withHeader('Location', APP_ADMIN_URL . '/faq')->withStatus(302);
     }
 
     public function add(Request $request, Response $response, array $args): Response
     {
-        $data= [
+        $data = [
             'title' => 'Add FAQ',
         ];
 
@@ -80,21 +82,20 @@ class FAQController extends BaseController
             'question' => $question,
             'answer' => $answer
         ];
-        if(!empty($question) && !empty($answer)){
+        if (!empty($question) && !empty($answer)) {
             $this->faqModel->createFAQ($data);
             FlashMessage::success('FAQ created successfully.');
         }
-        return $response-> withHeader('Location', APP_ADMIN_URL . '/faq')->withStatus(302);
+        return $response->withHeader('Location', APP_ADMIN_URL . '/faq')->withStatus(302);
     }
 
     public function delete(Request $request, Response $response, array $args): Response
     {
         $faq_id = $args['faq_id'] ?? null;
-        if(!empty($faq_id)){
+        if (!empty($faq_id)) {
             $this->faqModel->deleteFAQ($faq_id);
             FlashMessage::success('FAQ deleted successfully.');
-            
         }
-        return $response-> withHeader('Location', APP_ADMIN_URL . '/faq')->withStatus(302);
+        return $response->withHeader('Location', APP_ADMIN_URL . '/faq')->withStatus(302);
     }
 }
