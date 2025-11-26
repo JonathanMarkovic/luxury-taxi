@@ -36,8 +36,8 @@
                     <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
                 </ul>
                 <div class="d-flex gap-3">
-                    <a href="#" class="nav-link">Login</a>
-                    <a href="#" class="nav-link">Sign Up</a>
+                    <a class="nav-link <?= $current_page === 'login' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/login">Login</a>
+                    <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register">Sign Up</a>
                 </div>
             </div>
         </div>
