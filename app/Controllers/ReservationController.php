@@ -39,9 +39,7 @@ class ReservationController extends BaseController
         );
     }
 
-    public function show(Request $request, Response $response, array $args): Response {
-        
-    }
+    public function show(Request $request, Response $response, array $args): Response {}
 
     /**
      * Summary of create
@@ -98,6 +96,12 @@ class ReservationController extends BaseController
         $headers = "From: SOLAFEMAILHERE" . "\r\n" .
             "Reply-to: SOLAFEMAILHERE" . "\r\n" .
             "X-Mailer: PHP/" . phpversion();
+
+        // if (mail($to, $subject, $message, $headers)) {
+        //     echo 'email sent';
+        // } else {
+        //     echo 'email not sent';
+        // }
 
         return $this->redirect($request, $response, 'reservations.index');
     }
@@ -171,6 +175,12 @@ class ReservationController extends BaseController
         $headers = "From: SOLAFEMAILHERE" . "\r\n" .
             "Reply-to: SOLAFEMAILHERE" . "\r\n" .
             "X-Mailer: PHP/" . phpversion();
+
+        // if (mail($to, $subject, $message, $headers)) {
+        //     echo 'email sent';
+        // } else {
+        //     echo 'email not sent';
+        // }
 
         FlashMessage::success("Reservation Added Successfully");
 
@@ -267,5 +277,80 @@ class ReservationController extends BaseController
         } else {
             return true;
         }
+    }
+
+    private function confirmReservation(Request $request, Response $response, array $args): Response
+    {
+        $reservation_id = $args['reservation_id'];
+        $this->reservation_model->approveReservation($reservation_id);
+        FlashMessage::success("Reservation Confirmed");
+
+        $start_time = $args['start_time'];
+
+        // TODO: NEED TO INCLUDE THE EMAIL FOR SOLAF PERFORMANCE AND ACTUALLY SEND THE EMAIL HERE
+        $to = $args['email'];
+        $subject = "Reservation Confirmed";
+        $message = "Hello your reservation at $start_time has been approved by Solaf Performance";
+        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+            "X-Mailer: PHP/" . phpversion();
+
+        // if (mail($to, $subject, $message, $headers)) {
+        //     echo 'email sent';
+        // } else {
+        //     echo 'email not sent';
+        // }
+
+        return $this->index($request, $response, $args);
+    }
+
+    private function denyReservation(Request $request, Response $response, array $args): Response
+    {
+        $reservation_id = $args['reservation_id'];
+        $this->reservation_model->denyReservation($reservation_id);
+        FlashMessage::success("Reservation Denied");
+
+        $start_time = $args['start_time'];
+
+        // TODO: NEED TO INCLUDE THE EMAIL FOR SOLAF PERFORMANCE AND ACTUALLY SEND THE EMAIL HERE
+        $to = $args['email'];
+        $subject = "Reservation Confirmed";
+        $message = "Hello your reservation at $start_time has been denied by Solaf Performance";
+        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+            "X-Mailer: PHP/" . phpversion();
+
+        // if (mail($to, $subject, $message, $headers)) {
+        //     echo 'email sent';
+        // } else {
+        //     echo 'email not sent';
+        // }
+
+        return $this->index($request, $response, $args);
+    }
+
+    private function cancelReservation(Request $request, Response $response, array $args): Response
+    {
+        $reservation_id = $args['reservation_id'];
+        $this->reservation_model->cancelReservation($reservation_id);
+        FlashMessage::success("Reservation Cancelled");
+
+        $start_time = $args['start_time'];
+
+        // TODO: NEED TO INCLUDE THE EMAIL FOR SOLAF PERFORMANCE AND ACTUALLY SEND THE EMAIL HERE
+        $to = $args['email'];
+        $subject = "Reservation Confirmed";
+        $message = "Hello your reservation at $start_time has been Cancelled";
+        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+            "X-Mailer: PHP/" . phpversion();
+
+        // if (mail($to, $subject, $message, $headers)) {
+        //     echo 'email sent';
+        // } else {
+        //     echo 'email not sent';
+        // }
+
+        return $this->index($request, $response, $args);
     }
 }
