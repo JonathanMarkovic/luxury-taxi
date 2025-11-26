@@ -9,6 +9,8 @@ define('APP_DEBUG_MODE', true);
 define('APP_ASSETS_DIR', '/public/assets');
 define('APP_BASE_URL', 'http://localhost/' . APP_ROOT_DIR_NAME);
 define('APP_ADMIN_URL', APP_BASE_URL . '/admin');
+define('APP_USER_URL', APP_BASE_URL . '/public');
+define('APP_AUTH_URL', APP_BASE_URL . '/auth');
 
 define('APP_ASSETS_DIR_URL', APP_BASE_URL  . APP_ASSETS_DIR);
 define('APP_ASSETS_DIR_PATH', realpath(APP_BASE_DIR_PATH . '/' . APP_ASSETS_DIR));

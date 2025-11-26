@@ -3,7 +3,7 @@
 use App\Helpers\ViewHelper;
 
 $page_title = 'List of FAQs';
-ViewHelper::loadCustomerHeader($page_title);
+ViewHelper::loadCustomerHeader($page_title, 'faq');
 $faqs = $data['faq'];
 ?>
 

@@ -3,7 +3,7 @@
 use App\Helpers\ViewHelper;
 
 $page_title = 'List of Cars';
-ViewHelper::loadCustomerHeader($page_title);
+ViewHelper::loadCustomerHeader($page_title, 'cars');
 $cars = $data['cars'];
 ?>
 

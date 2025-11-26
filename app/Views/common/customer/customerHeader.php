@@ -21,13 +21,18 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Information</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Find Reservation</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Our Cars</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $current_page === 'cars' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/cars">Our Cars</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $current_page === 'faq' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/faqs">FAQ</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
                 </ul>
                 <div class="d-flex gap-3">

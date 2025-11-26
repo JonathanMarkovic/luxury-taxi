@@ -25,9 +25,10 @@ class PublicFaqController extends BaseController
     public function index(Request $request, Response $response, array $args): Response
     {
         $faq = $this->faqModel->fetchFAQ();
-        $data['data'] = [
-            'title' => 'Admin FAQ',
-            'faq' => $faq
+        $data = [
+            'title' => 'FAQ',
+            'faq' => $faq,
+            'current_page' => 'faq'
         ];
         return $this->render($response, '/public/faq/faqListView.php', $data);
     }
