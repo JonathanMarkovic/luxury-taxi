@@ -6,15 +6,34 @@ $page_title = 'Home';
 ViewHelper::loadHeader($page_title);
 ?>
 
-<h1>Slim Framework-based MVC Application</h1>
-<p>This is a simple MVC application built with Slim Framework.</p>
+<section class ="heroWrap">
+    <div class = "bookingWrap">
+    
+    <ul class="bookingTabs">
+        <li><button class ="bookingTab active">Transfer</button></li>
+        <li><button class ="bookingTab">Hourly</button></li>
+</ul> 
 
-<p>This app uses a simple and effective way to pass the container to the controller given the small scope of the application and the fact that this application is to be used in a classroom setting where students are not yet familiar with the Dependency Inversion Principle.</p>
+<form class="bookingForm">
+    <div class ="bookingRow">
+        <div class="bookingCol">
+            <label>Fist Name</label>
+          <input type="text" class="form-control" placeholder="First Name">
+         </div>
 
-<p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
-<p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
+<div class="bookCol">
+    <label>Email</label>
+    <div class="inputIcon"><i class="bi bi-envelope"></i></div>
+    <input type = "email" cclass = "form-control" placeholder="Email">
+</div>
 
 
+<div class= "bookCol">
+    <label>Dropoff</label>
+    <div class="inputIcon"><i class="bi bi-telephone"></i></div>
+         <input type="text" class="form-control" placeholder="Phone">
+    </div>
+    </div>
 <?php
 
 ViewHelper::loadJsScripts();
