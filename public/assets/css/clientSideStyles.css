@@ -23,7 +23,7 @@ body {
 }
 
 .navbar-brand {
-    font-size: 1.2rem;
+    font-size: 1.2rem; 
     color: #fff !important;
 }
 
@@ -335,3 +335,194 @@ body {
 .accordion-flush .accordion-button {
     border-radius: 0;
 }
+
+/*Page Styling*/
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Hero wrap and booking form*/
+
+.heroWrap {
+    background: url('/uploads/images/car19.jpg') center/cover no-repeat;
+    padding: 70px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.bookingWrap {
+    background: rgba(0,0,0,0.55);
+    padding: 25px;
+    border-radius: 8px;
+    width: 500px;
+}
+.bookingTabs {
+    list-style: none;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.bookingTabs li {
+    margin-right: 15px;
+}
+
+.bookingTab {
+    background: none;
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    cursor: pointer;
+}
+
+.bookingTab.active {
+    border-bottom: 2px solid #a6814c;
+}
+
+.bookingForm label {
+    font-size: 13px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.bookRow {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.bookCol {
+    flex: 1;
+}
+
+.bookFull {
+    width: 100%;
+}
+
+.inputIcon {
+    position: absolute;
+    margin-left: 8px;
+    margin-top: 8px;
+    color: #555;
+}
+
+.form-control {
+    padding-left: 30px;
+}
+
+.reserveBtn {
+    width: 100%;
+    background-color: #a6814c;
+    border: none;
+    color: white;
+    padding: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* About Section */ 
+
+.aboutWrap {
+    display: flex;
+    padding: 50px;
+    background-color: #111;
+    gap: 30px;
+}
+
+
+
+/* Left Image = car21 */
+.aboutImgLeft img {
+    width: 500px;
+    border: 3px solid #007bff;
+    content: url('/uploads/images/car21.jpg');
+}
+
+
+.aboutText {
+    max-width: 450px;
+}
+
+.aboutTitle {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+/* Right image = car 20 */
+.aboutWrap::after {
+    content: "";
+    width: 500px;
+    height: 300px;
+    background: url('/uploads/images/car20.jpg') center/cover no-repeat;
+    border: 3px solid #007bff;
+}
+
+/* Steps section */
+.stepsWrap {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #c19763;
+    background: linear-gradient(#d5b58a, #8a673f);
+}
+
+.stepsTitle {
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.stepsBox {
+    background-color: #000;
+    padding: 30px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stepItem {
+    width: 23%;
+}
+
+.stepIcon {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #a6814c;
+}
+
+/* Cars section */
+.carsWrap {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(#c19763, #8a673f);
+}
+
+.carsTitle {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.carsRow {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.carBox {
+    width: 250px;
+    height: 260px;
+    background-color: #eee;
+    color: #000;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+
