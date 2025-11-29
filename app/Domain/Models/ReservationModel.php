@@ -72,7 +72,7 @@ class ReservationModel extends BaseModel
 
     public function fetchReservationById($reservation_id): mixed
     {
-        $sql = "SELECT * FROM reservations WHERE reservation_id = :reservation_id";
+        $sql = "SELECT reservations.*, users.email FROM reservations JOIN users ON users.user_id = reservations.user_id WHERE reservation_id = :reservation_id";
 
         $reservation = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
         return $reservation;
