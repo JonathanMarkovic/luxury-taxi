@@ -45,6 +45,11 @@ body {
     color: var(--primary-gold) !important;
 }
 
+.nav-link:hover,
+.nav-link:active {
+    color: var(--primary-gold) !important;
+}
+
 /* Hero Section */
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -335,3 +340,14 @@ body {
 .accordion-flush .accordion-button {
     border-radius: 0;
 }
+
+/* Login and Registration Styling */
+.card-header {
+    background-color: var(--dark-bg);
+    color: white;
+}
+
+.card-body {
+    background-color: var(--card-bg);
+}
+
