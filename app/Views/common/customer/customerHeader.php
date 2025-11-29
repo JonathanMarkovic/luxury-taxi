@@ -36,8 +36,14 @@
                     <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
                 </ul>
                 <div class="d-flex gap-3">
-                    <a class="nav-link <?= $current_page === 'login' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/login">Login</a>
-                    <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register">Sign Up</a>
+                    <ul class="navbar-nav mx-auto">
+                        <li>
+                            <a class="nav-link <?= $current_page === 'login' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/login">Login</a>
+                        </li>
+                        <li>
+                            <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register">Sign Up</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

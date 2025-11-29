@@ -15,6 +15,17 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--dark-bg);
     color: #fff;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+header {
+    min-height: 50px;
+}
+
+footer {
+    min-height: 50px;
 }
 
 /* Navigation */
@@ -342,15 +353,6 @@ body {
     border-radius: 0;
 }
 
-/*Page Styling*/
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #111;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
 /* Login and Registration Styling */
 .card-header {
     padding-top: 20px;
@@ -407,7 +409,7 @@ body {
     background: rgba(0,0,0,0.55);
     padding: 25px;
     border-radius: 8px;
-    width: 500px;
+    width: 550px;
 }
 .bookingTabs {
     list-style: none;
