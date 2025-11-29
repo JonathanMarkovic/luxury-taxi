@@ -350,6 +350,16 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* Login and Registration Styling */
+.card-header {
+    background-color: var(--dark-bg);
+    color: white;
+}
+
+.card-body {
+    background-color: var(--card-bg);
+}
+
 /* Hero wrap and booking form*/
 
 .heroWrap {
@@ -525,10 +535,3 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-
-
-
-
-
->>>>>>> 1b0dc23f2879debc52b3c1bdac9193ee44e50d69
