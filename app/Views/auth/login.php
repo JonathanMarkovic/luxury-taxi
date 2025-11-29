@@ -45,7 +45,7 @@ ViewHelper::loadCustomerHeader($page_title, 'login');
                         </div>
                         <br>
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Login</button>
+                            <button type="submit" class="authentication-btn">Login</button>
                         </div>
                     </form>
 

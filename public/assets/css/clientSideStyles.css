@@ -1,5 +1,6 @@
 :root {
     --primary-gold: #a6814c;
+    --primary-gold-hover: #977647;
     --dark-bg: #1a1a1a;
     --card-bg: #2a2a2a;
 }
@@ -352,13 +353,46 @@ body {
 
 /* Login and Registration Styling */
 .card-header {
-    background-color: var(--dark-bg);
+    padding-top: 20px;
+    background-color: var(--card-bg);
     color: white;
+    border-radius: 8px;
 }
 
 .card-body {
     background-color: var(--card-bg);
+    border-radius: 0px 0px 8px 8px;
+    border: none;
 }
+
+.card {
+    border: none;
+    width: 30em;
+    border-radius: 8px;
+}
+
+.authentication-btn {
+    background-color: var(--primary-gold);
+    height: 3em;
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+.authentication-btn:hover {
+    background-color: var(--primary-gold-hover);
+    transition: 0.5s;
+}
+
+.authentication-link {
+    color: var(--primary-gold);
+    text-decoration: none;
+}
+
+.authentication-link:hover {
+    color: var(--primary-gold-hover);
+}
+
 
 /* Hero wrap and booking form*/
 
