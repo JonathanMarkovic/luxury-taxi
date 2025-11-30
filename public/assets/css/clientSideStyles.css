@@ -3,7 +3,7 @@
     --primary-gold-hover: #977647;
     --dark-bg: #1a1a1a;
     --card-bg: #2a2a2a;
-    --nav-bg: #0000008c;
+    --nav-bg: #111;
 }
 
 * {
@@ -31,7 +31,7 @@ footer {
 
 /* Navigation */
 .navbar {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: var(--nav-bg);
     padding: 1rem 2rem;
 }
 
@@ -183,7 +183,7 @@ footer {
 
 /* Footer */
 .footer {
-    background-color: #000;
+    background-color: var(--nav-bg);
     padding: 3rem 2rem 1rem;
     margin-top: 4rem;
 }
