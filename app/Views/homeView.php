@@ -129,7 +129,7 @@ $cars = $data['cars'];
         </div>
     </section>
     <section class="carsWrap">
-        <h2 class="carsTitle">Our Cars</h2>
+        <h2 class="stepsTitle">Our Cars</h2>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" class="cars-section">
             <?php foreach ($cars as $car): ?>

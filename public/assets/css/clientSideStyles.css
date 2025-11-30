@@ -104,13 +104,13 @@ footer {
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 2rem;
-    transition: transform 0.3s;
+    /* transition: 0.2s ease-in-out; */
 }
 
-.car-card:hover {
+/* .car-card:hover {
     /* border-color: var(--primary-gold); */
-    box-shadow: 1px 1px 15px var(--primary-gold);
-}
+    /* box-shadow: 1px 1px 15px var(--primary-gold);
+} */
 
 .car-carousel {
     position: relative;
