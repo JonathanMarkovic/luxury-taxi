@@ -8,7 +8,7 @@ ViewHelper::loadCustomerHeader($page_title, 'register');
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-header">
                     <h3 class="text-center">Create Account</h3>

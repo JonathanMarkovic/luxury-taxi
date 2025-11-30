@@ -3,6 +3,7 @@
     --primary-gold-hover: #977647;
     --dark-bg: #1a1a1a;
     --card-bg: #2a2a2a;
+    --nav-bg: #0000008c;
 }
 
 * {
@@ -249,16 +250,13 @@ footer {
     }
 }
 
-.page-content {
-    margin: 0px 50px 0px 50px;
-}
-
 /* FAQ Page
 
 /* Accordion Container */
 .page-content {
     background-color: #1a1a1a;
     padding: 2rem;
+    margin: 0px 50px;
 }
 
 .accordion {
@@ -359,11 +357,12 @@ footer {
     background-color: var(--card-bg);
     color: white;
     border-radius: 8px;
+    border: none;
 }
 
 .card-body {
     background-color: var(--card-bg);
-    border-radius: 0px 0px 8px 8px;
+    border-radius: 0px 0px 6px 6px;
     border: none;
 }
 
@@ -394,6 +393,11 @@ footer {
 .authentication-link:hover {
     color: var(--primary-gold-hover);
 }
+
+/* .container {
+    display: flex;
+    justify-content: center;
+} */
 
 
 /* Hero wrap and booking form*/

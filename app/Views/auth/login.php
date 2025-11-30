@@ -17,16 +17,6 @@ ViewHelper::loadCustomerHeader($page_title, 'login');
                     <?= App\Helpers\FlashMessage::render() ?>
 
                     <form method="POST" action="login">
-                        <!-- <div class="mb-3">
-                            <label for="identifier" class="form-label">Email</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="identifier"
-                                name="identifier"
-                                placeholder="Enter your email or username"
-                                required>
-                        </div> -->
                         <!-- Email -->
                         <div class="form-floating">
                             <input type="text" class="form-control" id="identifier" name="identifier">

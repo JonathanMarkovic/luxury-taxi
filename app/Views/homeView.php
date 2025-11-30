@@ -6,70 +6,69 @@ $page_title = 'Home';
 ViewHelper::loadCustomerHeader($page_title, 'home');
 ?>
 
-<section class ="heroWrap">
-    <div class = "bookingWrap">
+<section class="heroWrap">
+    <div class="bookingWrap">
+        <ul class="bookingTabs">
+            <li><button class="bookingTab active">Transfer</button></li>
+            <li><button class="bookingTab">Hourly</button></li>
+        </ul>
 
-    <ul class="bookingTabs">
-        <li><button class ="bookingTab active">Transfer</button></li>
-        <li><button class ="bookingTab">Hourly</button></li>
-</ul>
-
-<form class="bookingForm">
-    <div class ="bookRow">
-        <div class="bookCol">
-            <label>First Name</label>
-          <input type="text" class="form-control">
-         </div>
-         <div class="bookCol">
-                  <label>Last Name</label>
-                 <input type="text" class="form-control">
+        <form class="bookingForm">
+            <div class="bookRow">
+                <div class="bookCol">
+                    <label>First Name</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="bookCol">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control">
                 </div>
             </div>
 
-<div class="bookRow">
-    <div class="bookCol">
-    <label>Email</label>
-    <div class="inputIcon"><i class="bi bi-envelope"></i></div>
-    <input type = "email" class = "form-control">
-</div>
-
-
-<div class= "bookCol">
-    <label>Phone</label>
-    <div class="inputIcon"><i class="bi bi-telephone"></i></div>
-         <input type="text" class="form-control">
-    </div>
-    </div>
-
-<div class="bookRow">
-      <div class="bookCol">
-        <label>Pickup</label>
-          <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
-             <input type="text" class="form-control">
+            <div class="bookRow">
+                <div class="bookCol">
+                    <label>Email</label>
+                    <div class="inputIcon"><i class="bi bi-envelope"></i></div>
+                    <input type="email" class="form-control">
                 </div>
 
 
-       <div class="bookCol">
-                 <label>Dropoff</label>
-             <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
+                <div class="bookCol">
+                    <label>Phone</label>
+                    <div class="inputIcon"><i class="bi bi-telephone"></i></div>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="bookRow">
+                <div class="bookCol">
+                    <label>Pickup</label>
+                    <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
+                    <input type="text" class="form-control">
+                </div>
+
+
+                <div class="bookCol">
+                    <label>Dropoff</label>
+                    <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
                     <input type="text" class="form-control">
                 </div>
             </div>
             <div class="bookRow">
-         <div class="bookCol">
-                     <label>Date</label>
-                     <div class="inputIcon"><i class="bi bi-calendar-event"></i></div>
+                <div class="bookCol">
+                    <label>Date</label>
+                    <div class="inputIcon"><i class="bi bi-calendar-event"></i></div>
                     <input type="date" class="form-control">
-                 </div>
+                </div>
 
-        <div class="bookCol">
+                <div class="bookCol">
                     <label>Start Time</label>
                     <div class="inputIcon"><i class="bi bi-clock"></i></div>
                     <input type="time" class="form-control">
                 </div>
 
 
-             <div class="bookCol">
+                <div class="bookCol">
                     <label>End Time</label>
                     <div class="inputIcon"><i class="bi bi-clock"></i></div>
                     <input type="time" class="form-control">
@@ -85,11 +84,11 @@ ViewHelper::loadCustomerHeader($page_title, 'home');
             </div>
 
             <button class="reserveBtn">Reserve</button>
-         </form>
-      </div>
-  </section>
+        </form>
+    </div>
+</section>
 
-  <section class="aboutWrap">
+<section class="aboutWrap">
 
     <div class="aboutText">
         <h2 class="aboutTitle">Solaf Performance</h2>
