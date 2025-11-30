@@ -3,7 +3,7 @@
 use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
 $page_title = 'Home';
-ViewHelper::loadCustomerHeader($page_title);
+ViewHelper::loadCustomerHeader($page_title, 'home');
 ?>
 
 <section class ="heroWrap">
@@ -90,13 +90,10 @@ ViewHelper::loadCustomerHeader($page_title);
   </section>
 
   <section class="aboutWrap">
-    <div class="aboutImgLeft">
-        <img src="/uploads/images/car_5_6924c126e86e0.jpg" alt="">
-    </div>
 
     <div class="aboutText">
         <h2 class="aboutTitle">Solaf Performance</h2>
-        <p>We combine luxury, reliability, and professionalism to deliver an exceptional travel experience.</p>
+        <p>We combine luxury, reliability, and professionalism to deliver an exceptional travel experience. From airport transfers and regular pickups to corporate travel, special events, and long-distance journeys, our premium vehicles and expert chauffeurs ensure you arrive relaxed, refreshed, and on time. Every ride is crafted with comfort and elegance in mind — where sophistication meets convenience.</p>
     </div>
 </section>
 

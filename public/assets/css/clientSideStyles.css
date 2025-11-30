@@ -503,15 +503,6 @@ footer {
     margin-bottom: 10px;
 }
 
-/* Right image = car 20 */
-.aboutWrap::after {
-    content: "";
-    width: 500px;
-    height: 300px;
-    background: url('/uploads/images/car20.jpg') center/cover no-repeat;
-    border: 3px solid #007bff;
-}
-
 /* Steps section */
 .stepsWrap {
     padding: 50px 20px;
@@ -547,7 +538,7 @@ footer {
 .carsWrap {
     text-align: center;
     padding: 40px 20px;
-    background: linear-gradient(#c19763, #8a673f);
+    /* background: linear-gradient(#c19763, #8a673f); */
 }
 
 .carsTitle {

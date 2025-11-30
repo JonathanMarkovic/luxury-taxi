@@ -24,7 +24,9 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $current_page === 'home' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/home">Home</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#">Information</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Find Reservation</a></li>
                     <li class="nav-item">

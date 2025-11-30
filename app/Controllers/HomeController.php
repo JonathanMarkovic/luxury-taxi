@@ -23,9 +23,10 @@ class HomeController extends BaseController
         //echo $data['message'] ;exit;
 
 
-        $data['data'] = [
+        $data = [
             'title' => 'Home',
             'message' => 'Welcome to the home page',
+            'current_page' => 'home'
         ];
 
         //dd($data);
