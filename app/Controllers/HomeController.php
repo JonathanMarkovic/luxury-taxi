@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Domain\Models\CarImageModel;
+use App\Domain\Models\CarModel;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,21 +14,26 @@ class HomeController extends BaseController
 {
     //NOTE: Passing the entire container violates the Dependency Inversion Principle and creates a service locator anti-pattern.
     // However, it is a simple and effective way to pass the container to the controller given the small scope of the application and the fact that this application is to be used in a classroom setting where students are not yet familiar with the Dependency Inversion Principle.
-    public function __construct(Container $container)
+    public function __construct(Container $container, private CarModel $car_model, private CarImageModel $car_image_model)
     {
         parent::__construct($container);
     }
 
     public function index(Request $request, Response $response, array $args): Response
     {
-        //$data['flash'] = $this->flash->getFlashMessage();
-        //echo $data['message'] ;exit;
 
+        $cars = $this->car_model->fetchTopThreeCars();
+
+        // & creates a copy of $car
+        foreach ($cars as &$car) {
+            $car['images'] = $this->car_image_model->fetchImagesById($car['cars_id']);
+        }
 
         $data = [
             'title' => 'Home',
             'message' => 'Welcome to the home page',
-            'current_page' => 'home'
+            'current_page' => 'home',
+            'cars' => $cars
         ];
 
         //dd($data);

@@ -410,7 +410,7 @@ footer {
 }
 
 .bookingWrap {
-    background: rgba(0,0,0,0.55);
+    background: var(--card-bg);
     padding: 25px;
     border-radius: 8px;
     width: 550px;
@@ -509,20 +509,25 @@ footer {
 
 /* Steps section */
 .stepsWrap {
-    padding: 50px 20px;
+    /* padding: 50px 20px; */
     text-align: center;
-    background-color: #c19763;
-    background: linear-gradient(#d5b58a, #8a673f);
+    /* background-color: #c19763; */
+    /* background: linear-gradient(#d5b58a, #8a673f); */
 }
 
 .stepsTitle {
     margin-bottom: 30px;
-    font-size: 28px;
+    font-size: 40px;
+}
+
+.stepsSection {
+    padding: 30px;
+    background-color: #111;
 }
 
 .stepsBox {
-    background-color: #000;
-    padding: 30px;
+    /* background-color: var(--card-bg); */
+    /* padding: 30px; */
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
@@ -565,4 +570,18 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.all-cars-link {
+    border: 1px solid var(--primary-gold);
+    padding: 10px;
+    text-decoration: none;
+    color: var(--primary-gold);
+    border-radius: 4px;
+    transition: 0.5s ease-in-out;
+}
+
+.all-cars-link:hover {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
 }
