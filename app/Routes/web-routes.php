@@ -13,6 +13,7 @@ use App\Controllers\CustomerController;
 use App\Controllers\DashboardController;
 use App\Controllers\FAQController;
 use App\Controllers\HomeController;
+use App\Controllers\PaymentController;
 use App\Controllers\PublicCarsController;
 use App\Controllers\PublicFaqController;
 use App\Controllers\UserController;
@@ -91,4 +92,5 @@ return static function (Slim\App $app): void {
 
     //* User Routes
     $app->get('/dashboard', [AuthController::class, 'dashboard'])->setName('user.dashboard')->add(AuthMiddleware::class);
+    $app->get('/payment', [PaymentController::class, 'showLocations'])->setName('user.payment');
 };
