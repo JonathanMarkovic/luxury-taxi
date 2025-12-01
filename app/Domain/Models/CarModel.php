@@ -29,6 +29,19 @@ class CarModel extends BaseModel
         return $cars;
     }
 
+    public function fetchTopThreeCars()
+    {
+        $sql = "SELECT * FROM cars LIMIT 3";
+
+        $cars = $this->selectAll($sql);
+
+        // dd($cars);
+        foreach ($cars as $key => $car) {
+            $car['image_path'] = $this->car_image_model->fetchImageById($car['cars_id']);
+        }
+        return $cars;
+    }
+
     /**
      * Summary of fetchCarByID
      * Fetches a single car based on ID

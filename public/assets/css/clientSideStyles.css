@@ -3,6 +3,7 @@
     --primary-gold-hover: #977647;
     --dark-bg: #1a1a1a;
     --card-bg: #2a2a2a;
+    --nav-bg: #111;
 }
 
 * {
@@ -30,7 +31,7 @@ footer {
 
 /* Navigation */
 .navbar {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: var(--nav-bg);
     padding: 1rem 2rem;
 }
 
@@ -103,13 +104,13 @@ footer {
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 2rem;
-    transition: transform 0.3s;
+    /* transition: 0.2s ease-in-out; */
 }
 
-.car-card:hover {
+/* .car-card:hover {
     /* border-color: var(--primary-gold); */
-    box-shadow: 1px 1px 15px var(--primary-gold);
-}
+    /* box-shadow: 1px 1px 15px var(--primary-gold);
+} */
 
 .car-carousel {
     position: relative;
@@ -182,7 +183,7 @@ footer {
 
 /* Footer */
 .footer {
-    background-color: #000;
+    background-color: var(--nav-bg);
     padding: 3rem 2rem 1rem;
     margin-top: 4rem;
 }
@@ -249,16 +250,13 @@ footer {
     }
 }
 
-.page-content {
-    margin: 0px 50px 0px 50px;
-}
-
 /* FAQ Page
 
 /* Accordion Container */
 .page-content {
     background-color: #1a1a1a;
     padding: 2rem;
+    margin: 0px 50px;
 }
 
 .accordion {
@@ -359,11 +357,12 @@ footer {
     background-color: var(--card-bg);
     color: white;
     border-radius: 8px;
+    border: none;
 }
 
 .card-body {
     background-color: var(--card-bg);
-    border-radius: 0px 0px 8px 8px;
+    border-radius: 0px 0px 6px 6px;
     border: none;
 }
 
@@ -395,6 +394,11 @@ footer {
     color: var(--primary-gold-hover);
 }
 
+/* .container {
+    display: flex;
+    justify-content: center;
+} */
+
 
 /* Hero wrap and booking form*/
 
@@ -406,7 +410,7 @@ footer {
 }
 
 .bookingWrap {
-    background: rgba(0,0,0,0.55);
+    background: var(--card-bg);
     padding: 25px;
     border-radius: 8px;
     width: 550px;
@@ -503,31 +507,27 @@ footer {
     margin-bottom: 10px;
 }
 
-/* Right image = car 20 */
-.aboutWrap::after {
-    content: "";
-    width: 500px;
-    height: 300px;
-    background: url('/uploads/images/car20.jpg') center/cover no-repeat;
-    border: 3px solid #007bff;
-}
-
 /* Steps section */
 .stepsWrap {
-    padding: 50px 20px;
+    /* padding: 50px 20px; */
     text-align: center;
-    background-color: #c19763;
-    background: linear-gradient(#d5b58a, #8a673f);
+    /* background-color: #c19763; */
+    /* background: linear-gradient(#d5b58a, #8a673f); */
 }
 
 .stepsTitle {
     margin-bottom: 30px;
-    font-size: 28px;
+    font-size: 40px;
+}
+
+.stepsSection {
+    padding: 30px;
+    background-color: #111;
 }
 
 .stepsBox {
-    background-color: #000;
-    padding: 30px;
+    /* background-color: var(--card-bg); */
+    /* padding: 30px; */
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
@@ -547,7 +547,7 @@ footer {
 .carsWrap {
     text-align: center;
     padding: 40px 20px;
-    background: linear-gradient(#c19763, #8a673f);
+    /* background: linear-gradient(#c19763, #8a673f); */
 }
 
 .carsTitle {
@@ -570,4 +570,18 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.all-cars-link {
+    border: 1px solid var(--primary-gold);
+    padding: 10px;
+    text-decoration: none;
+    color: var(--primary-gold);
+    border-radius: 4px;
+    transition: 0.5s ease-in-out;
+}
+
+.all-cars-link:hover {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
 }
