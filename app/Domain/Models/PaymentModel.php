@@ -19,11 +19,11 @@ class PaymentModel extends BaseModel
      * @return array|bool
      */
     public function fetchPaymentByID($reservation_id)
-    {
-        $sql = "SELECT * FROM payments WHERE reservation_id = $reservation_id";
-        $payment = $this->selectOne($sql);
-        return $payment;
-    }
+{
+    $sql = "SELECT * FROM payments WHERE reservation_id = :reservation_id";
+    $payment = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
+    return $payment;
+}
 
     /**
      * Summary of create
@@ -52,6 +52,14 @@ class PaymentModel extends BaseModel
      * @param mixed $payment_id
      * @return int
      */
+    public function createPayment($reservation_id, $totalAmount){
+        $sql = "INSERT INTO payments (reservation_id, total_amount, payment_status) VALUES (:reservation_id, :total_amount, :payment_status)";
+        return $this->execute($sql, [
+            'reservation_id'=> $reservation_id,
+            'total_amount' =>$totalAmount,
+            'payment_status'=>'pending',
+        ]);
+    }
     public function payPayment($reservation_id): int
     {
         $sql = "UPDATE payments
@@ -69,15 +77,6 @@ class PaymentModel extends BaseModel
      * @param mixed $reservation_id
      * @return int
      */
-    public function denyPayment($reservation_id): int
-    {
-        $sql = "UPDATE payments
-        SET payment_status = denied
-        WHERE reservation_id = :reservation_id";
-
-        return $this->execute($sql, ['reservation_id' => $reservation_id]);
-    }
-
     /**
      * Summary of updatePayment
      * Updates a payment in the database

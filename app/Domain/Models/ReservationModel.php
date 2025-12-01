@@ -62,6 +62,7 @@ class ReservationModel extends BaseModel
      * This function is meant to be used for the Admin page
      * @return array
      */
+
     public function fetchReservations(): mixed
     {
         $sql = "SELECT reservations.*, users.email FROM reservations
@@ -70,13 +71,24 @@ class ReservationModel extends BaseModel
         return $reservations;
     }
 
-    public function fetchReservationById($reservation_id): mixed
-    {
-        $sql = "SELECT reservations.*, users.email FROM reservations JOIN users ON users.user_id = reservations.user_id WHERE reservation_id = :reservation_id";
 
-        $reservation = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
-        return $reservation;
-    }
+    public function fetchReservationById($reservation_id): mixed
+{
+    $sql = "SELECT
+            reservations.*,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.phone,
+            payments.total_amount as price
+        FROM reservations
+        JOIN users ON users.user_id = reservations.user_id
+        LEFT JOIN payments ON payments.reservation_id = reservations.reservation_id
+        WHERE reservations.reservation_id = :reservation_id";
+
+    $reservation = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
+    return $reservation;
+}
 
     /**
      * Summary of createAndGetId
@@ -127,13 +139,15 @@ class ReservationModel extends BaseModel
      * @param mixed $reservation_id
      * @return int
      */
-    public function approveReservation($reservation_id): int
-    {
-        $sql = "UPDATE reservations
-                SET reservation_status = approved
-                WHERE reservation_id = :reservation_id";
-        return $this->execute($sql, ['reservation_id' => $reservation_id]);
-    }
+    public function approveReservation($reservation_id)
+{
+    $sql = "UPDATE reservations
+            SET reservation_status = 'approved'
+            WHERE reservation_id = :reservation_id";
+    return $this->execute($sql, [
+        'reservation_id' => $reservation_id
+    ]);
+}
 
     /**
      * Summary of denyReservation
@@ -144,13 +158,11 @@ class ReservationModel extends BaseModel
     public function denyReservation($reservation_id): int
     {
         $sql = "UPDATE reservations
-                SET reservation_status = denied
+                SET reservation_status = 'denied'
                 WHERE reservation_id = :reservation_id";
 
-        // Call the payment model to edit the payment information
-        $this->payment_model->denyPayment($reservation_id);
-
-        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+        return $this->execute($sql, [
+            'reservation_id' => $reservation_id]);
     }
 
     /**
@@ -189,4 +201,6 @@ class ReservationModel extends BaseModel
 
         return $this->execute($sql, ['start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type']]);
     }
+
+
 }

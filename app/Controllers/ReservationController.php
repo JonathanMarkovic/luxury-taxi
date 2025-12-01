@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Domain\Models\PaymentModel;
 use App\Domain\Models\ReservationModel;
 use App\Domain\Models\UserModel;
 use App\Helpers\FlashMessage;
@@ -12,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ReservationController extends BaseController
 {
-    public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model)
+    public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model, private PaymentModel $payment_model)
     {
         parent::__construct($container);
     }
@@ -22,6 +23,8 @@ class ReservationController extends BaseController
         $reservations = $this->reservation_model->fetchReservations();
         foreach ($reservations as $key => $reservation) {
             $customer = $this->user_model->fetchUserById($reservation['user_id']);
+            $payment = $this->payment_model->fetchPaymentByID($reservation['reservation_id']);
+            $reservations[$key]['price'] = $payment['total_amount'] ?? null;
             // $reservation['email'] = $customer['email'];
             // dd($reservation);
         }
@@ -38,9 +41,11 @@ class ReservationController extends BaseController
             $data
         );
     }
-
-    public function show(Request $request, Response $response, array $args): Response {}
-
+/*
+    public function show(Request $request, Response $response, array $args): Response {
+        return
+    }
+*/
     /**
      * Summary of create
      * Loads the reservation creation page for the user
@@ -135,6 +140,8 @@ class ReservationController extends BaseController
      * @param array $args
      * @return Response
      */
+
+    //for the customer
     public function update(Request $request, Response $response, array $args): Response
     {
         $reservation_id = $args['reservation_id'];
@@ -279,55 +286,6 @@ class ReservationController extends BaseController
         }
     }
 
-    private function confirmReservation(Request $request, Response $response, array $args): Response
-    {
-        $reservation_id = $args['reservation_id'];
-        $this->reservation_model->approveReservation($reservation_id);
-        FlashMessage::success("Reservation Confirmed");
-
-        $start_time = $args['start_time'];
-
-        // TODO: NEED TO INCLUDE THE EMAIL FOR SOLAF PERFORMANCE AND ACTUALLY SEND THE EMAIL HERE
-        $to = $args['email'];
-        $subject = "Reservation Confirmed";
-        $message = "Hello your reservation at $start_time has been approved by Solaf Performance";
-        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-            "X-Mailer: PHP/" . phpversion();
-
-        // if (mail($to, $subject, $message, $headers)) {
-        //     echo 'email sent';
-        // } else {
-        //     echo 'email not sent';
-        // }
-
-        return $this->index($request, $response, $args);
-    }
-
-    private function denyReservation(Request $request, Response $response, array $args): Response
-    {
-        $reservation_id = $args['reservation_id'];
-        $this->reservation_model->denyReservation($reservation_id);
-        FlashMessage::success("Reservation Denied");
-
-        $start_time = $args['start_time'];
-
-        // TODO: NEED TO INCLUDE THE EMAIL FOR SOLAF PERFORMANCE AND ACTUALLY SEND THE EMAIL HERE
-        $to = $args['email'];
-        $subject = "Reservation Confirmed";
-        $message = "Hello your reservation at $start_time has been denied by Solaf Performance";
-        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-            "X-Mailer: PHP/" . phpversion();
-
-        // if (mail($to, $subject, $message, $headers)) {
-        //     echo 'email sent';
-        // } else {
-        //     echo 'email not sent';
-        // }
-
-        return $this->index($request, $response, $args);
-    }
 
     private function cancelReservation(Request $request, Response $response, array $args): Response
     {
@@ -352,5 +310,122 @@ class ReservationController extends BaseController
         // }
 
         return $this->index($request, $response, $args);
+    }
+
+    public function view(Request $request, Response $response, array $args): Response
+    {
+        $reservation_id = $args['reservation_id'];
+        $reservations = $this->reservation_model->fetchReservationById($reservation_id);
+        $data = [
+            'title' => 'Reservation',
+            'reservations' => $reservations,
+
+        ];
+        return $this->render($response, '/admin/reservations/reservationEditView.php', $data);
+    }
+    private function approveReservation(int $reservation_id, array $data): bool
+    {
+        $price = $data['price'] ?? null;
+         $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+
+        if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
+        FlashMessage::warning("The Reservation is either already confirmed or refunded");
+        return false;
+    }
+
+
+        $this->reservation_model->approveReservation($reservation_id);
+        $this->payment_model->createPayment($reservation_id, $price);
+        FlashMessage::success("Reservation Approved");
+        return true;
+    }
+
+    private function denyReservation(int $reservation_id): bool
+    {
+
+        $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+
+        if ($reservation['reservation_status'] === 'denied') {
+            FlashMessage::warning("This reservation is already denied.");
+            return false;
+        }
+        $this->reservation_model->denyReservation($reservation_id);
+
+        FlashMessage::success("Reservation Denied");
+        return true;
+    }
+
+
+    //check the clicked button on the madal then call the right method
+    public function submitReservation(Request $request, Response $response, array $args): Response
+    {
+        $reservationId = (int)$args['reservation_id'];
+        $post = $request->getParsedBody();
+        /*
+ad another function that lets the admin update user info in case they ask for it
+    // update button clicked
+    if (isset($post['update'])) {
+        return $this->updateReservation($reservationId, $post);
+    }
+*/
+        // approve button
+       if (isset($post['approve'])) {
+        $success = $this->approveReservation($reservationId, $post);
+
+        if ($success) {
+            // Send email
+            $reservation = $this->reservation_model->fetchReservationById($reservationId);
+            $start_time = $reservation['start_time'];
+            $to = $reservation['email'];
+            $subject = "Reservation Confirmed";
+            $message = "Hello your reservation at $start_time has been approved by Solaf Performance";
+            $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+                "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+                "X-Mailer: PHP/" . phpversion();
+
+            // if (mail($to, $subject, $message, $headers)) {
+            //     echo 'email sent';
+            // } else {
+            //     echo 'email not sent';
+            // }
+
+            // Redirect to index on success
+            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
+        } else {
+            // Stay on same page if failed
+            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
+        }
+    }
+
+        // deny button clicked
+        if (isset($post['deny'])) {
+        $success = $this->denyReservation($reservationId, $post);
+
+        if ($success) {
+            // Send email
+            $reservation = $this->reservation_model->fetchReservationById($reservationId);
+            $start_time = $reservation['start_time'];
+            $to = $reservation['email'];
+            $subject = "Reservation Denied";
+            $message = "Hello your reservation at $start_time has been denied by Solaf Performance";
+            $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+                "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+                "X-Mailer: PHP/" . phpversion();
+
+            // if (mail($to, $subject, $message, $headers)) {
+            //     echo 'email sent';
+            // } else {
+            //     echo 'email not sent';
+            // }
+
+            // Redirect to index on success
+            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
+        } else {
+            // Stay on same page if failed
+            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
+        }
+    }
+        // Default fallback
+        return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
     }
 }
