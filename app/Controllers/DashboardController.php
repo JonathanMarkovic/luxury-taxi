@@ -31,16 +31,19 @@ class DashboardController extends BaseController
         foreach ($reservations as $reservation) {
             $color = null;
             if($reservation['reservation_status']=='pending'){
-                $color= 'orange';
+                $color= '#ffc107';
             };
             if($reservation['reservation_status']=='approved'){
-                $color= '#13fe1e';
+                $color= '#198754';
             };
             if($reservation['reservation_status']=='cancelled'){
-                $color= 'red';
+                $color= '#dc3545';
             };
             if($reservation['reservation_status']=='denied'){
-                $color= 'black';
+                $color= '#6c757d';
+            };
+            if($reservation['reservation_status']=='completed'){
+                $color= '#0d6efd';
             };
 
             $events[] =[

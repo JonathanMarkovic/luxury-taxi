@@ -44,8 +44,6 @@ ViewHelper::loadAdminHeader($page_title);
                     <td><?= htmlspecialchars($faq["faq_id"], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($faq["question"], ENT_QUOTES, 'UTF-8') ?></td>
                     <td><?= htmlspecialchars($faq["answer"], ENT_QUOTES, 'UTF-8') ?></td>
-
-
                     <td>
                         <!-- ADD route and redirect to faqEditView.php-->
                         <a class="btn btn-success" href="<?= APP_ADMIN_URL ?>/faq/edit/<?= $faq['faq_id'] ?>"> Edit</a>

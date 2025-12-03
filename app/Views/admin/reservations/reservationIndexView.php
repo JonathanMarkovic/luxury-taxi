@@ -34,8 +34,10 @@ $reservations = $data['reservations'];
                 <td>Comments</td>
                 <td>Reservation Type</td>
                 <td>Reservation Status</td>
+                <td>Price</td>
                 <td>Created at</td>
                 <td>Updated at</td>
+                <td>Actions</td>
             </tr>
         </thead>
         <tbody>
@@ -48,10 +50,30 @@ $reservations = $data['reservations'];
                     <td><?= $reservation['pickup'] ?></td>
                     <td><?= $reservation['dropoff'] ?></td>
                     <td><?= $reservation['comments'] ?></td>
-                    <td><?= $reservation['reservation_type'] ?></td>
+                    <td>
+                        <?php
+    if ($reservation['reservation_status'] == 'approved') {
+        echo '<span class="badge bg-success">' . ucfirst($reservation['reservation_status']) . '</span>';
+    } elseif ($reservation['reservation_status'] == 'denied') {
+        echo '<span class="badge bg-secondary">' . ucfirst($reservation['reservation_status']) . '</span>';
+    }elseif ($reservation['reservation_status'] == 'cancelled') {
+        echo '<span class="badge bg-danger">' . ucfirst($reservation['reservation_status']) . '</span>';
+    }elseif ($reservation['reservation_status'] == 'completed') {
+        echo '<span class="badge bg-primary">' . ucfirst($reservation['reservation_status']) . '</span>';
+    }
+    else {
+        echo '<span class="badge bg-warning">' . ucfirst($reservation['reservation_status']) . '</span>';
+    }
+    ?>
+                </td>
                     <td><?= $reservation['reservation_status'] ?></td>
+                    <td><?= $reservation['price'] ?></td>
                     <td><?= $reservation['created_at'] ?></td>
                     <td><?= $reservation['updated_at'] ?></td>
+                    <td>
+                        <a class="btn btn-success" href="<?= APP_ADMIN_URL ?>/reservations/view/<?= $reservation['reservation_id'] ?>"> View</a>
+                    </td>
+
                 </tr>
             <?php endforeach; ?>
         </tbody>

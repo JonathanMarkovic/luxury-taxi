@@ -12,9 +12,11 @@
         content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
     <meta name="generator" content="Astro v5.13.2" />
     <title><?= $page_title ?></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
     <!-- calendar important-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
@@ -23,7 +25,7 @@
         rel="canonical"
         href="https://getbootstrap.com/docs/5.3/examples/dashboard/" />
     <script src="<?= APP_ASSETS_DIR_URL ?>/js/color-modes.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
 
 
     <!--<link href="../../public/assets/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -376,22 +378,7 @@
                     FAQ
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_ADMIN_URL?>/upload">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#graph-up"></use>
-                    </svg>
-                    Uploads
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#puzzle"></use>
-                    </svg>
-                    Integrations
-                  </a>
-                </li>
+
               </ul>
               <h6
                 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
@@ -402,9 +389,6 @@
                   href="#"
                   aria-label="Add a new report"
                 >
-                  <svg class="bi" aria-hidden="true">
-                    <use xlink:href="#plus-circle"></use>
-                  </svg>
                 </a>
               </h6>
               <ul class="nav flex-column mb-auto">
@@ -414,30 +398,6 @@
                       <use xlink:href="#file-earmark-text"></use>
                     </svg>
                     Current month
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#file-earmark-text"></use>
-                    </svg>
-                    Last quarter
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#file-earmark-text"></use>
-                    </svg>
-                    Social engagement
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#file-earmark-text"></use>
-                    </svg>
-                    Year-end sale
                   </a>
                 </li>
               </ul>

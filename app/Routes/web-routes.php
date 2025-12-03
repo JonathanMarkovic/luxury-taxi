@@ -13,6 +13,7 @@ use App\Controllers\CustomerController;
 use App\Controllers\DashboardController;
 use App\Controllers\FAQController;
 use App\Controllers\HomeController;
+use App\Controllers\PaymentController;
 use App\Controllers\PublicCarsController;
 use App\Controllers\PublicFaqController;
 use App\Controllers\UserController;
@@ -65,6 +66,8 @@ return static function (Slim\App $app): void {
         $group->post('/reservations/store', [ReservationController::class, 'store']);
         $group->get('/reservations/delete/{reservation_id}', [ReservationController::class, 'delete'])->setName('reservations.delete');
         $group->post('/reservations/update/{reservation_id}', [ReservationController::class, 'update']);
+        $group->get('/reservations/view/{reservation_id}', [ReservationController::class, 'view']);
+        $group->post('/reservations/submit/{reservation_id}', [ReservationController::class, 'submitReservation']);
 
         //* Customers Routes
         $group->get('/customers', [UserController::class, 'index']);
@@ -92,4 +95,8 @@ return static function (Slim\App $app): void {
 
     //* User Routes
     $app->get('/dashboard', [AuthController::class, 'dashboard'])->setName('user.dashboard')->add(AuthMiddleware::class);
+
+    //* Payment Routes
+    $app->get('/payment', [PaymentController::class, 'index'])->setName('user.payment');
+    $app->post('/payment', [PaymentController::class, 'pay']);
 };
