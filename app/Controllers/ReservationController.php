@@ -98,8 +98,8 @@ class ReservationController extends BaseController
         $to = $data['email'];
         $subject = "Reservation Created";
         $message = "Solaf Performance has received your reservation request. You will get a response soon";
-        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+        $headers = "From: " . OWNER_EMAIL . "\r\n" .
+            "Reply-to: " . OWNER_EMAIL . "\r\n" .
             "X-Mailer: PHP/" . phpversion();
 
         // if (mail($to, $subject, $message, $headers)) {
@@ -140,7 +140,6 @@ class ReservationController extends BaseController
      * @param array $args
      * @return Response
      */
-
     //for the customer
     public function update(Request $request, Response $response, array $args): Response
     {
@@ -179,8 +178,8 @@ class ReservationController extends BaseController
         $to = $data['email'];
         $subject = "Reservation Created";
         $message = "Solaf Performance has received your reservation request. You will get a response soon";
-        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+        $headers = "From: " . OWNER_EMAIL . "\r\n" .
+            "Reply-to: " . OWNER_EMAIL . "\r\n" .
             "X-Mailer: PHP/" . phpversion();
 
         // if (mail($to, $subject, $message, $headers)) {
@@ -286,7 +285,6 @@ class ReservationController extends BaseController
         }
     }
 
-
     private function cancelReservation(Request $request, Response $response, array $args): Response
     {
         $reservation_id = $args['reservation_id'];
@@ -326,12 +324,12 @@ class ReservationController extends BaseController
     private function approveReservation(int $reservation_id, array $data): bool
     {
         $price = $data['price'] ?? null;
-         $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+        $reservation = $this->reservation_model->fetchReservationById($reservation_id);
 
         if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
-        FlashMessage::warning("The Reservation is either already confirmed or refunded");
-        return false;
-    }
+            FlashMessage::warning("The Reservation is either already confirmed or refunded");
+            return false;
+        }
 
 
         $this->reservation_model->approveReservation($reservation_id);
@@ -369,62 +367,62 @@ ad another function that lets the admin update user info in case they ask for it
     }
 */
         // approve button
-       if (isset($post['approve'])) {
-        $success = $this->approveReservation($reservationId, $post);
+        if (isset($post['approve'])) {
+            $success = $this->approveReservation($reservationId, $post);
 
-        if ($success) {
-            // Send email
-            $reservation = $this->reservation_model->fetchReservationById($reservationId);
-            $start_time = $reservation['start_time'];
-            $to = $reservation['email'];
-            $subject = "Reservation Confirmed";
-            $message = "Hello your reservation at $start_time has been approved by Solaf Performance";
-            $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-                "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-                "X-Mailer: PHP/" . phpversion();
+            if ($success) {
+                // Send email
+                $reservation = $this->reservation_model->fetchReservationById($reservationId);
+                $start_time = $reservation['start_time'];
+                $to = $reservation['email'];
+                $subject = "Reservation Confirmed";
+                $message = "Hello your reservation at $start_time has been approved by Solaf Performance";
+                $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+                    "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+                    "X-Mailer: PHP/" . phpversion();
 
-            // if (mail($to, $subject, $message, $headers)) {
-            //     echo 'email sent';
-            // } else {
-            //     echo 'email not sent';
-            // }
+                // if (mail($to, $subject, $message, $headers)) {
+                //     echo 'email sent';
+                // } else {
+                //     echo 'email not sent';
+                // }
 
-            // Redirect to index on success
-            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
-        } else {
-            // Stay on same page if failed
-            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
+                // Redirect to index on success
+                return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
+            } else {
+                // Stay on same page if failed
+                return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
+            }
         }
-    }
 
         // deny button clicked
         if (isset($post['deny'])) {
-        $success = $this->denyReservation($reservationId, $post);
+            $success = $this->denyReservation($reservationId, $post);
 
-        if ($success) {
-            // Send email
-            $reservation = $this->reservation_model->fetchReservationById($reservationId);
-            $start_time = $reservation['start_time'];
-            $to = $reservation['email'];
-            $subject = "Reservation Denied";
-            $message = "Hello your reservation at $start_time has been denied by Solaf Performance";
-            $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-                "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-                "X-Mailer: PHP/" . phpversion();
+            if ($success) {
+                // Send email
+                $reservation = $this->reservation_model->fetchReservationById($reservationId);
+                $start_time = $reservation['start_time'];
+                $to = $reservation['email'];
+                $subject = "Reservation Denied";
+                $message = "Hello your reservation at $start_time has been denied by Solaf Performance";
+                $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+                    "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+                    "X-Mailer: PHP/" . phpversion();
 
-            // if (mail($to, $subject, $message, $headers)) {
-            //     echo 'email sent';
-            // } else {
-            //     echo 'email not sent';
-            // }
+                // if (mail($to, $subject, $message, $headers)) {
+                //     echo 'email sent';
+                // } else {
+                //     echo 'email not sent';
+                // }
 
-            // Redirect to index on success
-            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
-        } else {
-            // Stay on same page if failed
-            return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
+                // Redirect to index on success
+                return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
+            } else {
+                // Stay on same page if failed
+                return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
+            }
         }
-    }
         // Default fallback
         return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
     }

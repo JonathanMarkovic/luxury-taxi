@@ -10,6 +10,8 @@ $page_title = "Payment";
 ViewHelper::loadCustomerHeader($page_title);
 
 ?>
+<!-- Written referencing https://developer.squareup.com/docs/build-basics/access-tokens#use-an-access-token-in-your-code -->
+
 
 <div id="wrapper">
 
@@ -18,16 +20,19 @@ ViewHelper::loadCustomerHeader($page_title);
 
     </div>
     <form id="payment-form">
+        <!-- This is the actual credit card field -->
         <div id="card-container"></div>
-        <button id="card-button" type="button">Pay $1.00</button>
+        <button id="card-button" type="button">Pay </button>
     </form>
     <div id="payment-status-container"></div>
-    <!-- <button id="pay">Pay</button> -->
 </div>
 <script>
+    //* These should be moved to a consts or env for production
     const appId = 'sandbox-sq0idb-EpHytLaLRq1mo5DN9R6xaw';
     const locationId = 'L5F899PJSJCEZ';
 
+    //* The customer details, this is a default Square example customer
+    // todo: include fields to collect this information from the customer or extract it from the reservation information
     const verificationDetails = {
         amount: '1.00',
         billingContact: {
@@ -46,6 +51,7 @@ ViewHelper::loadCustomerHeader($page_title);
         sellerKeyedIn: false,
     };
 
+    //* This creates the card text input and puts it in the div section above
     async function initializeCard(payments) {
         const card = await payments.card();
         await card.attach('#card-container');
@@ -53,6 +59,7 @@ ViewHelper::loadCustomerHeader($page_title);
         return card;
     }
 
+    //* This calls the PaymentController::pay method
     async function CreatePayment(token) {
         const body = JSON.stringify({
             locationId,
@@ -60,7 +67,6 @@ ViewHelper::loadCustomerHeader($page_title);
             idempotencyKey: window.crypto.randomUUID(),
         });
 
-        //todo set route for payment
         const paymentResponse = await fetch('payment', {
             method: 'POST',
             headers: {
@@ -77,6 +83,7 @@ ViewHelper::loadCustomerHeader($page_title);
         throw new Error(errorBody);
     }
 
+    //* This is the token to
     async function tokenize(card) {
         const tokenResult = await card.tokenize(verificationDetails);
         if (tokenResult.status === 'OK') {
@@ -108,6 +115,7 @@ ViewHelper::loadCustomerHeader($page_title);
         statusContainer.style.visibility = 'visible';
     }
 
+    //* This is the start point for the javascript
     document.addEventListener('DOMContentLoaded', async function() {
         if (!window.Square) {
             throw new Error('Square.js failed to load properly');
@@ -133,24 +141,32 @@ ViewHelper::loadCustomerHeader($page_title);
             return;
         }
 
+
         async function handlePaymentMethodSubmission(event, card) {
             event.preventDefault();
 
             try {
+                //* This disables the pay button to prevent a double click(double submission)
                 cardButton.disabled = true;
                 const token = await tokenize(card);
                 const paymentResults = await CreatePayment(token);
+
+                //* Check payment status
+                //* Set flash messages
 
                 if (paymentResults.payment?.status === 'COMPLETED') {
                     displayPaymentResults('SUCCESS');
                     console.debug('Payment Success', paymentResults);
 
-                    const redirectUrl =
-                        paymentResults.redirect_to || '/luxury-taxi/reservations';
+                    // const redirectUrl =
+                    //     paymentResults.redirect_to || '/luxury-taxi/reservations';
                     <?php
                     FlashMessage::success("Payment Successful");
                     ?>
+                    const redirectUrl =
+                        paymentResults.redirect_to || '/luxury-taxi/reservations';
                 } else {
+                    //* If payment fails re-enable the payment button so the user can try again
                     displayPaymentResults('FAILURE');
                     cardButton.disabled = false;
                     <?php
@@ -164,6 +180,7 @@ ViewHelper::loadCustomerHeader($page_title);
             }
         }
 
+        //* Payment button functionality
         const cardButton = document.getElementById('card-button');
         cardButton.addEventListener('click', async function(event) {
             await handlePaymentMethodSubmission(event, card);
@@ -171,8 +188,6 @@ ViewHelper::loadCustomerHeader($page_title);
 
     });
 </script>
-
-
 
 <?php
 

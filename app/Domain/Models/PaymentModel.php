@@ -19,11 +19,11 @@ class PaymentModel extends BaseModel
      * @return array|bool
      */
     public function fetchPaymentByID($reservation_id)
-{
-    $sql = "SELECT * FROM payments WHERE reservation_id = :reservation_id";
-    $payment = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
-    return $payment;
-}
+    {
+        $sql = "SELECT * FROM payments WHERE reservation_id = :reservation_id";
+        $payment = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
+        return $payment;
+    }
 
     /**
      * Summary of create
@@ -52,12 +52,13 @@ class PaymentModel extends BaseModel
      * @param mixed $payment_id
      * @return int
      */
-    public function createPayment($reservation_id, $totalAmount){
+    public function createPayment($reservation_id, $totalAmount)
+    {
         $sql = "INSERT INTO payments (reservation_id, total_amount, payment_status) VALUES (:reservation_id, :total_amount, :payment_status)";
         return $this->execute($sql, [
-            'reservation_id'=> $reservation_id,
-            'total_amount' =>$totalAmount,
-            'payment_status'=>'pending',
+            'reservation_id' => $reservation_id,
+            'total_amount' => $totalAmount,
+            'payment_status' => 'pending',
         ]);
     }
     public function payPayment($reservation_id): int
@@ -77,6 +78,14 @@ class PaymentModel extends BaseModel
      * @param mixed $reservation_id
      * @return int
      */
+    public function denyPayment($reservation_id): int
+    {
+        $sql = "UPDATE payments
+                SET payment_status = :payment_status";
+
+        return $this->execute($sql, ['payment_status' => 'denied']);
+    }
+
     /**
      * Summary of updatePayment
      * Updates a payment in the database
@@ -91,5 +100,30 @@ class PaymentModel extends BaseModel
                 payment_status = :payment_status";
 
         return $this->execute($sql, ['total_amount' => $data['total_amount'], 'payment_status' => $data['payment_status']]);
+    }
+
+    /**
+     * Summary of getPaymentStatus
+     * Fetches a single payment status based on the reservation_id
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function getPaymentStatus($reservation_id): mixed
+    {
+        $sql = "SELECT payment_status FROM payments WHERE reservation_id = :reservation_id";
+
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of getBalance
+     * Gets the information to calculate balance in the controller
+     * @param mixed $reservation_id
+     * @return int
+     */
+    public function getBalance($reservation_id): mixed {
+        $sql = "SELECT total_amount, total_paid FROM payments WHERE reservation_id = :reservation_id";
+
+        return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
 }

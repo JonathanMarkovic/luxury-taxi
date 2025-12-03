@@ -59,10 +59,6 @@ class PaymentController extends BaseController
     // This is from the Square quickstart guide to test api connection
     public function showLocations(Request $request, Response $response, array $args)
     {
-        // $config = require APP_BASE_DIR_PATH . '/config/env.php';
-
-        // dd(SQUARE_ACCESS_TOKEN);
-
         $square = new SquareClient(
             token: SQUARE_ACCESS_TOKEN,
             options: [
@@ -86,17 +82,14 @@ class PaymentController extends BaseController
             echo 'Status Code: ' . $e->getCode() . "\n";
         }
 
-        // return $this->render(
-        //     $response,
-        //     'public/payments/paymentView.php'
-        // );
-
         $this->index($request,  $response,  $args);
     }
 
     public function pay(Request $request, Response $response, array $args): Response
     {
         $data = json_decode(file_get_contents('php://input'), true);
+
+
 
         $square = new SquareClient(
             token: SQUARE_ACCESS_TOKEN,
@@ -105,10 +98,15 @@ class PaymentController extends BaseController
             ]
         );
 
+        //* getting information to calculate the balance to be paid
+        // $reservation_id = $args['reservation_id'];
+        // $balanceInfo = $this->payment_model->getBalance($reservation_id);
+        // $balance = ($balanceInfo['total_amount'] - $balanceInfo['amount_paid']) * 100;
+
         // Build amount: 1.00 USD
         // todo get info from payments table
         $amountMoney = new Money([
-            'amount'   => 100, // cents
+            'amount'   => 1000, // cents
             'currency' => Currency::Cad->value,
         ]);
 
