@@ -186,6 +186,7 @@ footer {
     background-color: var(--nav-bg);
     padding: 3rem 2rem 1rem;
     margin-top: 4rem;
+    display: flex;
 }
 
 .footer-content {
@@ -193,7 +194,7 @@ footer {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    gap: 10rem;
 }
 
 .footer-section h3 {
@@ -208,6 +209,7 @@ footer {
     text-decoration: none;
     display: block;
     margin-bottom: 0.5rem;
+    width: 200px;
 }
 
 .footer-section a:hover {
@@ -250,7 +252,27 @@ footer {
     }
 }
 
-/* FAQ Page
+/* FAQ Page */
+
+.question-form-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin: 50px 0px;
+}
+
+.question-form {
+    width: 550px;
+}
+
+.question-form-desc {
+    width: 500px;
+}
+
+.question-form-header {
+    color: var(--primary-gold);
+    font-size: 30px;
+}
 
 /* Accordion Container */
 .page-content {
@@ -579,6 +601,7 @@ footer {
     color: var(--primary-gold);
     border-radius: 4px;
     transition: 0.5s ease-in-out;
+    background-color: var(--dark-bg);
 }
 
 .all-cars-link:hover {

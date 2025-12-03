@@ -36,6 +36,7 @@ return static function (Slim\App $app): void {
         $group->get('/cars', [PublicCarsController::class, 'index'])->setName('public.cars');
         // $group->get('/reservations', [PublicCarsController::class, 'index'])->setName('public.reservations');
         $group->get('/faqs', [PublicFaqController::class, 'index'])->setName('public.faqs');
+        $group->post('/faqs/question', [PublicFaqController::class, 'submit']);
     });
 
     // Admin Routes

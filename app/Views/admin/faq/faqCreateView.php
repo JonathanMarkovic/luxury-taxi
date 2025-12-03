@@ -12,7 +12,7 @@ ViewHelper::loadAdminHeader($page_title);
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
     <h2>Category Creating</h2>
-<br>
+    <br>
     <form id="createForm" class="col-md-12" method="POST" action="<?= APP_ADMIN_URL ?>/faq/create">
 
         <div class="col-md-6">
@@ -22,11 +22,10 @@ ViewHelper::loadAdminHeader($page_title);
 
         <div class="col-md-6">
             <label for="inputAnswer" class="form-label">Answer</label>
-            <input type="text" name="answer" class="form-control" id="inputAnswer" >
+            <input type="text" name="answer" class="form-control" id="inputAnswer">
         </div>
         <br>
-<br>
-
+        <br>
 
         <div class="col-12">
             <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#saveModal"> Create</a>
@@ -34,26 +33,26 @@ ViewHelper::loadAdminHeader($page_title);
         </div>
     </form>
     <!-- Modal -->
-                <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="saveModalLabel">Attention!</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Would you really like to create this information?
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
-                                <button type="submit" form="createForm" class="btn btn-success">Create</button>
-
-
-                            </div>
-                        </div>
-                    </div>
+    <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="saveModalLabel">Attention!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    Would you really like to create this information?
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                    <button type="submit" form="createForm" class="btn btn-success">Create</button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <?php
 ViewHelper::loadJsScripts();
