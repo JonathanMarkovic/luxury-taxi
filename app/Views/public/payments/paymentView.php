@@ -161,16 +161,18 @@ ViewHelper::loadCustomerHeader($page_title);
                     // const redirectUrl =
                     //     paymentResults.redirect_to || '/luxury-taxi/reservations';
                     <?php
-                    FlashMessage::success("Payment Successful");
+                    // FlashMessage::success("Payment Successful");
                     ?>
                     const redirectUrl =
                         paymentResults.redirect_to || '/luxury-taxi/reservations';
+
+                    window.location.href = redirectUrl;
                 } else {
                     //* If payment fails re-enable the payment button so the user can try again
                     displayPaymentResults('FAILURE');
                     cardButton.disabled = false;
                     <?php
-                    FlashMessage::error("Payment unsuccessful");
+                    // FlashMessage::error("Payment unsuccessful");
                     ?>
                 }
             } catch (e) {

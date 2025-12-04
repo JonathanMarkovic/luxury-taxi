@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Domain\Models\PaymentModel;
+use App\Helpers\FlashMessage;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -117,7 +118,18 @@ class PaymentController extends BaseController
             // optionally: 'locationId' => $data['locationId'],
         ]);
 
+
         $squareResponse = $square->payments->create(request: $squareRequest);
+
+        //* Get payment result and set FlashMessage
+        $payment = $squareResponse->getPayment();
+        $status = $payment?->getStatus();
+
+        if ($status === 'COMPLETED') {
+            FlashMessage::success('Payment Successful');
+        } else {
+            FlashMessage::success('Payment Failed');
+        }
 
         // header('Content-Type: application/json');
         // echo json_encode($squareResponse->jsonSerialize());
