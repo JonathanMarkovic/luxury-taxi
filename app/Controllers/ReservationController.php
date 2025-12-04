@@ -25,6 +25,7 @@ class ReservationController extends BaseController
             $customer = $this->user_model->fetchUserById($reservation['user_id']);
             $payment = $this->payment_model->fetchPaymentByID($reservation['reservation_id']);
             $reservations[$key]['price'] = $payment['total_amount'] ?? null;
+             $reservations[$key]['total_paid'] = $payment['total_paid'] ?? null;
             // $reservation['email'] = $customer['email'];
             // dd($reservation);
         }
@@ -322,21 +323,33 @@ class ReservationController extends BaseController
         return $this->render($response, '/admin/reservations/reservationEditView.php', $data);
     }
     private function approveReservation(int $reservation_id, array $data): bool
-    {
-        $price = $data['price'] ?? null;
-        $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+{
+    $price = $data['price'] ?? null;
+    $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+    //$payment = $this->payment_model->fetchPaymentByID($reservation_id);
 
-        if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
-            FlashMessage::warning("The Reservation is either already confirmed or refunded");
-            return false;
-        }
+    if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
+        FlashMessage::warning("The Reservation is either already confirmed or refunded");
+        return false;
+    }
 
+    // check if payment exists, it there is a set price and status is pending
+    if($this->payment_model->ifPaymentExists($reservation_id) == true && $reservation['reservation_status'] == 'pending' ){
+            $this->payment_model->updateTotalAmount($reservation_id, $price);
+            $this->reservation_model->approveReservation($reservation_id);
+            FlashMessage::success("Reservation Approved, price changed to $price");
+            return true;
+    }
 
+    if($this->payment_model->ifPaymentExists($reservation_id) == false ) {
+        // normal approval flow, create new payment
         $this->reservation_model->approveReservation($reservation_id);
         $this->payment_model->createPayment($reservation_id, $price);
         FlashMessage::success("Reservation Approved");
         return true;
     }
+    return false;
+}
 
     private function denyReservation(int $reservation_id): bool
     {
@@ -352,20 +365,40 @@ class ReservationController extends BaseController
         FlashMessage::success("Reservation Denied");
         return true;
     }
+ private function refundReservation(int $reservation_id): bool
+{
+    $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+    $payment = $this->payment_model->fetchPaymentByID($reservation_id);
 
+        // check if total_paid is not null(has been paid) and status is cancelled
+        if($payment['total_paid'] != null && $reservation['reservation_status'] == 'cancelled'){
+            $this->payment_model->refundPayment($reservation_id);
+             $this->reservation_model->updateReservationStatus($reservation_id, 'refunded');
+             $this->payment_model->updatePaymentStatus($reservation_id, 'refunded');
+
+            FlashMessage::success("Payment Refunded");
+            return true;
+        }
+        if ($payment['total_paid']>$payment['total_amount'] && $reservation['reservation_status'] == 'pending') {
+            $this->payment_model->refundPayment($reservation_id);
+             $this->reservation_model->approveReservation($reservation_id);
+             $this->payment_model->updateTotalPaid($reservation_id, $payment['total_amount']);
+             FlashMessage::success("Payment Refunded");
+             //TODO: send email saying it will be refunded
+             return true;
+        }
+        else {
+            FlashMessage::warning("Cannot refund: Customer hasnt paid yet or reservation not cancelled");
+            return false;
+        }
+}
 
     //check the clicked button on the madal then call the right method
     public function submitReservation(Request $request, Response $response, array $args): Response
     {
         $reservationId = (int)$args['reservation_id'];
         $post = $request->getParsedBody();
-        /*
-ad another function that lets the admin update user info in case they ask for it
-    // update button clicked
-    if (isset($post['update'])) {
-        return $this->updateReservation($reservationId, $post);
-    }
-*/
+
         // approve button
         if (isset($post['approve'])) {
             $success = $this->approveReservation($reservationId, $post);
@@ -397,7 +430,7 @@ ad another function that lets the admin update user info in case they ask for it
 
         // deny button clicked
         if (isset($post['deny'])) {
-            $success = $this->denyReservation($reservationId, $post);
+            $success = $this->denyReservation($reservationId);
 
             if ($success) {
                 // Send email
@@ -423,7 +456,37 @@ ad another function that lets the admin update user info in case they ask for it
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
             }
         }
+
+        if(isset($post['refund'])){
+            $success = $this->refundReservation($reservationId, $post);
+
+            if ($success) {
+                // Send email
+                $reservation = $this->reservation_model->fetchReservationById($reservationId);
+                $start_time = $reservation['start_time'];
+                $to = $reservation['email'];
+                $subject = "Reservation Refunded";
+                $message = "Hello your reservation at $start_time has been refunded by Solaf Performance";
+                $headers = "From: SOLAFEMAILHERE" . "\r\n" .
+                    "Reply-to: SOLAFEMAILHERE" . "\r\n" .
+                    "X-Mailer: PHP/" . phpversion();
+
+                // if (mail($to, $subject, $message, $headers)) {
+                //     echo 'email sent';
+                // } else {
+                //     echo 'email not sent';
+                // }
+
+                // Redirect to index on success
+                return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
+            } else {
+                // Stay on same page if failed
+                return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
+            }
+        }
         // Default fallback
         return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
     }
+
+
 }

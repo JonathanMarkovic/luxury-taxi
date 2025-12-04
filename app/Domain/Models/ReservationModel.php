@@ -80,7 +80,8 @@ class ReservationModel extends BaseModel
             users.last_name,
             users.email,
             users.phone,
-            payments.total_amount as price
+            payments.total_amount as price,
+            payments.total_paid as total_paid
         FROM reservations
         JOIN users ON users.user_id = reservations.user_id
         LEFT JOIN payments ON payments.reservation_id = reservations.reservation_id
@@ -201,6 +202,15 @@ class ReservationModel extends BaseModel
 
         return $this->execute($sql, ['start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type']]);
     }
+public function updateReservationStatus($reservation_id, $status): int {
+    $sql = "UPDATE reservations
+    SET reservation_status = :status
+    WHERE reservation_id = :reservation_id";
 
+    return $this->execute($sql, [
+        'status' => $status,
+        'reservation_id' => $reservation_id
+    ]);
+}
 
 }

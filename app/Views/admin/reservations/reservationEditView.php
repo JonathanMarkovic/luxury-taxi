@@ -112,6 +112,9 @@ ViewHelper::loadAdminHeader($page_title);
                             <option value="pending" <?= $reservation['reservation_status'] == 'pending' ? 'selected' : '' ?>>Pending</option>
                             <option value="approved" <?= $reservation['reservation_status'] == 'approved' ? 'selected' : '' ?>>Approved</option>
                             <option value="denied" <?= $reservation['reservation_status'] == 'denied' ? 'selected' : '' ?>>Denied</option>
+                            <option value="refunded" <?= $reservation['reservation_status'] == 'refunded' ? 'selected' : '' ?>>Refunded</option>
+                            <option value="completed" <?= $reservation['reservation_status'] == 'completed' ? 'selected' : '' ?>>Completed</option>
+                            <option value="cancelled" <?= $reservation['reservation_status'] == 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
                         </select>
                     </div>
                 </div>
@@ -125,6 +128,7 @@ ViewHelper::loadAdminHeader($page_title);
                     </div>
                     <div class="col-md-6 d-flex justify-content-end">
                         <a href="<?= APP_ADMIN_URL ?>/reservations" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="button" class="btn btn-primary me-2" id="refundBtn<?= $reservation['reservation_id'] ?>">Refund</button>
                         <button type="button" class="btn btn-danger me-2" id="denyBtn<?= $reservation['reservation_id'] ?>">Deny</button>
                         <button type="button" class="btn btn-success" id="approveBtn<?= $reservation['reservation_id'] ?>">Approve</button>
                     </div>
@@ -182,14 +186,36 @@ ViewHelper::loadAdminHeader($page_title);
     </div>
 </main>
 
+<!-- Refund Modal -->
+    <div class="modal fade" id="refundModal<?= $reservation['reservation_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="refundModalLabel<?= $reservation['reservation_id'] ?>" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h1 class="modal-title fs-5" id="refundModalLabel<?= $reservation['reservation_id'] ?>">Refund Reservation</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to refund this reservation?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                    <button type="submit" form="updateForm<?= $reservation['reservation_id'] ?>" name="refund" class="btn btn-primary">Refund</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById("updateForm<?= $reservation['reservation_id'] ?>");
         const approveButton = document.getElementById("approveBtn<?= $reservation['reservation_id'] ?>");
         const denyButton = document.getElementById("denyBtn<?= $reservation['reservation_id'] ?>");
+        const refundButton = document.getElementById("refundBtn<?= $reservation['reservation_id'] ?>");
         const priceInput = document.getElementById("price");
         const approveModal = new bootstrap.Modal(document.getElementById("approveModal<?= $reservation['reservation_id'] ?>"));
         const denyModal = new bootstrap.Modal(document.getElementById("denyModal<?= $reservation['reservation_id'] ?>"));
+        const refundModal = new bootstrap.Modal(document.getElementById("refundModal<?= $reservation['reservation_id'] ?>"));
 
         approveButton.addEventListener("click", function(e) {
             // Add required for approve
@@ -206,6 +232,12 @@ ViewHelper::loadAdminHeader($page_title);
             // Remove required for deny
             priceInput.removeAttribute('required');
             denyModal.show();
+        });
+
+        refundButton.addEventListener("click", function(e) {
+            // Remove required for refund
+            priceInput.removeAttribute('required');
+            refundModal.show();
         });
     });
 </script>

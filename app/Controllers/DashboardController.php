@@ -25,34 +25,28 @@ class DashboardController extends BaseController
      */
     public function index(Request $request, Response $response, array $args): Response
     {
-        $reservations=$this->reservation_model->fetchReservations();
+        $reservations = $this->reservation_model->fetchReservations();
         $events = array();
 
         foreach ($reservations as $reservation) {
             $color = null;
-            if($reservation['reservation_status']=='pending'){
-                $color= '#ffc107';
-            };
-            if($reservation['reservation_status']=='approved'){
-                $color= '#198754';
-            };
-            if($reservation['reservation_status']=='cancelled'){
-                $color= '#dc3545';
-            };
-            if($reservation['reservation_status']=='denied'){
-                $color= '#6c757d';
-            };
-            if($reservation['reservation_status']=='completed'){
-                $color= '#0d6efd';
-            };
+            $statusColors = [
+                'pending' => '#ffc107',
+                'approved' => '#198754',
+                'refunded' => '#000000',
+                'cancelled' => '#dc3545',
+                'denied' => '#6c757d',
+                'completed' => '#0d6efd'
+            ];
 
-            $events[] =[
+            $color = $statusColors[$reservation['reservation_status']] ?? null;
+
+            $events[] = [
                 'title' => $reservation['reservation_status'],
                 'start' => $reservation['start_time'],
                 'end' => $reservation['end_time'],
                 'color' => $color
             ];
-
         };
         $data = [
             'title' => 'Admin',
@@ -66,7 +60,4 @@ class DashboardController extends BaseController
             $data
         );
     }
-
-
-
 }
