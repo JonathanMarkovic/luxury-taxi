@@ -97,6 +97,6 @@ return static function (Slim\App $app): void {
     $app->get('/dashboard', [AuthController::class, 'dashboard'])->setName('user.dashboard')->add(AuthMiddleware::class);
 
     //* Payment Routes
-    $app->get('/payment', [PaymentController::class, 'index'])->setName('user.payment');
-    $app->post('/payment', [PaymentController::class, 'pay']);
+    $app->get('/payment/{reservation_id}', [PaymentController::class, 'index'])->setName('user.payment');
+    $app->post('/payment/{reservation_id}', [PaymentController::class, 'pay']);
 };

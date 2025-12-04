@@ -121,9 +121,11 @@ class PaymentModel extends BaseModel
      * @param mixed $reservation_id
      * @return int
      */
-    public function getBalance($reservation_id): mixed {
+    public function getBalance($reservation_id): mixed
+    {
+        //TODO: check this once Sona sends me the up to date database
         $sql = "SELECT total_amount, total_paid FROM payments WHERE reservation_id = :reservation_id";
 
-        return $this->execute($sql, ['reservation_id' => $reservation_id]);
+        return $this->selectOne($sql, ['reservation_id' => $reservation_id]);
     }
 }
