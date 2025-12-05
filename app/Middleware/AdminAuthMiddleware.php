@@ -27,7 +27,7 @@ class AdminAuthMiddleware implements MiddlewareInterface
         //       - Create a redirect response using the Psr17Factory (same pattern as AuthMiddleware)
         //       - Redirect to 'auth.login' route (same pattern as AuthMiddleware)
         if ($authStatus === null || $authStatus === false) {
-            FlashMessage::error("Please log in to access the admin panel.");
+            FlashMessage::error("This page cannot be accessed without logging in.");
 
             $routeParser = RouteContext::fromRequest($request)->getRouteParser();
             $loginUrl = $routeParser->urlFor('auth.login');

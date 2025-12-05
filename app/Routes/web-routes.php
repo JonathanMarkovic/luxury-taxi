@@ -79,12 +79,12 @@ return static function (Slim\App $app): void {
         $group->get('/faq/add', [FAQController::class, 'add']);
         $group->post('/faq/create', [FAQController::class, 'create']);
         $group->get('/faq/delete/{faq_id}', [FAQController::class, 'delete']);
-    });
+    })->add(AdminAuthMiddleware::class);
 
     // A route to test runtime error handling and custom exceptions.
     $app->get('/error', function (Request $request, Response $response, $args) {
         throw new \Slim\Exception\HttpNotFoundException($request, "Something went wrong");
-    })->add(AdminAuthMiddleware::class);
+    });
 
     //* Login & Registration Routes (public)
     $app->get('/register', [AuthController::class, 'register'])->setName("auth.register");
