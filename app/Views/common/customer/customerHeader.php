@@ -43,12 +43,23 @@
                 </ul>
                 <div class="d-flex gap-3">
                     <ul class="navbar-nav mx-auto">
-                        <li>
-                            <a class="nav-link <?= $current_page === 'login' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/login">Login</a>
-                        </li>
-                        <li>
-                            <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register">Sign Up</a>
-                        </li>
+                        <?php
+
+                        use App\Helpers\SessionManager;
+
+                        // dd(SessionManager::get('user'));
+                        if (!SessionManager::get('is_authenticated')) { ?>
+                            <li>
+                                <a class="nav-link <?= $current_page === 'login' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/login">Login</a>
+                            </li>
+                            <li>
+                                <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register">Sign Up</a>
+                            </li>
+                        <?php } else { ?>
+                            <li>
+                                <a class="nav-link" href="<?= APP_BASE_URL ?>/logout">Logout</a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

@@ -205,7 +205,8 @@ class AuthController extends BaseController
         if ($user['role'] === 'admin') {
             return $this->redirect($request, $response, 'admin.dashboard');
         } else {
-            return $this->redirect($request, $response, 'user.dashboard');
+            // return $this->redirect($request, $response, 'user.dashboard');
+            return $this->redirect($request, $response, 'home.index');
         }
     }
 
@@ -217,11 +218,14 @@ class AuthController extends BaseController
         // Destroy the session
         SessionManager::destroy();
 
+        //* Have to start new session here to pass on the successful logout message
+        SessionManager::start();
+
         // Display success message
         FlashMessage::success("You have been logged out successfully!");
 
-        // Redirect to 'auth.login' route
-        return $this->redirect($request, $response, 'auth.login');
+        // Redirect to 'home.index' route
+        return $this->redirect($request, $response, 'home.index');
     }
 
     /**

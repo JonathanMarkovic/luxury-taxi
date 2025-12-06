@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\FlashMessage;
 use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
 $page_title = 'Home';
@@ -8,6 +9,7 @@ $cars = $data['cars'];
 // dd($cars);
 ?>
 <div class="page-content">
+    <?= FlashMessage::render() ?>
 
     <section class="aboutWrap">
 
