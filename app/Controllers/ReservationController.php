@@ -7,6 +7,7 @@ use App\Domain\Models\PaymentModel;
 use App\Domain\Models\ReservationModel;
 use App\Domain\Models\UserModel;
 use App\Helpers\FlashMessage;
+use App\Helpers\SessionManager;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -25,7 +26,7 @@ class ReservationController extends BaseController
             $customer = $this->user_model->fetchUserById($reservation['user_id']);
             $payment = $this->payment_model->fetchPaymentByID($reservation['reservation_id']);
             $reservations[$key]['price'] = $payment['total_amount'] ?? null;
-             $reservations[$key]['total_paid'] = $payment['total_paid'] ?? null;
+            $reservations[$key]['total_paid'] = $payment['total_paid'] ?? null;
             // $reservation['email'] = $customer['email'];
             // dd($reservation);
         }
@@ -323,33 +324,33 @@ class ReservationController extends BaseController
         return $this->render($response, '/admin/reservations/reservationEditView.php', $data);
     }
     private function approveReservation(int $reservation_id, array $data): bool
-{
-    $price = $data['price'] ?? null;
-    $reservation = $this->reservation_model->fetchReservationById($reservation_id);
-    //$payment = $this->payment_model->fetchPaymentByID($reservation_id);
+    {
+        $price = $data['price'] ?? null;
+        $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+        //$payment = $this->payment_model->fetchPaymentByID($reservation_id);
 
-    if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
-        FlashMessage::warning("The Reservation is either already confirmed or refunded");
-        return false;
-    }
+        if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
+            FlashMessage::warning("The Reservation is either already confirmed or refunded");
+            return false;
+        }
 
-    // check if payment exists, it there is a set price and status is pending
-    if($this->payment_model->ifPaymentExists($reservation_id) == true && $reservation['reservation_status'] == 'pending' ){
+        // check if payment exists, it there is a set price and status is pending
+        if ($this->payment_model->ifPaymentExists($reservation_id) == true && $reservation['reservation_status'] == 'pending') {
             $this->payment_model->updateTotalAmount($reservation_id, $price);
             $this->reservation_model->approveReservation($reservation_id);
             FlashMessage::success("Reservation Approved, price changed to $price");
             return true;
-    }
+        }
 
-    if($this->payment_model->ifPaymentExists($reservation_id) == false ) {
-        // normal approval flow, create new payment
-        $this->reservation_model->approveReservation($reservation_id);
-        $this->payment_model->createPayment($reservation_id, $price);
-        FlashMessage::success("Reservation Approved");
-        return true;
+        if ($this->payment_model->ifPaymentExists($reservation_id) == false) {
+            // normal approval flow, create new payment
+            $this->reservation_model->approveReservation($reservation_id);
+            $this->payment_model->createPayment($reservation_id, $price);
+            FlashMessage::success("Reservation Approved");
+            return true;
+        }
+        return false;
     }
-    return false;
-}
 
     private function denyReservation(int $reservation_id): bool
     {
@@ -365,33 +366,32 @@ class ReservationController extends BaseController
         FlashMessage::success("Reservation Denied");
         return true;
     }
- private function refundReservation(int $reservation_id): bool
-{
-    $reservation = $this->reservation_model->fetchReservationById($reservation_id);
-    $payment = $this->payment_model->fetchPaymentByID($reservation_id);
+    private function refundReservation(int $reservation_id): bool
+    {
+        $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+        $payment = $this->payment_model->fetchPaymentByID($reservation_id);
 
         // check if total_paid is not null(has been paid) and status is cancelled
-        if($payment['total_paid'] != null && $reservation['reservation_status'] == 'cancelled'){
+        if ($payment['total_paid'] != null && $reservation['reservation_status'] == 'cancelled') {
             $this->payment_model->refundPayment($reservation_id);
-             $this->reservation_model->updateReservationStatus($reservation_id, 'refunded');
-             $this->payment_model->updatePaymentStatus($reservation_id, 'refunded');
+            $this->reservation_model->updateReservationStatus($reservation_id, 'refunded');
+            $this->payment_model->updatePaymentStatus($reservation_id, 'refunded');
 
             FlashMessage::success("Payment Refunded");
             return true;
         }
-        if ($payment['total_paid']>$payment['total_amount'] && $reservation['reservation_status'] == 'pending') {
+        if ($payment['total_paid'] > $payment['total_amount'] && $reservation['reservation_status'] == 'pending') {
             $this->payment_model->refundPayment($reservation_id);
-             $this->reservation_model->approveReservation($reservation_id);
-             $this->payment_model->updateTotalPaid($reservation_id, $payment['total_amount']);
-             FlashMessage::success("Payment Refunded");
-             //TODO: send email saying it will be refunded
-             return true;
-        }
-        else {
+            $this->reservation_model->approveReservation($reservation_id);
+            $this->payment_model->updateTotalPaid($reservation_id, $payment['total_amount']);
+            FlashMessage::success("Payment Refunded");
+            //TODO: send email saying it will be refunded
+            return true;
+        } else {
             FlashMessage::warning("Cannot refund: Customer hasnt paid yet or reservation not cancelled");
             return false;
         }
-}
+    }
 
     //check the clicked button on the madal then call the right method
     public function submitReservation(Request $request, Response $response, array $args): Response
@@ -457,7 +457,7 @@ class ReservationController extends BaseController
             }
         }
 
-        if(isset($post['refund'])){
+        if (isset($post['refund'])) {
             $success = $this->refundReservation($reservationId, $post);
 
             if ($success) {
@@ -488,5 +488,44 @@ class ReservationController extends BaseController
         return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
     }
 
+    /**
+     * Summary of guestShow
+     * Handles the Guest Find Reservation functions from the reservation view
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function guestShow(Request $request, Response $response, array $args): Response
+    {
+        $guestEmail = $args['email'];
+        $reservationId = $args['reservation_id'];
 
+        $reservation = $this->reservation_model->fetchReservationGuest($guestEmail, $reservationId);
+
+        $data['data'] = [
+            'title' => 'reservations',
+            'reservation' => $reservation
+        ];
+
+        return $this->redirect($request, $response, 'reservations.index', $data);
+    }
+
+    public function customerIndex(Request $request, Response $response, array $args): Response
+    {
+        $user_id = SessionManager::get('user_id');
+
+        if ($user_id !== null) {
+            $reservations = $this->reservation_model->fetchReservationByUserID($user_id);
+        }
+
+        $data['data'] = [
+            'title' => 'reservations',
+            'reservations' => $reservations ?? []
+        ];
+
+        return $this->render($response, 'public/reservations/reservationIndexView.php', $data);
+    }
+
+    public function customerdetails(Request $request, Response $response, array $args): Response {}
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Domain\Models\ReservationModel;
 use App\Domain\Models\UserModel;
 use App\Helpers\FlashMessage;
 use App\Helpers\SessionManager;
@@ -11,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class AuthController extends BaseController
 {
-    public function __construct(Container $container, private UserModel $userModel)
+    public function __construct(Container $container, private UserModel $userModel, private ReservationModel $reservationModel)
     {
         parent::__construct($container);
     }
@@ -191,12 +192,17 @@ class AuthController extends BaseController
 
         // Authentication successful - create session
         // Store user data in session using SessionManager:
-        SessionManager::set('user_id', $user['id']);
+        // dd($user);
+        SessionManager::set('user_id', $user['user_id']);
         SessionManager::set('user_email', $user['email']);
         SessionManager::set('user_phone', $user['phone']);
         SessionManager::set('user_name', $user['first_name'] . ' ' . $user['last_name']);
         SessionManager::set('user_role', $user['role']);
         SessionManager::set('is_authenticated', true);
+
+        // $reservations = $this->reservationModel->fetchReservationByUserID($user['user_id']);
+        // dd($reservations);
+        // SessionManager::set('reservations', $reservations);
 
         // Display success message using FlashMessage::success()
         FlashMessage::success("Welcome back, {$user['first_name']}!");

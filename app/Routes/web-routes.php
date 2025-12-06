@@ -38,6 +38,11 @@ return static function (Slim\App $app): void {
         // $group->get('/reservations', [PublicCarsController::class, 'index'])->setName('public.reservations');
         $group->get('/faqs', [PublicFaqController::class, 'index'])->setName('public.faqs');
         $group->post('/faqs/question', [PublicFaqController::class, 'submit']);
+
+        //*This route will handle the guest reservation search
+        $group->post('/reservations', [ReservationController::class, 'guestShow'])->setName('guest.reservation');
+        $group->get('/reservations', [ReservationController::class, 'customerIndex'])->setName('customer.reservations');
+        $group->get('/reservation/details', [ReservationController::class, 'customerdetails'])->setName('customer.details');
     });
 
     // Admin Routes
