@@ -67,9 +67,8 @@ footer {
     justify-content: center;
     background: transparent;
     width: 100%;
-    height: 100vh;
-
-
+    height: 90vh;
+    overflow-y: auto;
 }
 
 
@@ -96,14 +95,15 @@ footer {
 .card {
     margin-right: 60px;
     width: 100%;
+    height: 100%;
     max-width: 800px;
     padding-left: 50px;
     padding-right: 50px;
     margin-top: 10px;
     margin-bottom: 10px;
-
     border: none;
     border-radius: 20px;
+    overflow-y: auto;
 }
 
 .authentication-btn {
@@ -129,12 +129,24 @@ footer {
     color: var(--primary-gold-hover);
 }
 
-/* .container {
-    display: flex;
-    justify-content: center;
-} */
 
 .form-control {
     font-size: 24px;
     padding: 15px;
 }
+
+
+.mb-3-3{
+    padding-top: 10px;
+    padding-bottom: 0px;
+
+}
+
+.field-name{
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 4px;
+}
+
+

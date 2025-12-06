@@ -124,12 +124,14 @@ if (SessionManager::get('is_authenticated')) {
                             style="background:#555; color:white;">
                             Modify
                         </button>
-
-                        <button class="btn"
-                            style="background:#0d6efd; color:white;">
-                            Pay
-                        </button>
-
+                        <?php
+                        if ($reservation['reservation_status'] === 'approved') {
+                        ?>
+                            <button class="btn"
+                                style="background:#0d6efd; color:white;">
+                                <a class="nav-link" href="<?= APP_BASE_URL ?>/payment/<?= $reservation['reservation_id'] ?>">Pay</a>
+                            </button>
+                        <?php } ?>
                     </div>
 
                 </div>

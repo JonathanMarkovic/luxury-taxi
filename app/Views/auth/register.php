@@ -3,57 +3,60 @@
 use App\Helpers\ViewHelper;
 
 $page_title = 'Login';
-ViewHelper::loadCustomerHeader($page_title, 'register');
+ViewHelper::loadCustomerLogin($page_title, 'register');
 ?>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
+<div class="login-container">
+
             <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Create Account</h3>
+                <div class="card-header" style="padding-bottom:10px">
+                    <h3 class="">Create An Account</h3>
+                    <p class="" style="color:black;font-weight:light; font-size:18px; padding-top:20px">You can view your reservations easier!</p>
                 </div>
                 <div class="card-body">
                     <?= App\Helpers\FlashMessage::render() ?>
 
                     <form method="POST" action="register">
                         <!-- First Name -->
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="first_name" name="first_name" required>
-                            <label for="first_name">First Name</label>
+                        <div class="mb-3-3">
+                            <label for="first_name"  class="field-name" >First Name</label>
+                            <input style="padding: 5px; font-size:18px" type="text" class="form-control" id="first_name" name="first_name" required>
                         </div>
                         <br>
                         <!-- Last Name -->
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="last_name" name="last_name" required>
-                            <label for="last_name">Last Name</label>
+                        <div class="mb-3-3">
+                            <label for="last_name"  class="field-name" >Last Name</label>
+                            <input style="padding: 5px; font-size:18px" type="text" class="form-control" id="last_name" name="last_name" required>
                         </div>
                         <br>
                         <!-- Email -->
-                        <div class="form-floating">
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <label for="email">Email</label>
+                        <div class="mb-3-3">
+                            <label for="email"  class="field-name" >Email</label>
+                            <input style="padding: 5px; font-size:18px" type="email" class="form-control" id="email" name="email" required>
+
                         </div>
                         <br>
                         <!-- Phone -->
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="phone" name="phone" required>
-                            <label for="phone">Phone Number</label>
+                        <div class="mb-3-3">
+                            <label for="phone"  class="field-name" >Phone Number</label>
+                            <input style="padding: 5px; font-size:18px" type="text" class="form-control" id="phone" name="phone" required>
+
                         </div>
                         <br>
                         <!-- Password -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="password" name="password" required>
-                            <label for="password">Password</label>
-                            <div class="form-text" style="color: white">
+                        <div class="">
+                            <label for="password"  class="field-name" >Password</label>
+                            <input style="padding: 5px; font-size:18px" type="password" class="form-control" id="password" name="password" required>
+
+                            <div class="form-text" style="color: black">
                                 * Minimum 8 characters and 1 number.
                             </div>
                         </div>
                         <br>
                         <!-- Confirm Password -->
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                            <label for="confirm_password">Confirm Password</label>
+                        <div class="mb-3-3" style="padding-bottom:20px">
+                            <label for="confirm_password"  class="field-name" >Confirm Password</label>
+                            <input style="padding: 5px; font-size:18px" type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                         </div>
                         <br>
                         <input type="hidden" name="role" value="customer">
@@ -64,14 +67,10 @@ ViewHelper::loadCustomerHeader($page_title, 'register');
                     </form>
 
                     <div class="mt-3 text-center">
-                        <p style="color: white;">Already have an account? <a class="authentication-link" href="login">Login here</a></p>
+                        <p style="color: black; font-size: 20px; ">Already have an account? <a class="authentication-link" href="login">Login here</a></p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
 </div>
 
-<?php
-ViewHelper::loadCustomerFooter();
-?>

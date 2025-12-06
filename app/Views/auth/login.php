@@ -33,7 +33,6 @@ ViewHelper::loadCustomerLogin($page_title, 'login');
                                 name="password"
                                 required
                             >
-
                         </div>
                         <br>
                         <div class="d-grid gap-2">
@@ -42,7 +41,7 @@ ViewHelper::loadCustomerLogin($page_title, 'login');
                     </form>
 
                     <div class="mt-3 text-center">
-                        <p style="color: black; font-size: 20px; padding-bottom: 10em;">Don't have an account? <a class="authentication-link" href="register">Register here</a></p>
+                        <p style="color: black; font-size: 20px; ">Don't have an account? <a class="authentication-link" href="register">Register here</a></p>
                     </div>
                 </div>
             </div>
