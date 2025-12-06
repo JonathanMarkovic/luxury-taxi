@@ -524,8 +524,21 @@ class ReservationController extends BaseController
             'reservations' => $reservations ?? []
         ];
 
-        return $this->render($response, 'public/reservations/reservationIndexView.php', $data);
+        return $this->render($response, 'public/reservations/reservationsView.php', $data);
     }
 
-    public function customerdetails(Request $request, Response $response, array $args): Response {}
+    /**
+     * Summary of customerDetails
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return void
+     */
+    public function customerDetails(Request $request, Response $response, array $args): Response
+    {
+        $user_id = SessionManager::get('user_id');
+
+        return $this->render($response, 'public/reservations/reservationsView.php');
+    }
 }

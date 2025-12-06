@@ -62,7 +62,7 @@ if (SessionManager::get('is_authenticated')) {
                     <td><?= $reservation['updated_at'] ?></td>
                     <td>
                         <!-- THIS NEEDS TO BE CHANGED -->
-                        <a class="btn btn-success" href="<?= APP_ADMIN_URL ?>/reservations/view/<?= $reservation['reservation_id'] ?>"> View</a>
+                        <a class="btn btn-success" href="<?= APP_USER_URL ?>/reservations/view/<?= $reservation['reservation_id'] ?>"> View</a>
                     </td>
 
                 </tr>
