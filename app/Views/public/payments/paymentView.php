@@ -63,7 +63,6 @@ ViewHelper::loadCustomerHeader($page_title);
     const locationId = 'L5F899PJSJCEZ';
 
     //* The customer details, this is a default Square example customer
-    // todo: include fields to collect this information from the customer or extract it from the reservation information
     // const verificationDetails = getVerificationDetails();
     // {
     // amount: '1.00',
@@ -81,27 +80,8 @@ ViewHelper::loadCustomerHeader($page_title);
     // intent: 'CHARGE',
     // customerInitiated: true,
     // sellerKeyedIn: false,
-    //* Getting the values from the form now instead of the hard coded test from Square
-    // amount: "<?php echo $balance ?>",
-    // billingContact: {
-    //     givenName: document.getElementById('first_name').value,
-    //     familyName: document.getElementById('last_name').value,
-    //     email: document.getElementById('email').value,
-    //     phone: document.getElementById('phone').value,
-    //     addressLines: [
-    //         document.getElementById('address_line_1').value,
-    //         document.getElementById('address_line_2').value
-    //     ],
-    //     city: document.getElementById('city').value,
-    //     state: document.getElementById('province').value,
-    //     countryCode: document.getElementById('country_code').value,
-    // },
-    // currencyCode: 'CAD',
-    // intent: 'CHARGE',
-    // customerInitiated: true,
-    // sellerKeyedIn: false,
-    // };
 
+    //* Getting the values from the form now instead of the hard coded test from Square
     /**
      * Undocumented function
      * Loads all the content from the form into verification details needed for Square

@@ -28,9 +28,7 @@ class PaymentController extends BaseController
 
     public function index(Request $request, Response $response, array $args): Response
     {
-        // $payment = $this->payment_model->fetchPaymentByID();
         $reservation_id = $args['reservation_id'];
-        // $reservation_id = 1;
 
         $balanceInfo = $this->payment_model->getBalance($reservation_id);
         //* This balance will not be in cents because this is the displayed balance for the user
@@ -43,7 +41,7 @@ class PaymentController extends BaseController
             ]
         );
         try {
-            $locations[] = $square->locations->list();
+            $locations = $square->locations->list();
             // dd($response);
         } catch (SquareException $e) {
             echo 'Square API Exception occurred: ' . $e->getMessage() . "\n";
@@ -101,7 +99,6 @@ class PaymentController extends BaseController
         try {
             //* getting information to calculate the balance to be paid
             $reservation_id = $args['reservation_id'];
-            // $reservation_id = 1;
 
             $balanceInfo = $this->payment_model->getBalance($reservation_id);
             //* x100 the balance because square takes the amount in cents
@@ -130,7 +127,7 @@ class PaymentController extends BaseController
                 // optionally: 'locationId' => $data['locationId'],
             ]);
 
-
+            //* this does the actual payment
             $squareResponse = $square->payments->create(request: $squareRequest);
 
             //* Get payment result and set FlashMessage
