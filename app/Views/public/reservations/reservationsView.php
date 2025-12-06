@@ -47,7 +47,7 @@ if (SessionManager::get('is_authenticated')) {
                             } elseif ($reservation['reservation_status'] == "denied") {
                                 echo " class='denied-reservation-banner'";
                             }
-                            ?> >
+                            ?>>
                             <?= $reservation['reservation_status'] ?>
                         </div>
                         </p>
@@ -57,7 +57,7 @@ if (SessionManager::get('is_authenticated')) {
                     <div class="col-md-4">
                         <!-- Pickup input -->
                         <form action="" method="post">
-                            <fieldset <?= SessionManager::get('modify_mode') == false ? " disabled" : "" ?>>
+                            <fieldset id="fieldset_<?= $reservation['reservation_id'] ?>" <?= SessionManager::get('modify_mode') == false ? " disabled" : " " ?>>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="pickup" name="pickup" value="<?= $reservation['pickup'] ?>" required>
                                     <label>Pickup</label>
@@ -115,27 +115,34 @@ if (SessionManager::get('is_authenticated')) {
                         </form>
                     </div>
 
+                    <?php
+                        if ($reservation['reservation_status'] == "completed" || $reservation['reservation_status'] == "denied" || $reservation['reservation_status'] == "cancelled") {
+                            echo "";
+                        } else { ?>
 
                     <div class="col-md-2 d-flex flex-column justify-content-start gap-2">
-
                         <button class="btn btn-outline-light"
-                            style="border-color:#a6814c; color:#a6814c;">
+                            style="background:#db5050; border: #db5050; color: white;">
                             Cancel
                         </button>
 
-                        <button class="btn"
-                            style="background:#555; color:white;">
+                        <button class="btn toggle-btn"
+                            data-mode="modify"
+                            style="background:#555; color:white;"
+                            onclick="toggleEdit(this)">
                             Modify
                         </button>
+
                         <?php
-                        if ($reservation['reservation_status'] === 'approved') {
+                        if ($reservation['reservation_status'] === 'approved' && $reservation['payment_status'] != "paid") {
                         ?>
                             <button class="btn"
-                                style="background:#0d6efd; color:white;">
+                                style="background:#3347fb; color:white;">
                                 <a class="nav-link" href="<?= APP_BASE_URL ?>/payment/<?= $reservation['reservation_id'] ?>">Pay</a>
                             </button>
                         <?php } ?>
                     </div>
+                    <?php } ?>
 
                 </div>
 
@@ -152,6 +159,37 @@ if (SessionManager::get('is_authenticated')) {
 <?php
 }
 ?>
+
+<script>
+    function toggleEdit(button) {
+        const box = button.closest('.reservationBox');
+        const fieldset = box.querySelector('fieldset');
+        const form = box.querySelector('form');
+
+        let mode = button.getAttribute("data-mode");
+
+        if (mode === "modify") {
+            // Switch to edit mode with Save button
+            fieldset.disabled = false;
+            button.innerText = "Save";
+            button.style.background = "#4ac654";
+            button.setAttribute("data-mode", "save");
+
+        } else {
+            // Submit form if there are changes and switch back to Modify button
+            form.submit();
+
+            // After form submits, page reloads so this won't run.
+            // But in case you want it without reload:
+            fieldset.disabled = true;
+            button.innerText = "Modify";
+            button.style.background = "#555";
+            button.setAttribute("data-mode", "modify");
+        }
+    }
+</script>
+
+
 
 <?php
 ViewHelper::loadCustomerFooter();
