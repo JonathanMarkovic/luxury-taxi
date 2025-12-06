@@ -499,16 +499,21 @@ class ReservationController extends BaseController
      */
     public function guestShow(Request $request, Response $response, array $args): Response
     {
-        $guestEmail = $args['email'];
-        $reservationId = $args['reservation_id'];
+        $info = $request->getParsedBody();
+        SessionManager::set('user_role', 'guest');
+        $guestEmail = $info['email'];
+        $reservationId = $info['reservation_id'];
+
+        // dd($guestEmail);
 
         $reservation = $this->reservation_model->fetchReservationGuest($guestEmail, $reservationId);
+        // dd($reservation);
 
         $data['data'] = [
             'title' => 'reservations',
             'reservations' => $reservation
         ];
-
+        dd($reservation);
         return $this->redirect($request, $response, 'customer.reservations', $data);
     }
 

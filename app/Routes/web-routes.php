@@ -40,7 +40,7 @@ return static function (Slim\App $app): void {
         $group->post('/faqs/question', [PublicFaqController::class, 'submit']);
 
         //*This route will handle the guest reservation search
-        $group->post('/reservations', [ReservationController::class, 'guestShow'])->setName('guest.reservation');
+        $group->post('/reservations', [ReservationController::class, 'guestShow']); //->setName('guest.reservation');
         $group->get('/reservations', [ReservationController::class, 'customerIndex'])->setName('customer.reservations');
     });
 
