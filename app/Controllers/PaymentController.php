@@ -29,7 +29,6 @@ class PaymentController extends BaseController
     public function index(Request $request, Response $response, array $args): Response
     {
         $reservation_id = $args['reservation_id'];
-
         $balanceInfo = $this->payment_model->getBalance($reservation_id);
         //* This balance will not be in cents because this is the displayed balance for the user
         $balance = ($balanceInfo['total_amount'] - $balanceInfo['total_paid']);

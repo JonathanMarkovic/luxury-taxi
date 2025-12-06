@@ -122,8 +122,18 @@ class UserModel extends BaseModel
         return $this->pdo->lastInsertId();
     }
 
+    public function roleByEmail(String $email): String
+    {
+        $sql = "SELECT role FROM users WHERE email = :email";
+        $user = $this->selectOne($sql, ['email' => $email]);
+        $role = $user['role'];
+
+        return $role;
+    }
+
     public function findByEmail(string $email): ?array
     {
+        // dd($email);
         $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
 
         return $this->selectOne($sql, ['email' => $email]);

@@ -84,6 +84,7 @@ class ReservationController extends BaseController
         // dd($data);
 
         if ($this->validate($data)) {
+            //* Checks if the email already exists in the database, and if it does grabs their user_id to link to the reservation
             if ($this->user_model->emailExists($data['email'])) {
                 $user = $this->user_model->findByEmail($data['email']);
                 // if email exists, grab user_id
@@ -505,12 +506,21 @@ class ReservationController extends BaseController
 
         $data['data'] = [
             'title' => 'reservations',
-            'reservation' => $reservation
+            'reservations' => $reservation
         ];
 
-        return $this->redirect($request, $response, 'reservations.index', $data);
+        return $this->redirect($request, $response, 'customer.reservations', $data);
     }
 
+    /**
+     * Summary of customerIndex
+     * This loads the reservationsView
+     * This page will load
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function customerIndex(Request $request, Response $response, array $args): Response
     {
         $user_id = SessionManager::get('user_id');
