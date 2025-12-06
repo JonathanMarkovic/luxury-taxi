@@ -529,6 +529,8 @@ class ReservationController extends BaseController
             $reservations = $this->reservation_model->fetchAllCustomerReservations($user_id);
         }
 
+        SessionManager::set('modify_mode', false);
+
         $data['data'] = [
             'title' => 'reservations',
             'reservations' => $reservations ?? []

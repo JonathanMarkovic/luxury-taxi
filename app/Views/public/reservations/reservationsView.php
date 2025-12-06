@@ -32,84 +32,87 @@ if (SessionManager::get('is_authenticated')) {
                         <p><strong>Last Name: </strong><?= $reservation['last_name'] ?></p>
                         <p><strong>Email: </strong><?= $reservation['email'] ?></p>
                         <p><strong>Phone: </strong><?= $reservation['phone'] ?></p>
-                    </div>
-
-                    <!-- Reservation Details -->
-                    <div class="col-md-4">
-                        <!-- Pickup input -->
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="pickup" name="pickup" value="<?= $reservation['pickup'] ?>" required>
-                            <label>Pickup</label>
-                        </div>
-                        <br>
-                        <!-- Dropoff input -->
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="Start" name="dropoff" value="<?= $reservation['dropoff'] ?>" required>
-                            <label>Drop-off</label>
-                        </div>
-                        <br>
-                        <div class="row g-3 mb-3">
-                            <!-- Start time input -->
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="datetime-local" class="form-control" id="start_time" name="start_time" value="<?= $reservation['start_time'] ?>">
-                                    <label for="start_time">Start Time</label>
-                                </div>
-                            </div>
-                            <!-- End time input -->
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="datetime-local" class="form-control" id="end_time" name="end_time" value="<?= $reservation['end_time'] ?>">
-                                    <label for="end_time">End Time</label>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Reservation type input -->
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-12">
-                                <label for="reservation_type" class="form-label">Reservation Type</label>
-                                <div class="form-floating">
-                                    <select name="reservation_type" id="reservation_type" class="form-select">
-                                        <option value="hourly" <?= $reservation['reservation_type'] == 'hourly' ? 'selected' : '' ?>>Hourly</option>
-                                        <option value="trip" <?= $reservation['reservation_type'] == 'trip' ? 'selected' : '' ?>>Trip</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Price -->
-                        <br>
-                        <div class="static-reservation-banner">
-                            Price
-                            <br>
-                            <?= $reservation['total_amount'] == null ? "not set" : "$ " . $reservation['total_amount'] ?>
-                        </div>
-                        <br>
-                        <!-- Payment -->
-                        <div class="static-reservation-banner">
-                            Payment Status
-                            <br>
-                            <?= $reservation['payment_status'] == null ? "pending" : $reservation['payment_status'] ?>
-                        </div>
-                        <br>
+                        <p>
+                            <strong>Reservation Status: </strong>
                         <div
-                        <?php
+                            <?php
                             if ($reservation['reservation_status'] == "pending") {
                                 echo " class='pending-reservation-banner'";
                             } elseif ($reservation['reservation_status'] == "approved") {
                                 echo " class='approved-reservation-banner'";
                             } elseif ($reservation['reservation_status'] == "cancelled") {
                                 echo " class='cancelled-reservation-banner'";
-                            }  elseif ($reservation['reservation_status'] == "completed") {
+                            } elseif ($reservation['reservation_status'] == "completed") {
                                 echo " class='completed-reservation-banner'";
-                            }  elseif ($reservation['reservation_status'] == "denied") {
+                            } elseif ($reservation['reservation_status'] == "denied") {
                                 echo " class='denied-reservation-banner'";
                             }
-                        ?>
-                        >
-                            Reservation Status
-                            <br>
+                            ?> >
                             <?= $reservation['reservation_status'] ?>
                         </div>
+                        </p>
+                    </div>
+
+                    <!-- Reservation Details -->
+                    <div class="col-md-4">
+                        <!-- Pickup input -->
+                        <form action="" method="post">
+                            <fieldset <?= SessionManager::get('modify_mode') == false ? " disabled" : "" ?>>
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="pickup" name="pickup" value="<?= $reservation['pickup'] ?>" required>
+                                    <label>Pickup</label>
+                                </div>
+                                <br>
+                                <!-- Dropoff input -->
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="Start" name="dropoff" value="<?= $reservation['dropoff'] ?>" required>
+                                    <label>Drop-off</label>
+                                </div>
+                                <br>
+                                <div class="row g-3 mb-3">
+                                    <!-- Start time input -->
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="datetime-local" class="form-control" id="start_time" name="start_time" value="<?= $reservation['start_time'] ?>">
+                                            <label for="start_time">Start Time</label>
+                                        </div>
+                                    </div>
+                                    <!-- End time input -->
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="datetime-local" class="form-control" id="end_time" name="end_time" value="<?= $reservation['end_time'] ?>">
+                                            <label for="end_time">End Time</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Reservation type input -->
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-12">
+                                        <label for="reservation_type" class="form-label">Reservation Type</label>
+                                        <div class="form-floating">
+                                            <select name="reservation_type" id="reservation_type" class="form-select">
+                                                <option value="hourly" <?= $reservation['reservation_type'] == 'hourly' ? 'selected' : '' ?>>Hourly</option>
+                                                <option value="trip" <?= $reservation['reservation_type'] == 'trip' ? 'selected' : '' ?>>Trip</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Price -->
+                                <br>
+                                <div class="static-reservation-banner">
+                                    Price
+                                    <br>
+                                    <?= $reservation['total_amount'] == null ? "not set" : "$ " . $reservation['total_amount'] ?>
+                                </div>
+                                <br>
+                                <!-- Payment -->
+                                <div class="static-reservation-banner">
+                                    Payment Status
+                                    <br>
+                                    <?= $reservation['payment_status'] == null ? "pending" : $reservation['payment_status'] ?>
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
 
 
