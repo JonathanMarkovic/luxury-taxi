@@ -623,29 +623,29 @@ footer {
 .pending-reservation-banner {
     background-color: #cd9f57;
     padding: 6px 12px;
-    border-radius: 40px;
+    border-radius: 6px;
     color: white;
     width: fit-content;
 }
 
 .approved-reservation-banner {
-    background-color: #6ea977;
+    background-color: #4ac654;
     padding: 3px 12px;
-    border-radius: 40px;
+    border-radius: 6px;
     color: white;
     width: fit-content;
 }
 
 .cancelled-reservation-banner {
-    background-color: #db5050;
+    background-color: #6c757d;
     padding: 6px 12px;
-    border-radius: 40px;
+    border-radius: 6px;
     color: white;
     width: fit-content;
 }
 
 .completed-reservation-banner {
-    background-color: #2b549a;
+    background-color: #3347fb;
     padding: 6px 12px;
     border-radius: 6px;
     color: white;
@@ -653,9 +653,9 @@ footer {
 }
 
 .denied-reservation-banner {
-    background-color: #ff3131;
+    background-color: #db5050;
     padding: 6px 12px;
-    border-radius: 40px;
+    border-radius: 6px;
     color: white;
     width: fit-content;
 }
