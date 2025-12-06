@@ -402,6 +402,9 @@ footer {
     border-radius: 6px;
 }
 
+.container{
+    min-height: 100%;
+}
 .authentication-btn:hover {
     background-color: var(--primary-gold-hover);
     transition: 0.5s;

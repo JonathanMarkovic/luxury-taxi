@@ -118,6 +118,13 @@ class ViewHelper
         require_once APP_VIEWS_PATH . '/common/customer/customerHeader.php';
     }
 
+    public static function loadCustomerLogin(string $page_title, string $current_page = ''): void
+    {
+        $page_title = $page_title ?? 'Default Title';
+        $current_page = $current_page ?? '';
+        require_once APP_VIEWS_PATH . '/common/customer/customerLogin.php';
+    }
+
     public static function loadCustomerFooter(): void
     {
         require_once APP_VIEWS_PATH . '/common/customer/customerFooter.php';
