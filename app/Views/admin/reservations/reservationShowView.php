@@ -20,9 +20,9 @@ ViewHelper::loadHeader($page_title);
             </div>
 
             <div class="col-md-3">
-                <p><strong>First Name:</strong> John</p>
-                <p><strong>Last Name:</strong> Doe</p>
-                <p><strong>Email:</strong> fahad@hotmail.com</p>
+                <p><strong>First Name:</strong>Fahad</p>
+                <p><strong>Last Name:</strong>Malik</p>
+                <p><strong>Email:</strong> fahadmalik@hotmail.com</p>
                 <p><strong>Phone:</strong> 514-157-4567</p>
             </div>
 
