@@ -138,8 +138,12 @@ ViewHelper::loadAdminHeader($page_title);
 
         <!-- Google maps, add later -->
         <div class="col-md-6">
-            <div class="border rounded p-3" style="height: 100%; min-height: 600px; background-color: #f8f9fa;">
+            <div class="border rounded p-3" style="height: 87%; min-height: 600px; background-color: #f8f9fa;" id="map">
                 <p class="text-center text-muted mt-5">Google Maps</p>
+            </div>
+            <br>
+            <div>
+                <button onclick="calculateRoute()" class="btn btn-secondary">View Direction</button>
             </div>
         </div>
     </div>
@@ -242,7 +246,118 @@ ViewHelper::loadAdminHeader($page_title);
     });
 </script>
 
+<script>
+    let map, directionService, directionRenderer;
+    let mapsLoaded = false;
+    let mapsLoading = false;
 
+    function loadGoogleMaps() {
+        return new Promise((resolve, reject) => {
+            //check if the map is loaded
+            if (typeof google !== 'undefined' && google.maps) {
+                mapsLoaded = true;
+                resolve();
+                return;
+            }
+
+            //if its currently loading
+            if (mapsLoading) {
+                const checkLoaded = setInterval(() => {
+                    if (typeof google !== 'undefined' && google.maps) {
+                        clearInterval(checkLoaded);
+                        resolve();
+                    }
+                }, 100);
+                return;
+            }
+
+            mapsLoading = true;
+
+            window.initMap = function() {
+                console.log("Google Maps API loaded successfully");
+                mapsLoaded = true;
+                mapsLoading = false;
+                resolve();
+            };
+
+            const script = document.createElement('script');
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDNMWPTWGhqZ0rJzKSSsk9EP-YUupehQfw&libraries=places&callback=initMap';
+            script.defer = true; 
+            script.onerror = (error) => {
+                console.error("Failed to load Google Maps script:", error);
+                mapsLoading = false;
+                reject(new Error("Failed to load Google Maps"));
+            };
+
+            document.head.appendChild(script);
+            console.log("Script tag added to document");
+        });
+    }
+
+    function initializeMap() {
+        console.log("Initializing map...");
+        const mapElement = document.getElementById("map");
+
+        if (!mapElement) {
+            console.error("Map element not found");
+            return;
+        }
+
+        map = new google.maps.Map(mapElement, {
+            center: { lat: 45.508888, lng: -73.561668 },
+            zoom: 12,
+        });
+
+        directionService = new google.maps.DirectionsService();
+        directionRenderer = new google.maps.DirectionsRenderer();
+        directionRenderer.setMap(map);
+        console.log("Map initialized successfully");
+    }
+
+    async function calculateRoute() {
+        console.log("calculateRoute called");
+        var source = document.getElementById("pickup").value;
+        var destination = document.getElementById("dropoff").value;
+
+        console.log("Source:", source, "Destination:", destination);
+
+        if (!source || !destination) {
+            alert("Please enter both pickup and dropoff locations");
+            return;
+        }
+
+        try {
+            console.log("Loading Google Maps...");
+            await loadGoogleMaps();
+            console.log("Google Maps loaded, checking map initialization...");
+
+            if (!map) {
+                initializeMap();
+            }
+
+            var request = {
+                origin: source,
+                destination: destination,
+                travelMode: 'DRIVING'
+            };
+
+            console.log("Requesting directions with:", request);
+            directionService.route(request, function(result, status) {
+                console.log("Directions response - Status:", status);
+                if (status == 'OK') {
+                    directionRenderer.setDirections(result);
+                    console.log("Directions rendered successfully");
+                } else {
+                    console.error("Directions failed:", status, result);
+                    alert("Could not display directions due to: " + status);
+                }
+            });
+        } catch (error) {
+            console.error("Error in calculateRoute:", error);
+            alert("Failed to load Google Maps. Error: " + error.message);
+        }
+    }
+</script>
 <?php
 ViewHelper::loadJsScripts();
 //TODO: we need to load an admin-specific footer
