@@ -106,6 +106,28 @@ class ReservationModel extends BaseModel
         return $reservation;
     }
 
+    public function fetchAllCustomerReservations($user_id): mixed
+    {
+        $sql = <<<sql
+            SELECT
+            R.*,
+            U.first_name,
+            U.last_name,
+            U.email,
+            U.phone,
+            P.total_amount,
+            P.payment_status
+            FROM reservations R
+            LEFT JOIN users U ON R.user_id = U.user_id
+            LEFT JOIN payments P ON r.reservation_id = P.reservation_id
+            WHERE R.user_id = :user_id
+        sql;
+
+        $reservations = $this->selectAll($sql, ['user_id' => $user_id]);
+        return $reservations;
+    }
+
+
     /**
      * Summary of createAndGetId
      * Creates a new reservation in the database

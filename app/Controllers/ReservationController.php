@@ -516,7 +516,7 @@ class ReservationController extends BaseController
         $user_id = SessionManager::get('user_id');
 
         if ($user_id !== null) {
-            $reservations = $this->reservation_model->fetchReservationByUserID($user_id);
+            $reservations = $this->reservation_model->fetchAllCustomerReservations($user_id);
         }
 
         $data['data'] = [

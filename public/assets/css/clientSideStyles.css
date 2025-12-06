@@ -611,3 +611,46 @@ footer {
     background-color: var(--primary-gold);
     color: var(--dark-bg);
 }
+
+/* Reservation view page */
+.static-reservation-banner {
+    background-color: var(--card-bg);
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+}
+
+.pending-reservation-banner {
+    background-color: #ffab25;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+}
+
+.approved-reservation-banner {
+    background-color: #2BA805;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+}
+
+.cancelled-reservation-banner {
+    background-color: #ff3131;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+}
+
+.completed-reservation-banner {
+    background-color: #0c2aa3;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+}
+
+.denied-reservation-banner {
+    background-color: #ff3131;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+}
