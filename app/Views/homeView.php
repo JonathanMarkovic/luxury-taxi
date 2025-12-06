@@ -21,12 +21,18 @@ $cars = $data['cars'];
 
     <section class="heroWrap">
         <div class="bookingWrap">
-            <ul class="bookingTabs">
-                <li><button class="bookingTab active">Transfer</button></li>
-                <li><button class="bookingTab">Hourly</button></li>
-            </ul>
+
 
             <form class="bookingForm" method="post" action="/reservations/store">
+                <ul class="bookingTabs">
+                    <li><button id="trip" class="bookingTab active">Trip</button></li>
+                    <li><button id="hourly" class="bookingTab">Hourly</button></li>
+                </ul>
+
+                <script>
+                    
+                </script>
+
                 <div class="bookRow">
                     <div class="bookCol">
                         <label for="first_name">First Name</label>

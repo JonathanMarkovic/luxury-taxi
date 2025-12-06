@@ -63,7 +63,7 @@ if (SessionManager::get('is_authenticated')) {
 
                         <button class="btn"
                             style="background:#0d6efd; color:white;">
-                            Pay
+                            <a class="nav-link" href="<?= APP_BASE_URL ?>/payment/<?= $reservation['reservation_id'] ?>">Pay</a>
                         </button>
 
                     </div>
