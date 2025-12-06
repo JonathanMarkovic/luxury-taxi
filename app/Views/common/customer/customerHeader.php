@@ -32,7 +32,9 @@
                         <a class="nav-link <?= $current_page === 'home' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/home">Home</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#">Information</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Find Reservation</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $current_page === 'find-reservation' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/reservations">Find Reservation</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link <?= $current_page === 'cars' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/cars">Our Cars</a>
                     </li>
