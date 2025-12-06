@@ -26,77 +26,71 @@ $cars = $data['cars'];
                 <li><button class="bookingTab">Hourly</button></li>
             </ul>
 
-            <form class="bookingForm">
+            <form class="bookingForm" method="post" action="/reservations/store">
                 <div class="bookRow">
                     <div class="bookCol">
-                        <label>First Name</label>
-                        <input type="text" class="form-control">
+                        <label for="first_name">First Name</label>
+                        <input id="first_name" name="first_name" type="text" class="form-control">
                     </div>
                     <div class="bookCol">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control">
+                        <label for="last_name">Last Name</label>
+                        <input id="last_name" name="last_name" type="text" class="form-control">
                     </div>
                 </div>
 
                 <div class="bookRow">
                     <div class="bookCol">
-                        <label>Email</label>
+                        <label for="email">Email</label>
                         <div class="inputIcon"><i class="bi bi-envelope"></i></div>
-                        <input type="email" class="form-control">
+                        <input id="email" name="email" type="email" class="form-control">
                     </div>
 
 
                     <div class="bookCol">
-                        <label>Phone</label>
+                        <label for="phone">Phone</label>
                         <div class="inputIcon"><i class="bi bi-telephone"></i></div>
-                        <input type="text" class="form-control">
+                        <input id="phone" name="phone" type="text" class="form-control">
                     </div>
                 </div>
 
                 <div class="bookRow">
                     <div class="bookCol">
-                        <label>Pickup</label>
+                        <label for="pickup">Pickup</label>
                         <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
-                        <input type="text" class="form-control">
+                        <input id="pickup" name="pickup" type="text" class="form-control">
                     </div>
 
 
                     <div class="bookCol">
-                        <label>Dropoff</label>
+                        <label for="dropoff">Dropoff</label>
                         <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
-                        <input type="text" class="form-control">
+                        <input id="dropoff" name="dropoff" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="bookRow">
+
                     <div class="bookCol">
-                        <label>Date</label>
-                        <div class="inputIcon"><i class="bi bi-calendar-event"></i></div>
-                        <input type="date" class="form-control">
+                        <label for="start_time">Start Time</label>
+                        <div class="inputIcon"><i class="bi bi-clock"></i></div>
+                        <input id="start_time" name="start_time" type="datetime-local" class="form-control">
                     </div>
 
                     <div class="bookCol">
-                        <label>Start Time</label>
+                        <label for="end_time">End Time</label>
                         <div class="inputIcon"><i class="bi bi-clock"></i></div>
-                        <input type="time" class="form-control">
-                    </div>
-
-
-                    <div class="bookCol">
-                        <label>End Time</label>
-                        <div class="inputIcon"><i class="bi bi-clock"></i></div>
-                        <input type="time" class="form-control">
+                        <input id="end_time" name="end_time" type="datetime-local" class="form-control">
                     </div>
                 </div>
 
 
                 <div class="bookRow">
                     <div class="bookFull">
-                        <label>Comments</label>
-                        <textarea class="form-control" rows="3"></textarea>
+                        <label for="comments">Comments</label>
+                        <textarea id="comments" name="comments" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
 
-                <button class="reserveBtn">Reserve</button>
+                <button class="reserveBtn" action="submit">Reserve</button>
             </form>
         </div>
     </section>

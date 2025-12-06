@@ -52,9 +52,9 @@ class ReservationModel extends BaseModel
      */
     public function fetchReservationGuest($user_email, $reservation_id): mixed
     {
-        $sql = "SELECT * FROM reservations WHERE reservation_id = $reservation_id AND user_id = (SELECT user_id FROM users WHERE email = $user_email)";
+        $sql = "SELECT * FROM reservations WHERE reservation_id = :reservation_id AND user_id = (SELECT user_id FROM users WHERE email = :user_email)";
 
-        $reservation = $this->selectOne($sql);
+        $reservation = $this->selectAll($sql, ['reservation_id' => $reservation_id, 'user_email' => $user_email]);
         return $reservation;
     }
 
@@ -77,7 +77,6 @@ class ReservationModel extends BaseModel
      * This function is meant to be used for the Admin page
      * @return array
      */
-
     public function fetchReservations(): mixed
     {
         $sql = "SELECT reservations.*, users.email FROM reservations
