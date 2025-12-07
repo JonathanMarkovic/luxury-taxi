@@ -7,7 +7,7 @@ use App\Helpers\Core\PDOService;
 // TODO: ADD VALUES TO THE DATABASE TO TEST THE MODELS
 class ReservationModel extends BaseModel
 {
-    public function __construct(PDOService $pdoservice, private PaymentModel $payment_model)
+    public function __construct(PDOService $pdoservice, private PaymentModel $payment_model, private UserModel $user_model)
     {
         parent::__construct($pdoservice);
     }
@@ -54,7 +54,22 @@ class ReservationModel extends BaseModel
     {
         $sql = "SELECT * FROM reservations WHERE reservation_id = :reservation_id AND user_id = (SELECT user_id FROM users WHERE email = :user_email)";
 
-        $reservation = $this->selectAll($sql, ['reservation_id' => $reservation_id, 'user_email' => $user_email]);
+        $user = $this->user_model->findByEmail($user_email);
+        $sql = "SELECT
+            reservations.*,
+            users.first_name,
+            users.last_name,
+            users.email,
+            users.phone,
+            payments.total_amount as total_amount,
+            payments.total_paid as total_paid,
+            payments.payment_status as payment_status
+        FROM reservations
+        JOIN users ON users.user_id = reservations.user_id
+        LEFT JOIN payments ON payments.reservation_id = reservations.reservation_id
+        WHERE reservations.reservation_id = :reservation_id";
+
+        $reservation = $this->selectAll($sql, ['reservation_id' => $reservation_id]);
         return $reservation;
     }
 
@@ -84,7 +99,6 @@ class ReservationModel extends BaseModel
         $reservations = $this->selectAll($sql);
         return $reservations;
     }
-
 
     public function fetchReservationById($reservation_id): mixed
     {
@@ -136,6 +150,13 @@ class ReservationModel extends BaseModel
     public function createAndGetId(array $data): int
     {
         $sql = "INSERT INTO reservations (user_id, start_time, end_time, pickup, dropoff, comments, reservation_type, reservation_status) VALUES (:user_id, :start_time, :end_time, :pickup, :dropoff, :comments, :reservation_type, :reservation_status)";
+
+        // $end_time = $data['end_time'] ?? null
+
+        if (empty($data['end_time'])) {
+
+            $data['end_time'] = null;
+        }
 
         $this->execute($sql, ['user_id' => $data['user_id'], 'start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type'], 'reservation_status' => 'pending']);
 

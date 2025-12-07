@@ -8,13 +8,33 @@ ViewHelper::loadCustomerHeader($page_title);
 $reservations = $data['reservations'] ?? [];
 
 ?>
+
 <?php
-if (SessionManager::get('is_authenticated')) {
+// SessionManager::destroy();
+// dd(SessionManager::get('user_role'));
+if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_role') === null) {
+?>
+    <form action="reservations" method="post">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email">
+
+        <label for="reservation_id">Reservation Number</label>
+        <input type="text" id="reservation_id" name="reservation_id">
+
+        <button action="submit">Search</button>
+    </form>
+<?php
+}
+
+if (SessionManager::get('is_authenticated') || SessionManager::get('user_role') === 'guest') {
+    // print_r(SessionManager::get('user_role'));
 ?>
     <div class="container my-5">
         <h2 class="text-center mb-4" style="color:#a6814c;"><?= $page_title ?></h2>
 
-        <?php foreach ($reservations as $key => $reservation): ?>
+        <?php foreach ($reservations as $key => $reservation):
+            // dd($reservations);
+        ?>
             <div class="reservationBox p-4"
                 style="background:#111; border:1px solid #333; border-radius:10px; color:white;">
 
@@ -116,33 +136,44 @@ if (SessionManager::get('is_authenticated')) {
                     </div>
 
                     <?php
-                        if ($reservation['reservation_status'] == "completed" || $reservation['reservation_status'] == "denied" || $reservation['reservation_status'] == "cancelled") {
-                            echo "";
-                        } else { ?>
+                    if ($reservation['reservation_status'] == "completed" || $reservation['reservation_status'] == "denied" || $reservation['reservation_status'] == "cancelled") {
+                        echo "";
+                    } else { ?>
 
-                    <div class="col-md-2 d-flex flex-column justify-content-start gap-2">
-                        <button class="btn btn-outline-light"
-                            style="background:#db5050; border: #db5050; color: white;">
-                            Cancel
-                        </button>
+                        <div class="col-md-2 d-flex flex-column justify-content-start gap-2">
+                            <button class="btn btn-outline-light"
+                                style="background:#db5050; border: #db5050; color: white;">
 
-                        <button class="btn toggle-btn"
-                            data-mode="modify"
-                            style="background:#555; color:white;"
-                            onclick="toggleEdit(this)">
-                            Modify
-                        </button>
-
-                        <?php
-                        if ($reservation['reservation_status'] === 'approved' && $reservation['payment_status'] != "paid") {
-                        ?>
-                            <button class="btn"
-                                style="background:#3347fb; color:white;">
-                                <a class="nav-link" href="<?= APP_BASE_URL ?>/payment/<?= $reservation['reservation_id'] ?>">Pay</a>
+                                <?php //TODO ADD LINK TO CANCEL RESERVATION FROM HERE
+                                ?>
+                                Cancel Reservation
                             </button>
-                        <?php } ?>
-                    </div>
-                    <?php } ?>
+
+                            <button class="btn toggle-btn"
+                                data-mode="modify"
+                                style="background:#555; color:white;"
+                                onclick="toggleEdit(this)">
+                                Modify
+                            </button>
+
+                            <?php
+                            // dd($reservation);
+                            if ($reservation['reservation_status'] === 'approved' && $reservation['payment_status'] != "paid") {
+                            ?>
+                                <button class="btn"
+                                    style="background:#3347fb; color:white;">
+                                    <a class="nav-link" href="<?= APP_BASE_URL ?>/payment/<?= $reservation['reservation_id'] ?>">Pay</a>
+                                </button>
+                            <?php } ?>
+                        </div>
+                    <?php }
+
+                    if (SessionManager::get('user_role') === 'guest') {
+                        // SessionManager::remove('user_role');
+                        SessionManager::destroy();
+                        print_r(SessionManager::get('user_role'));
+                    }
+                    ?>
 
                 </div>
 
@@ -155,7 +186,12 @@ if (SessionManager::get('is_authenticated')) {
 
 
 ?>
-    <!-- Put guest find reservation form here -->
+    <?php
+
+    //* This is the same rendering but for guests
+
+    // SessionManager::destroy();
+    ?>
 <?php
 }
 ?>

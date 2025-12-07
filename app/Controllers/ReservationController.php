@@ -264,10 +264,12 @@ class ReservationController extends BaseController
             if (empty($dropoff)) {
                 $errors[] = "Must include a dropoff location for trip reservations";
             }
+            $end_time = null;
         } elseif ($reservation_type === 'hourly') {
             if (empty($end_time)) {
                 $errors[] = "Must include an end time for hourly reservations";
             }
+            $dropoff = null;
         }
 
         // verifying pickup location
@@ -501,17 +503,23 @@ class ReservationController extends BaseController
      */
     public function guestShow(Request $request, Response $response, array $args): Response
     {
-        $guestEmail = $args['email'];
-        $reservationId = $args['reservation_id'];
+        $info = $request->getParsedBody();
+        SessionManager::set('user_role', 'guest');
+        $guestEmail = $info['email'];
+        $reservationId = $info['reservation_id'];
+
+        // dd($guestEmail);
 
         $reservation = $this->reservation_model->fetchReservationGuest($guestEmail, $reservationId);
+        // dd($reservation);
 
         $data['data'] = [
             'title' => 'reservations',
-            'reservations' => $reservation
+            'reservations' => $reservation ?? []
         ];
 
-        return $this->redirect($request, $response, 'customer.reservations', $data);
+        // dd($reservation);
+        return $this->render($response, 'public/reservations/reservationsView.php', $data);
     }
 
     /**
@@ -526,6 +534,10 @@ class ReservationController extends BaseController
     public function customerIndex(Request $request, Response $response, array $args): Response
     {
         $user_id = SessionManager::get('user_id');
+        if (sizeof($args) > 0) {
+            print_r("Testing");
+            dd($args);
+        }
 
         if ($user_id !== null) {
             $reservations = $this->reservation_model->fetchAllCustomerReservations($user_id);
