@@ -511,10 +511,11 @@ class ReservationController extends BaseController
 
         $data['data'] = [
             'title' => 'reservations',
-            'reservations' => $reservation
+            'reservations' => $reservation ?? []
         ];
-        dd($reservation);
-        return $this->redirect($request, $response, 'customer.reservations', $data);
+
+        // dd($reservation);
+        return $this->render($response, 'public/reservations/reservationsView.php', $data);
     }
 
     /**
@@ -529,6 +530,10 @@ class ReservationController extends BaseController
     public function customerIndex(Request $request, Response $response, array $args): Response
     {
         $user_id = SessionManager::get('user_id');
+        if (sizeof($args) > 0) {
+            print_r("Testing");
+            dd($args);
+        }
 
         if ($user_id !== null) {
             $reservations = $this->reservation_model->fetchAllCustomerReservations($user_id);
