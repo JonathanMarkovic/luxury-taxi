@@ -110,14 +110,14 @@ use App\Helpers\FlashMessage;
             <?php if (!in_array($reservation['reservation_status'], ['completed', 'denied', 'cancelled'])) { ?>
                 <!-- Cancel Button -->
                 <button class="btn"
-                    style="background:#db5050; border: #db5050; color: white;" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $reservation['reservation_id'] ?>">
+                    style="background:#471C1C; border: #471C1C; color: white;" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $reservation['reservation_id'] ?>">
                     Cancel Reservation
                 </button>
 
                 <!-- Modify Button -->
                 <button class="btn toggle-btn"
                     data-mode="modify"
-                    style="background:#555; color:white;"
+                    style="background:#B18852; color:white;"
                     onclick="toggleEdit(this)">
                     Modify Reservation
                 </button>
@@ -126,7 +126,7 @@ use App\Helpers\FlashMessage;
             ?>
 
             <?php if ($reservation['reservation_status'] === 'approved' && $reservation['payment_status'] !== "paid") { ?>
-                <button class="btn" style="background:#3347fb; color:white;">
+                <button class="btn" style="background:#294087; color:white;">
                     <a class="nav-link" href="<?= APP_BASE_URL ?>/payment/<?= $reservation['reservation_id'] ?>">
                         Pay
                     </a>
