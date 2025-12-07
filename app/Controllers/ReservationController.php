@@ -262,10 +262,12 @@ class ReservationController extends BaseController
             if (empty($dropoff)) {
                 $errors[] = "Must include a dropoff location for trip reservations";
             }
+            $end_time = null;
         } elseif ($reservation_type === 'hourly') {
             if (empty($end_time)) {
                 $errors[] = "Must include an end time for hourly reservations";
             }
+            $dropoff = null;
         }
 
         // verifying pickup location

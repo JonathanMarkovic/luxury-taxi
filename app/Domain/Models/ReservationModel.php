@@ -100,7 +100,6 @@ class ReservationModel extends BaseModel
         return $reservations;
     }
 
-
     public function fetchReservationById($reservation_id): mixed
     {
         $sql = "SELECT
@@ -151,6 +150,13 @@ class ReservationModel extends BaseModel
     public function createAndGetId(array $data): int
     {
         $sql = "INSERT INTO reservations (user_id, start_time, end_time, pickup, dropoff, comments, reservation_type, reservation_status) VALUES (:user_id, :start_time, :end_time, :pickup, :dropoff, :comments, :reservation_type, :reservation_status)";
+
+        // $end_time = $data['end_time'] ?? null
+
+        if (empty($data['end_time'])) {
+
+            $data['end_time'] = null;
+        }
 
         $this->execute($sql, ['user_id' => $data['user_id'], 'start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type'], 'reservation_status' => 'pending']);
 

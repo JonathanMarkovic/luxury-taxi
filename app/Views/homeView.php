@@ -23,7 +23,7 @@ $cars = $data['cars'];
         <div class="bookingWrap">
 
 
-            <form class="bookingForm" method="post" action="/reservations/store">
+            <form class="bookingForm" method="post" action="<?= APP_USER_URL ?>/reservations/store">
                 <ul class="bookingTabs">
                     <li><button id="trip" class="bookingTab active">Trip</button></li>
                     <li><button id="hourly" class="bookingTab">Hourly</button></li>
