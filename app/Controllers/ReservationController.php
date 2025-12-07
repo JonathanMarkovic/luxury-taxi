@@ -136,6 +136,16 @@ class ReservationController extends BaseController
         return $this->redirect($request, $response, 'reservations.index');
     }
 
+    public function cancel(Request $request, Response $response, array $args) : Response {
+        $reservation_id = $args['reservation_id'];
+
+        if (is_numeric($reservation_id)) {
+            $this->reservation_model->cancelReservation($reservation_id);
+        }
+
+        return $this->redirect($request, $response, 'customer.reservations');
+    }
+
     /**
      * Summary of update
      * Extracts and validates the user inputs before
@@ -595,6 +605,7 @@ class ReservationController extends BaseController
         $formData = $request->getParsedBody();
 
         $errors = [];
+        $reservation_id = $args['reservation_id'];
 
         // Extract each field
         $newPickup = $formData['pickup'];
@@ -640,9 +651,12 @@ class ReservationController extends BaseController
                 'reservation_type' => $newReservationType
             ];
 
-            $this->reservation_model->updateCustomerReservation($reservationData);
+            $this->reservation_model->updateCustomerReservation($reservation_id, $reservationData);
 
             FlashMessage::success("Successfully updated reservation!");
+
+            // reset modify_mode after saving
+            SessionManager::set('modify_mode', false);
 
             return $this->redirect($request, $response, 'customer.reservations');
         } catch (\Exception $e) {

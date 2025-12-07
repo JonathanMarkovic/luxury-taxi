@@ -45,6 +45,7 @@ return static function (Slim\App $app): void {
         $group->post('/reservations/edit/{reservation_id}', [ReservationController::class, 'updateCustomerReservation']);
         $group->get('reservations/edit/{reservation_id}', [ReservationController::class, 'editCustomerReservation']);
         $group->post('/reservations/store', [ReservationController::class, 'store']);
+        $group->get('/reservations/cancel/{reservation_id}', [ReservationController::class, 'cancel'])->setName('reservation.cancel');
     });
 
     // Admin Routes

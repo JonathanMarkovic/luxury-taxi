@@ -185,9 +185,11 @@ class ReservationModel extends BaseModel
      */
     public function cancelReservation($reservation_id): int
     {
-        $sql = "UPDATE reservations
-                SET reservation_status = cancelled
-                WHERE reservation_id = :reservation_id";
+        $sql = <<<sql
+            UPDATE reservations
+                SET reservation_status = "cancelled"
+                WHERE reservation_id = :reservation_id
+        sql;
         return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
 
@@ -272,15 +274,25 @@ class ReservationModel extends BaseModel
         ]);
     }
 
-    public function updateCustomerReservation($reservation_id) {
+    public function updateCustomerReservation($reservation_id, array $data) {
         $sql = <<<sql
             UPDATE reservations
             SET
-            pickup = :pickup,
-            dropoff = :dropoff,
-            start_time = :start_time,
-            end_time = :end_time,
-            reservation_type = :reservation_type
+                pickup = :pickup,
+                dropoff = :dropoff,
+                start_time = :start_time,
+                end_time = :end_time,
+                reservation_type = :reservation_type
+            WHERE reservation_id = :reservation_id
         sql;
+
+        return $this->execute($sql, [
+            'pickup' => $data['pickup'],
+            'dropoff' => $data['dropoff'],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            'reservation_type' => $data['reservation_type'],
+            'reservation_id' => $reservation_id
+        ]);
     }
 }
