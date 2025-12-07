@@ -250,4 +250,16 @@ class ReservationModel extends BaseModel
             'reservation_id' => $reservation_id
         ]);
     }
+
+    public function updateCustomerReservation($reservation_id) {
+        $sql = <<<sql
+            UPDATE reservations
+            SET
+            pickup = :pickup,
+            dropoff = :dropoff,
+            start_time = :start_time,
+            end_time = :end_time,
+            reservation_type = :reservation_type
+        sql;
+    }
 }

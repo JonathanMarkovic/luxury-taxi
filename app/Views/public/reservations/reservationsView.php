@@ -56,7 +56,7 @@ if (SessionManager::get('is_authenticated')) {
                     <!-- Reservation Details -->
                     <div class="col-md-4">
                         <!-- Pickup input -->
-                        <form action="" method="post">
+                        <form action="<?= APP_USER_URL ?>/reservations/edit/<?= $reservation['reservation_id'] ?>" method="post">
                             <fieldset id="fieldset_<?= $reservation['reservation_id'] ?>" <?= SessionManager::get('modify_mode') == false ? " disabled" : " " ?>>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="pickup" name="pickup" value="<?= $reservation['pickup'] ?>" required>

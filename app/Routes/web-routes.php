@@ -42,6 +42,8 @@ return static function (Slim\App $app): void {
         //*This route will handle the guest reservation search
         $group->post('/reservations', [ReservationController::class, 'guestShow'])->setName('guest.reservation');
         $group->get('/reservations', [ReservationController::class, 'customerIndex'])->setName('customer.reservations');
+        $group->post('/reservations/edit/{reservation_id}', [ReservationController::class, 'updateCustomerReservation']);
+        $group->get('reservations/edit/{reservation_id}', [ReservationController::class, 'editCustomerReservation']);
     });
 
     // Admin Routes
@@ -52,7 +54,7 @@ return static function (Slim\App $app): void {
         $group->get('/cars', [CarsController::class, 'index'])->setName('cars.index');
         $group->get('/cars/create', [CarsController::class, 'create'])->setName('cars.create');
         $group->post('/cars/store', [CarsController::class, 'store'])->setName('cars.store');
-        $group->post('/cars/delete/{cars_id}', [CarsController::class, 'delete'])->setName('cars.delete');
+        $group->get('/cars/delete/{cars_id}', [CarsController::class, 'delete'])->setName('cars.delete');
         $group->get('/cars/edit/{cars_id}', [CarsController::class, 'edit'])->setName('cars.edit');
         $group->post('/cars/update/{cars_id}', [CarsController::class, 'update'])->setName('cars.update');
 

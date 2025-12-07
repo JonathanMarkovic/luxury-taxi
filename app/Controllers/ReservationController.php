@@ -11,6 +11,8 @@ use App\Helpers\SessionManager;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Controllers\DateTime;
+use DateTime as GlobalDateTime;
 
 class ReservationController extends BaseController
 {
@@ -552,5 +554,91 @@ class ReservationController extends BaseController
         $user_id = SessionManager::get('user_id');
 
         return $this->render($response, 'public/reservations/reservationsView.php');
+    }
+
+    public function editCustomerReservation(Request $request, Response $response, array $args): Response
+    {
+        $reservationId = $args['reservation_id'];
+
+        // Fetch the reservation by ID
+        $reservation = $this->reservation_model->fetchReservationById($reservationId);
+
+        if (!$reservation) {
+            FlashMessage::error("Reservation not found.");
+            return $this->redirect($request, $response, 'customer.reservations');
+        }
+
+        // Put data in session so form can reload pre-filled
+        SessionManager::set("modify_mode", true);
+        SessionManager::set("edit_reservation", $reservation);
+
+        // Redirect back to the booking page (where form will be pre-filled)
+        return $this->redirect($request, $response, 'customer.reservations');
+    }
+
+
+    public function updateCustomerReservation(Request $request, Response $response, array $args): Response
+    {
+        // Get form data
+        $formData = $request->getParsedBody();
+
+        $errors = [];
+
+        // Extract each field
+        $newPickup = $formData['pickup'];
+        $newDropoff = $formData['dropoff'];
+        $newStartTime = $formData['start_time'];
+        $newEndTime = $formData['end_time'];
+        $newReservationType = $formData['reservation_type'];
+
+        if (empty($newPickup)) {
+            $errors[] = "Please fill in Pickup field.";
+        }
+
+        if (empty($newDropoff)) {
+            $errors[] = "Please fill in Drop-off field.";
+        }
+
+        if (empty($newStartTime)) {
+            $errors[] = "Please fill in Start Time field.";
+        }
+
+        if (empty($newEndTime)) {
+            $errors[] = "Please fill in End Time field.";
+        }
+
+        if (empty($newReservationType)) {
+            $errors[] = "Please select a reservation type.";
+        }
+
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                FlashMessage::error($error);
+                return $this->redirect($request, $response, 'customer.reservations');
+            }
+        }
+
+        // If validation passes, update the reservation
+        try {
+            $reservationData = [
+                'pickup' => $newPickup,
+                'dropoff' => $newDropoff,
+                'start_time' => $newStartTime,
+                'end_time' => $newEndTime,
+                'reservation_type' => $newReservationType
+            ];
+
+            $this->reservation_model->updateCustomerReservation($reservationData);
+
+            FlashMessage::success("Successfully updated reservation!");
+
+            return $this->redirect($request, $response, 'customer.reservations');
+        } catch (\Exception $e) {
+            // Display error message using FlashMessage::error()
+            FlashMessage::error("Updating reservation failed. Please try again.");
+
+            // Redirect back to 'customer.reservations' route
+            return $this->redirect($request, $response, 'customer.reservations');
+        }
     }
 }
