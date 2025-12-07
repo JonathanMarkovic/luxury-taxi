@@ -100,7 +100,6 @@ class ReservationModel extends BaseModel
         return $reservations;
     }
 
-
     public function fetchReservationById($reservation_id): mixed
     {
         $sql = "SELECT
@@ -152,6 +151,13 @@ class ReservationModel extends BaseModel
     {
         $sql = "INSERT INTO reservations (user_id, start_time, end_time, pickup, dropoff, comments, reservation_type, reservation_status) VALUES (:user_id, :start_time, :end_time, :pickup, :dropoff, :comments, :reservation_type, :reservation_status)";
 
+        // $end_time = $data['end_time'] ?? null
+
+        if (empty($data['end_time'])) {
+
+            $data['end_time'] = null;
+        }
+
         $this->execute($sql, ['user_id' => $data['user_id'], 'start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'pickup' => $data['pickup'], 'dropoff' => $data['dropoff'], 'comments' => $data['comments'], 'reservation_type' => $data['reservation_type'], 'reservation_status' => 'pending']);
 
         $last_id = $this->pdo->lastInsertId();
@@ -179,9 +185,11 @@ class ReservationModel extends BaseModel
      */
     public function cancelReservation($reservation_id): int
     {
-        $sql = "UPDATE reservations
-                SET reservation_status = cancelled
-                WHERE reservation_id = :reservation_id";
+        $sql = <<<sql
+            UPDATE reservations
+                SET reservation_status = "cancelled"
+                WHERE reservation_id = :reservation_id
+        sql;
         return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
 
@@ -262,6 +270,28 @@ class ReservationModel extends BaseModel
 
         return $this->execute($sql, [
             'status' => $status,
+            'reservation_id' => $reservation_id
+        ]);
+    }
+
+    public function updateCustomerReservation($reservation_id, array $data) {
+        $sql = <<<sql
+            UPDATE reservations
+            SET
+                pickup = :pickup,
+                dropoff = :dropoff,
+                start_time = :start_time,
+                end_time = :end_time,
+                reservation_type = :reservation_type
+            WHERE reservation_id = :reservation_id
+        sql;
+
+        return $this->execute($sql, [
+            'pickup' => $data['pickup'],
+            'dropoff' => $data['dropoff'],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            'reservation_type' => $data['reservation_type'],
             'reservation_id' => $reservation_id
         ]);
     }

@@ -204,11 +204,10 @@ class AuthController extends BaseController
         // dd($reservations);
         // SessionManager::set('reservations', $reservations);
 
-        // Display success message using FlashMessage::success()
-        FlashMessage::success("Welcome back, {$user['first_name']}!");
-
         // Redirect based on role:
         if ($user['role'] === 'admin') {
+            // Display success message using FlashMessage::success()
+            FlashMessage::success("Welcome back, {$user['first_name']}!");
             return $this->redirect($request, $response, 'admin.dashboard');
         } else {
             // return $this->redirect($request, $response, 'user.dashboard');

@@ -78,7 +78,7 @@ if (SessionManager::get('is_authenticated') || SessionManager::get('user_role') 
                     <!-- Reservation Details -->
                     <div class="col-md-4">
                         <!-- Pickup input -->
-                        <form action="" method="post">
+                        <form action="<?= APP_USER_URL ?>/reservations/edit/<?= $reservation['reservation_id'] ?>" method="post">
                             <fieldset id="fieldset_<?= $reservation['reservation_id'] ?>" <?= SessionManager::get('modify_mode') == false ? " disabled" : " " ?>>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="pickup" name="pickup" value="<?= $reservation['pickup'] ?>" required>
@@ -145,10 +145,7 @@ if (SessionManager::get('is_authenticated') || SessionManager::get('user_role') 
                         <div class="col-md-2 d-flex flex-column justify-content-start gap-2">
                             <button class="btn btn-outline-light"
                                 style="background:#db5050; border: #db5050; color: white;">
-
-                                <?php //TODO ADD LINK TO CANCEL RESERVATION FROM HERE
-                                ?>
-                                Cancel Reservation
+                                <a class="nav-link" href="<?= APP_USER_URL ?>/reservations/cancel/<?= $reservation['reservation_id'] ?>">Cancel Reservation</a>
                             </button>
 
                             <button class="btn toggle-btn"

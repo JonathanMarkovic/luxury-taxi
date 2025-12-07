@@ -48,7 +48,7 @@ class AdminAuthMiddleware implements MiddlewareInterface
         }
 
         // If authenticated AND admin, continue to admin route
-        FlashMessage::success("Admin login successful.");
+        // FlashMessage::success("Admin login successful.");
 
         return $handler->handle($request);
     }
