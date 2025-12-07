@@ -66,33 +66,30 @@ footer {
 /* Hero Section */
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url("header.jpg")
-            center/cover;
+        url("header.jpg") center/cover;
     text-align: center;
     width: 100%;
     height: 24vh;
-   display: grid;
-  place-items: center;
+    display: grid;
+    place-items: center;
 }
 
 .hero-section1 {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url("header1.jpg")
-            center/cover;
+        url("header1.jpg") center/cover;
     text-align: center;
     width: 100%;
     height: 15vh;
-   display: grid;
-  place-items: center;
+    display: grid;
+    place-items: center;
 }
 
 .hero-content {
     background-color: rgba(166, 129, 76, 0.9);
-padding: 30px;
+    padding: 30px;
     max-width: 900px;
     margin: 0 auto;
     border-radius: 10px;
-
 }
 
 .hero-content h1 {
@@ -125,18 +122,18 @@ padding: 30px;
 
 /* .car-card:hover {
     /* border-color: var(--primary-gold); */
-    /* box-shadow: 1px 1px 15px var(--primary-gold);
+/* box-shadow: 1px 1px 15px var(--primary-gold);
 } */
 
 .car-carousel {
     position: relative;
-     height: 300px;  /* adds a space for carousel index */
+    height: 300px; /* adds a space for carousel index */
     background-color: #1a1a1a;
 }
 
 /* Cars section */
-.col{
-    height:90vh;
+.col {
+    height: 90vh;
     padding: 40px;
 }
 
@@ -146,15 +143,13 @@ padding: 30px;
     /* background: linear-gradient(#c19763, #8a673f); */
 }
 
-
 .carsRow {
     display: flex;
     justify-content: center;
-
 }
-.car-detail-item{
-    font-size:1.9rem;
-    padding-bottom:20px;
+.car-detail-item {
+    font-size: 1.9rem;
+    padding-bottom: 20px;
 }
 .carBox {
     width: 250px;
@@ -204,11 +199,11 @@ padding: 30px;
     height: 100%;
 }
 .custom-line {
-  border: none;
-  height: 4px;
-  background-color: var(--primary-gold);
-  width: 100%;
-  margin: 20px 0;
+    border: none;
+    height: 4px;
+    background-color: var(--primary-gold);
+    width: 100%;
+    margin: 20px 0;
 }
 .car-title {
     font-size: 2.3rem;
@@ -216,9 +211,8 @@ padding: 30px;
     margin-bottom: 1rem;
     color: white;
     text-align: center;
-    padding-top:5px;
+    padding-top: 5px;
 }
-
 
 .car-carousel {
     height: 600px;
@@ -285,7 +279,7 @@ padding: 30px;
     text-decoration: none;
     display: block;
     margin-bottom: 0.5rem;
-    width: 200px;
+    width: 250px;
 }
 
 .footer-section a:hover {
@@ -403,7 +397,7 @@ padding: 30px;
 /* Change icon to + and - */
 .accordion-button::after {
     background-image: none;
-    content: '+';
+    content: "+";
     font-size: 2rem;
     color: #a6814c;
     font-weight: 300;
@@ -413,7 +407,7 @@ padding: 30px;
 }
 
 .accordion-button:not(.collapsed)::after {
-    content: '−';
+    content: "−";
     transform: none;
     color: #a6814c;
 }
@@ -478,9 +472,6 @@ padding: 30px;
     border-radius: 6px;
 }
 
-.container{
-    min-height: 100%;
-}
 .authentication-btn:hover {
     background-color: var(--primary-gold-hover);
     transition: 0.5s;
@@ -500,11 +491,10 @@ padding: 30px;
     justify-content: center;
 } */
 
-
 /* Hero wrap and booking form*/
 
 .heroWrap {
-    background: url('/uploads/images/car19.jpg') center/cover no-repeat;
+    background: url("/uploads/images/car19.jpg") center/cover no-repeat;
     padding: 70px 0;
     display: flex;
     justify-content: center;
@@ -563,10 +553,7 @@ padding: 30px;
     margin-left: 8px;
     margin-top: 8px;
     color: #555;
-
 }
-
-
 
 .form-control {
     padding-left: 30px;
@@ -592,15 +579,12 @@ padding: 30px;
     gap: 30px;
 }
 
-
-
 /* Left Image = car21 */
 .aboutImgLeft img {
     width: 500px;
     border: 3px solid #007bff;
-    content: url('/uploads/images/car21.jpg');
+    content: url("/uploads/images/car21.jpg");
 }
-
 
 .aboutText {
     max-width: 450px;
@@ -646,8 +630,6 @@ padding: 30px;
     margin-bottom: 10px;
     color: #a6814c;
 }
-
-
 
 /* Reservation view page */
 .static-reservation-banner {
@@ -730,6 +712,7 @@ padding: 30px;
     width: 400px;
     padding: 6px 20px;
     border-radius: 40px;
+    border: 1px solid white;
 }
 
 .find-reservation-input:focus {
@@ -738,4 +721,10 @@ padding: 30px;
 
 .modal-content {
     color: black;
+}
+
+.hero-and-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

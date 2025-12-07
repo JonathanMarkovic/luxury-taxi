@@ -24,24 +24,25 @@ $is_customer = ($is_auth === true && $user_role !== 'guest');
 if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_role') === null) {
 ?>
     <!-- Guest hero section -->
-    <section class="hero-section1">
-        <div class="hero-content">
-            <h1>Find your Reservation</h1>
-            <p>Enter your booking details below to quickly find and manage your reservation.</p>
+    <div class="hero-and-form">
+        <section class="hero-section1">
+            <div class="hero-content">
+                <h1>Find your Reservation</h1>
+                <p>Enter your booking details below to quickly find and manage your reservation.</p>
+            </div>
+        </section>
+        <div class="page-content">
+            <form action="reservations" method="post" class="d-flex flex-column align-items-center gap-3">
+                <div class="mb-3">
+                    <input type="text" id="email" name="email" placeholder="Email Address" class="find-reservation-input">
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="reservation_id" name="reservation_id" placeholder="Confirmation Number" class="find-reservation-input">
+                </div>
+                <button action="submit" class="all-cars-link">Search</button>
+            </form>
         </div>
-    </section>
-
-    <center>
-        <form action="reservations" method="post">
-            <div class="mb-3">
-                <input type="text" id="email" name="email" placeholder="Email Address" class="find-reservation-input">
-            </div>
-            <div class="mb-3">
-                <input type="text" id="reservation_id" name="reservation_id" placeholder="Confirmation Number" class="find-reservation-input">
-            </div>
-            <button action="submit" class="all-cars-link">Search</button>
-        </form>
-    </center>
+    </div>
 
 <?php
 } else { ?>
