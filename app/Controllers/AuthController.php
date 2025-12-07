@@ -199,6 +199,8 @@ class AuthController extends BaseController
         SessionManager::set('user_name', $user['first_name'] . ' ' . $user['last_name']);
         SessionManager::set('user_role', $user['role']);
         SessionManager::set('is_authenticated', true);
+        SessionManager::set('first_name', $user['first_name']);
+        SessionManager::set('last_name', $user['last_name']);
 
         // $reservations = $this->reservationModel->fetchReservationByUserID($user['user_id']);
         // dd($reservations);

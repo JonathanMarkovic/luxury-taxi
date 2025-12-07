@@ -113,7 +113,11 @@ class ReservationController extends BaseController
         //     echo 'email not sent';
         // }
 
-        return $this->redirect($request, $response, 'reservations.index');
+        if (SessionManager::get('role') === 'admin') {
+            return $this->redirect($request, $response, 'reservations.index');
+        } else {
+            return $this->redirect($request, $response, 'customer.reservations');
+        }
     }
 
     /**
@@ -136,7 +140,8 @@ class ReservationController extends BaseController
         return $this->redirect($request, $response, 'reservations.index');
     }
 
-    public function cancel(Request $request, Response $response, array $args) : Response {
+    public function cancel(Request $request, Response $response, array $args): Response
+    {
         $reservation_id = $args['reservation_id'];
 
         if (is_numeric($reservation_id)) {

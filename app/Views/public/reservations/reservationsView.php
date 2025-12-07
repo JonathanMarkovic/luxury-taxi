@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\FlashMessage;
 use App\Helpers\SessionManager;
 use App\Helpers\ViewHelper;
 
@@ -54,6 +55,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     </section>
 <?php } ?>
 
+<?= FlashMessage::render() ?>
 <!-- Reservation list (shared for guest and customer) -->
 <?php if (!empty($reservations)) { ?>
     <div class="container my-5">
@@ -64,37 +66,37 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     </div>
 <?php } ?>
 
-    <script>
-        function toggleEdit(button) {
-            const box = button.closest('.reservationBox');
-            const fieldset = box.querySelector('fieldset');
-            const form = box.querySelector('form');
+<script>
+    function toggleEdit(button) {
+        const box = button.closest('.reservationBox');
+        const fieldset = box.querySelector('fieldset');
+        const form = box.querySelector('form');
 
-            let mode = button.getAttribute("data-mode");
+        let mode = button.getAttribute("data-mode");
 
-            if (mode === "modify") {
-                // Switch to edit mode with Save button
-                fieldset.disabled = false;
-                button.innerText = "Save";
-                button.style.background = "#4ac654";
-                button.setAttribute("data-mode", "save");
+        if (mode === "modify") {
+            // Switch to edit mode with Save button
+            fieldset.disabled = false;
+            button.innerText = "Save";
+            button.style.background = "#4ac654";
+            button.setAttribute("data-mode", "save");
 
-            } else {
-                // Submit form if there are changes and switch back to Modify button
-                form.submit();
+        } else {
+            // Submit form if there are changes and switch back to Modify button
+            form.submit();
 
-                // After form submits, page reloads so this won't run.
-                // But in case you want it without reload:
-                fieldset.disabled = true;
-                button.innerText = "Modify";
-                button.style.background = "#555";
-                button.setAttribute("data-mode", "modify");
-            }
+            // After form submits, page reloads so this won't run.
+            // But in case you want it without reload:
+            fieldset.disabled = true;
+            button.innerText = "Modify";
+            button.style.background = "#555";
+            button.setAttribute("data-mode", "modify");
         }
-    </script>
+    }
+</script>
 
 
 
-    <?php
-    ViewHelper::loadCustomerFooter();
-    ?>
+<?php
+ViewHelper::loadCustomerFooter();
+?>
