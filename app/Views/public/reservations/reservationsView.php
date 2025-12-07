@@ -49,13 +49,12 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     <!-- Customer hero section -->
     <section class="hero-section1">
         <div class="hero-content">
-            <h1>All Reservations</h1>
+            <h1>View Reservations</h1>
             <p>Easily and efficiently view and manage all your bookings.</p>
         </div>
     </section>
 <?php } ?>
 
-<?= FlashMessage::render() ?>
 <!-- Reservation list (shared for guest and customer) -->
 <?php if (!empty($reservations)) { ?>
     <div class="container my-5">
