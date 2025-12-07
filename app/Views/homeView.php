@@ -1,12 +1,19 @@
 <?php
 
 use App\Helpers\FlashMessage;
+use App\Helpers\SessionManager;
 use App\Helpers\ViewHelper;
 //TODO: set the page title dynamically based on the view being rendered in the controller.
 $page_title = 'Home';
 ViewHelper::loadCustomerHeader($page_title, 'home');
 $cars = $data['cars'];
 // dd($cars);
+
+$first_name = SessionManager::get('first_name') ?? '';
+$last_name = SessionManager::get('last_name') ?? '';
+$email = SessionManager::get('user_email') ?? '';
+// dd(SessionManager::get('email'));
+$phone = SessionManager::get('user_phone') ?? '';
 ?>
 <div class="page-content">
     <?= FlashMessage::render() ?>
@@ -25,22 +32,50 @@ $cars = $data['cars'];
 
             <form class="bookingForm" method="post" action="<?= APP_USER_URL ?>/reservations/store">
                 <ul class="bookingTabs">
-                    <li><button id="trip" class="bookingTab active">Trip</button></li>
-                    <li><button id="hourly" class="bookingTab">Hourly</button></li>
+                    <li><button type="button" id="trip" class="bookingTab active">Trip</button></li>
+                    <li><button type="button" id="hourly" class="bookingTab">Hourly</button></li>
+                    <input type="hidden" id="reservation_type" name="reservation_type" value="trip">
                 </ul>
 
                 <script>
+                    document.addEventListener('DOMContentLoaded', initializeButtons);
 
+
+                    function initializeButtons() {
+                        const tripButton = document.getElementById('trip');
+                        const hourlyButton = document.getElementById('hourly');
+                        const reservation_type = document.getElementById('reservation_type');
+                        const dropoffField = document.getElementById('dropoff');
+                        const end_timeField = document.getElementById('end_time');
+
+                        tripButton.addEventListener('click', function() {
+                            tripButton.className = 'bookingTab active';
+                            hourlyButton.className = 'bookingTab';
+
+                            reservation_type.value = 'trip';
+                            end_timeField.disabled = true;
+                            dropoffField.disabled = false;
+                        });
+
+                        hourlyButton.addEventListener('click', function() {
+                            hourlyButton.className = 'bookingTab active';
+                            tripButton.className = 'bookingTab';
+
+                            reservation_type.value = 'hourly';
+                            end_timeField.disabled = false;
+                            dropoffField.disabled = true;
+                        });
+                    }
                 </script>
 
                 <div class="bookRow">
                     <div class="bookCol">
                         <label for="first_name">First Name</label>
-                        <input id="first_name" name="first_name" type="text" class="form-control">
+                        <input id="first_name" name="first_name" type="text" class="form-control" value="<?= $first_name ?>">
                     </div>
                     <div class="bookCol">
                         <label for="last_name">Last Name</label>
-                        <input id="last_name" name="last_name" type="text" class="form-control">
+                        <input id="last_name" name="last_name" type="text" class="form-control" value="<?= $last_name ?>">
                     </div>
                 </div>
 
@@ -48,14 +83,14 @@ $cars = $data['cars'];
                     <div class="bookCol">
                         <label for="email">Email</label>
                         <div class="inputIcon"><i class="bi bi-envelope"></i></div>
-                        <input id="email" name="email" type="email" class="form-control">
+                        <input id="email" name="email" type="email" class="form-control" value="<?= $email ?>">
                     </div>
 
 
                     <div class="bookCol">
                         <label for="phone">Phone</label>
                         <div class="inputIcon"><i class="bi bi-telephone"></i></div>
-                        <input id="phone" name="phone" type="text" class="form-control">
+                        <input id="phone" name="phone" type="text" class="form-control" value="<?= $phone ?>">
                     </div>
                 </div>
 
@@ -84,7 +119,7 @@ $cars = $data['cars'];
                     <div class="bookCol">
                         <label for="end_time">End Time</label>
                         <div class="inputIcon"><i class="bi bi-clock"></i></div>
-                        <input id="end_time" name="end_time" type="datetime-local" class="form-control">
+                        <input id="end_time" name="end_time" type="datetime-local" class="form-control" disabled="true">
                     </div>
                 </div>
 
@@ -139,7 +174,7 @@ $cars = $data['cars'];
                     <div class="car-card">
                         <!-- Carousel -->
                         <?php if (!empty($car['images'])): ?>
-                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel"  style="height: 600px; display: flex;
+                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" style="height: 600px; display: flex;
   align-items: center;
   justify-content: center;">
                                 <div class="carousel-indicators">
@@ -180,28 +215,28 @@ $cars = $data['cars'];
 
                         <!-- Card Body -->
                         <div class="car-card-body">
-                        <h3 class="car-title"><?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' ' . $car['year']) ?></h3>
-                        <p class="card-details">
-                        <hr class="custom-line">
+                            <h3 class="car-title"><?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' ' . $car['year']) ?></h3>
+                            <p class="card-details">
+                                <hr class="custom-line">
 
-                        <div class="car-detail-item">
-                            <span class="car-detail-label">Model:</span>
-                            <span class="car-detail-value"><?= htmlspecialchars($car['model']) ?></span>
+                            <div class="car-detail-item">
+                                <span class="car-detail-label">Model:</span>
+                                <span class="car-detail-value"><?= htmlspecialchars($car['model']) ?></span>
+                            </div>
+                            <div class="car-detail-item">
+                                <span class="car-detail-label">Year:</span>
+                                <span class="car-detail-value"><?= htmlspecialchars($car['year']) ?></span>
+                            </div>
+                            <div class="car-detail-item">
+                                <span class="car-detail-label">Capacity:</span>
+                                <span class="car-detail-value"><?= htmlspecialchars($car['capacity']) ?></span>
+                            </div>
+                            <div class="car-detail-item">
+                                <span class="car-detail-label">Average Price:</span>
+                                <span class="car-detail-value">$ <?= htmlspecialchars($car['approx_price']) ?> / hour</span>
+                            </div>
+                            </p>
                         </div>
-                        <div class="car-detail-item">
-                            <span class="car-detail-label">Year:</span>
-                            <span class="car-detail-value"><?= htmlspecialchars($car['year'])?></span>
-                        </div>
-                        <div class="car-detail-item">
-                            <span class="car-detail-label">Capacity:</span>
-                            <span class="car-detail-value"><?= htmlspecialchars($car['capacity']) ?></span>
-                        </div>
-                        <div class="car-detail-item">
-                            <span class="car-detail-label">Average Price:</span>
-                            <span class="car-detail-value">$ <?= htmlspecialchars($car['approx_price'])?> / hour</span>
-                        </div>
-                        </p>
-                    </div>
                     </div>
                 </div>
             <?php endforeach; ?>

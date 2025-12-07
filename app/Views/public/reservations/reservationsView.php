@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\FlashMessage;
 use App\Helpers\SessionManager;
 use App\Helpers\ViewHelper;
 
@@ -53,6 +54,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     </section>
 <?php } ?>
 
+<?= FlashMessage::render() ?>
 <!-- Reservation list (shared for guest and customer) -->
 <?php if (!empty($reservations)) { ?>
     <div class="container my-5">
