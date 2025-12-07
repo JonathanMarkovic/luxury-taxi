@@ -144,8 +144,6 @@ if (SessionManager::get('is_authenticated') || SessionManager::get('user_role') 
                             <button class="btn btn-outline-light"
                                 style="background:#db5050; border: #db5050; color: white;">
                                 <a class="nav-link" href="<?= APP_USER_URL ?>/reservations/cancel/<?= $reservation['reservation_id'] ?>">Cancel Reservation</a>
-                                <?php //TODO ADD LINK TO CANCEL RESERVATION FROM HERE
-                                ?>
                             </button>
 
                             <button class="btn toggle-btn"
