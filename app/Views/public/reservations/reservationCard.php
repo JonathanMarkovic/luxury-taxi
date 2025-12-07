@@ -117,7 +117,7 @@ use App\Helpers\FlashMessage;
                 <!-- Modify Button -->
                 <button class="btn toggle-btn"
                     data-mode="modify"
-                    style="background:#B18852; color:white;"
+                    style="background:#555; color:white;"
                     onclick="toggleEdit(this)">
                     Modify Reservation
                 </button>

@@ -77,7 +77,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
             // Switch to edit mode with Save button
             fieldset.disabled = false;
             button.innerText = "Save";
-            button.style.background = "#4ac654";
+            button.style.background = "#1c4014";
             button.setAttribute("data-mode", "save");
 
         } else {
