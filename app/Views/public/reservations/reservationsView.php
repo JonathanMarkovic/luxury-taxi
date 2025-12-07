@@ -14,15 +14,28 @@ $reservations = $data['reservations'] ?? [];
 // dd(SessionManager::get('user_role'));
 if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_role') === null) {
 ?>
-    <form action="reservations" method="post">
-        <label for="email">Email</label>
-        <input type="text" id="email" name="email">
 
-        <label for="reservation_id">Reservation Number</label>
-        <input type="text" id="reservation_id" name="reservation_id">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Find your Reservation</h1>
+            <p>Enter your booking details below to quickly find and manage your reservation.</p>
+        </div>
+    </section>
 
-        <button action="submit">Search</button>
-    </form>
+    <center>
+        <div class="page-content">
+            <form action="reservations" method="post">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email">
+                <label for="reservation_id">Reservation Number</label>
+                <input type="text" id="reservation_id" name="reservation_id">
+                <button action="submit" class="all-cars-link">Search</button>
+            </form>
+        </div>
+    </center>
+
+
 <?php
 }
 
