@@ -60,7 +60,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
 <?php if (!empty($reservations)) { ?>
     <div class="container my-5">
         <?php foreach ($reservations as $reservation): ?>
-            <?= include __DIR__ . '/reservationCard.php'; ?>
+            <?php include __DIR__ . '/reservationCard.php'; ?>
             <br>
         <?php endforeach; ?>
     </div>

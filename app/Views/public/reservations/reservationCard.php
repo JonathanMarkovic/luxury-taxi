@@ -24,19 +24,18 @@ use App\Helpers\SessionManager;
                 <strong>Reservation Status: </strong>
             <div
                 <?php
-                    if ($reservation['reservation_status'] == "pending") {
-                        echo " class='pending-reservation-banner'";
-                    } elseif ($reservation['reservation_status'] == "approved") {
-                        echo " class='approved-reservation-banner'";
-                    } elseif ($reservation['reservation_status'] == "cancelled") {
-                        echo " class='cancelled-reservation-banner'";
-                    }  elseif ($reservation['reservation_status'] == "completed") {
-                        echo " class='completed-reservation-banner'";
-                    }  elseif ($reservation['reservation_status'] == "denied") {
-                        echo " class='denied-reservation-banner'";
-                    }
-                ?>
-            >
+                if ($reservation['reservation_status'] == "pending") {
+                    echo " class='pending-reservation-banner'";
+                } elseif ($reservation['reservation_status'] == "approved") {
+                    echo " class='approved-reservation-banner'";
+                } elseif ($reservation['reservation_status'] == "cancelled") {
+                    echo " class='cancelled-reservation-banner'";
+                } elseif ($reservation['reservation_status'] == "completed") {
+                    echo " class='completed-reservation-banner'";
+                } elseif ($reservation['reservation_status'] == "denied") {
+                    echo " class='denied-reservation-banner'";
+                }
+                ?>>
                 <?= $reservation['reservation_status'] ?>
             </div>
             </p>
@@ -76,16 +75,15 @@ use App\Helpers\SessionManager;
                     </div>
                     <!-- Reservation type input -->
                     <div class="row g-3 mb-3">
-                        <div class="col-md-12">
-                            <label for="reservation_type" class="form-label">Reservation Type</label>
-                            <div class="form-floating">
-                                <select name="reservation_type" id="reservation_type" class="form-select">
-                                    <option value="hourly" <?= $reservation['reservation_type'] == 'hourly' ? 'selected' : '' ?>>Hourly</option>
-                                    <option value="trip" <?= $reservation['reservation_type'] == 'trip' ? 'selected' : '' ?>>Trip</option>
-                                </select>
-                            </div>
+                        <div class="col-md-12 position-relative">
+                            <select name="reservation_type" id="reservation_type" class="form-select custom-floating-select">
+                                <option value="hourly" <?= ($reservation['reservation_type'] ?? '') === 'hourly' ? 'selected' : '' ?>>Hourly</option>
+                                <option value="trip" <?= ($reservation['reservation_type'] ?? '') === 'trip' ? 'selected' : '' ?>>Trip</option>
+                            </select>
+                            <label for="reservation_type" class="floating-label">Reservation Type</label>
                         </div>
                     </div>
+
                     <!-- Price -->
                     <br>
                     <div class="static-reservation-banner">
