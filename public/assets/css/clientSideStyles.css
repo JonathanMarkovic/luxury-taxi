@@ -640,7 +640,7 @@ footer {
 }
 
 .pending-reservation-banner {
-    background-color: #ccb93b;
+    background-color: var(--primary-gold);
     padding: 6px 12px;
     border-radius: 6px;
     color: white;

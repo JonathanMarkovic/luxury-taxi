@@ -86,6 +86,22 @@ use App\Helpers\FlashMessage;
                             <label for="reservation_type" class="floating-label">Reservation Type</label>
                         </div>
                     </div>
+                    <!-- Car input -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-12 position-relative">
+                            <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
+                                <?php foreach ($data['cars'] as $car): ?>
+                                    <option value="<?= $car['cars_id'] ?>"
+                                        data-image="<?= htmlspecialchars($car['image_path'] ?? '') ?>"
+                                        <?= (isset($reservation['cars_id']) && $reservation['cars_id'] == $car['cars_id']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' (' . $car['year'] . ')') ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <label for="cars_id" class="floating-label">Vehicle</label>
+                        </div>
+                    </div>
+
 
                     <!-- Price -->
                     <br>

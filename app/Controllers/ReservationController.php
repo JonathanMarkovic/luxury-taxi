@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Domain\Models\PaymentModel;
 use App\Domain\Models\ReservationModel;
 use App\Domain\Models\UserModel;
+use App\Domain\Models\CarModel;
 use App\Helpers\FlashMessage;
 use App\Helpers\SessionManager;
 use DI\Container;
@@ -16,7 +17,7 @@ use DateTime as GlobalDateTime;
 
 class ReservationController extends BaseController
 {
-    public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model, private PaymentModel $payment_model)
+    public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model, private PaymentModel $payment_model, private CarModel $car_model)
     {
         parent::__construct($container);
     }
@@ -24,6 +25,7 @@ class ReservationController extends BaseController
     public function index(Request $request, Response $response, array $args): Response
     {
         $reservations = $this->reservation_model->fetchReservations();
+        $cars = $this->car_model->fetchCars();
         foreach ($reservations as $key => $reservation) {
             $customer = $this->user_model->fetchUserById($reservation['user_id']);
             $payment = $this->payment_model->fetchPaymentByID($reservation['reservation_id']);
@@ -36,7 +38,8 @@ class ReservationController extends BaseController
         $data['data'] = [
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'cars' => $cars
         ];
 
         return $this->render(
