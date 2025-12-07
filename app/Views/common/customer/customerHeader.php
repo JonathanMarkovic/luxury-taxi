@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="/luxury-taxi/assets/css/clientSideStyles.css">
 
     <!-- Needs to be switched off sandbox if this app goes into production -->
-    <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <!-- This is the sandbox script -->
+    <!-- <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script> -->
+
+    <!-- This is the production script -->
+    <script type="text/javascript" src="https://web.squarecdn.com/v1/square.js"></script>
 
 </head>
 

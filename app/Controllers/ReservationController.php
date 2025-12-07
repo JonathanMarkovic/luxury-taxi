@@ -93,11 +93,11 @@ class ReservationController extends BaseController
                 $data['user_id'] = $user['user_id'];
             }
             // dd($data);
-            $this->reservation_model->createAndGetId($data);
+            $reservation_id = $this->reservation_model->createAndGetId($data);
         } else {
             return $this->redirect($request, $response, 'reservations.create');
         }
-        FlashMessage::success("Reservation added: You will get an email with your reservation details");
+        FlashMessage::success("Reservation added: You will get an email with your reservation details. Reservation Number: $reservation_id");
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
