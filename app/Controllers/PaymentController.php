@@ -34,9 +34,11 @@ class PaymentController extends BaseController
         $balance = ($balanceInfo['total_amount'] - $balanceInfo['total_paid']);
 
         $square = new SquareClient(
-            token: SQUARE_ACCESS_TOKEN,
+            token: SQUARE_SANDBOX_ACCESS_TOKEN,
+            // token: SQUARE_PRODUCTION_ACCESS_TOKEN,
             options: [
-                'baseUrl' => Environments::Sandbox->value // Used by default
+                // 'baseUrl' => Environments::Sandbox->value // Used by default
+                'baseUrl' => Environments::Production->value
             ]
         );
         try {
@@ -51,7 +53,7 @@ class PaymentController extends BaseController
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
             // 'payment' => $payment
-            'locations' => $locations,
+            'locations' => $locations ?? [],
             'balance' => $balance,
             // 'balance' => 150.00
             'reservation_id' => $reservation_id
@@ -68,9 +70,11 @@ class PaymentController extends BaseController
     public function showLocations(Request $request, Response $response, array $args)
     {
         $square = new SquareClient(
-            token: SQUARE_ACCESS_TOKEN,
+            token: SQUARE_SANDBOX_ACCESS_TOKEN,
+            // token: SQUARE_PRODUCTION_ACCESS_TOKEN,
             options: [
                 'baseUrl' => Environments::Sandbox->value // Used by default
+                // 'baseUrl' => Environments::Production->value
             ]
         );
 
@@ -106,9 +110,11 @@ class PaymentController extends BaseController
             $data = json_decode(file_get_contents('php://input'), true);
 
             $square = new SquareClient(
-                token: SQUARE_ACCESS_TOKEN,
+                token: SQUARE_SANDBOX_ACCESS_TOKEN,
+                // token: SQUARE_PRODUCTION_ACCESS_TOKEN,
                 options: [
                     'baseUrl' => Environments::Sandbox->value // Used by default
+                    // 'baseUrl' => Environments::Production->value
                 ]
             );
 
