@@ -106,11 +106,9 @@ use App\Helpers\SessionManager;
         <div class="col-md-2 d-flex flex-column justify-content-start gap-2">
             <?php if (!in_array($reservation['reservation_status'], ['completed', 'denied', 'cancelled'])) { ?>
                 <!-- Cancel Button -->
-                <button class="btn btn-outline-light"
-                    style="background:#db5050; border: #db5050; color: white;">
-                    <a class="nav-link" href="<?= APP_USER_URL ?>/reservations/cancel/<?= $reservation['reservation_id'] ?>">
-                        Cancel Reservation
-                    </a>
+                <button class="btn"
+                    style="background:#db5050; border: #db5050; color: white;" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $reservation['reservation_id'] ?>">
+                    Cancel Reservation
                 </button>
 
                 <!-- Modify Button -->
@@ -118,15 +116,11 @@ use App\Helpers\SessionManager;
                     data-mode="modify"
                     style="background:#555; color:white;"
                     onclick="toggleEdit(this)">
-                    Modify
+                    Modify Reservation
                 </button>
             <?php
             }
             ?>
-
-
-
-
 
             <?php if ($reservation['reservation_status'] === 'approved' && $reservation['payment_status'] !== "paid") { ?>
                 <button class="btn" style="background:#3347fb; color:white;">
@@ -135,6 +129,26 @@ use App\Helpers\SessionManager;
                     </a>
                 </button>
             <?php } ?>
+        </div>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModal<?= $reservation['reservation_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel<?= $car['cars_id'] ?>" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel<?= $reservation['reservation_id'] ?>">Confirm Cancellation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to cancel this reservation?
+                        <br><small class="text-muted">This cannot be undone.</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                        <a href="<?= APP_ADMIN_URL ?>/reservations/cancel/<?= $reservation['reservation_id'] ?>" class="btn btn-primary">Yes</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

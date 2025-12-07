@@ -4,7 +4,7 @@ use App\Helpers\SessionManager;
 use App\Helpers\ViewHelper;
 
 $page_title = "View Reservations";
-ViewHelper::loadCustomerHeader($page_title);
+ViewHelper::loadCustomerHeader($page_title, 'find-reservation');
 
 $reservations = $data['reservations'] ?? [];
 
@@ -31,17 +31,16 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     </section>
 
     <center>
-        <div class="page-content">
-            <form action="reservations" method="post">
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email">
-                <label for="reservation_id">Reservation Number</label>
-                <input type="text" id="reservation_id" name="reservation_id">
-                <button action="submit" class="all-cars-link">Search</button>
-            </form>
-        </div>
+        <form action="reservations" method="post">
+            <div class="mb-3">
+                <input type="text" id="email" name="email" placeholder="Email Address" class="find-reservation-input">
+            </div>
+            <div class="mb-3">
+                <input type="text" id="reservation_id" name="reservation_id" placeholder="Confirmation Number" class="find-reservation-input">
+            </div>
+            <button action="submit" class="all-cars-link">Search</button>
+        </form>
     </center>
-
 
 <?php
 } else { ?>
@@ -64,37 +63,37 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     </div>
 <?php } ?>
 
-    <script>
-        function toggleEdit(button) {
-            const box = button.closest('.reservationBox');
-            const fieldset = box.querySelector('fieldset');
-            const form = box.querySelector('form');
+<script>
+    function toggleEdit(button) {
+        const box = button.closest('.reservationBox');
+        const fieldset = box.querySelector('fieldset');
+        const form = box.querySelector('form');
 
-            let mode = button.getAttribute("data-mode");
+        let mode = button.getAttribute("data-mode");
 
-            if (mode === "modify") {
-                // Switch to edit mode with Save button
-                fieldset.disabled = false;
-                button.innerText = "Save";
-                button.style.background = "#4ac654";
-                button.setAttribute("data-mode", "save");
+        if (mode === "modify") {
+            // Switch to edit mode with Save button
+            fieldset.disabled = false;
+            button.innerText = "Save";
+            button.style.background = "#4ac654";
+            button.setAttribute("data-mode", "save");
 
-            } else {
-                // Submit form if there are changes and switch back to Modify button
-                form.submit();
+        } else {
+            // Submit form if there are changes and switch back to Modify button
+            form.submit();
 
-                // After form submits, page reloads so this won't run.
-                // But in case you want it without reload:
-                fieldset.disabled = true;
-                button.innerText = "Modify";
-                button.style.background = "#555";
-                button.setAttribute("data-mode", "modify");
-            }
+            // After form submits, page reloads so this won't run.
+            // But in case you want it without reload:
+            fieldset.disabled = true;
+            button.innerText = "Modify";
+            button.style.background = "#555";
+            button.setAttribute("data-mode", "modify");
         }
-    </script>
+    }
+</script>
 
 
 
-    <?php
-    ViewHelper::loadCustomerFooter();
-    ?>
+<?php
+ViewHelper::loadCustomerFooter();
+?>
