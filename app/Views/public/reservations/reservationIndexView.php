@@ -11,6 +11,7 @@ $reservations = $data['reservations'] ?? [];
 
 if (SessionManager::get('is_authenticated')) {
 ?>
+
     <table class="table table-striped table-hover">
         <thead>
             <tr>
@@ -70,7 +71,7 @@ if (SessionManager::get('is_authenticated')) {
 
         <?php
     } else {
-        
+
 
         ?>
             <!-- Put guest find reservation form here -->

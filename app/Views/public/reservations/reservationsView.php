@@ -8,7 +8,9 @@ ViewHelper::loadCustomerHeader($page_title);
 $reservations = $data['reservations'] ?? [];
 
 ?>
+<section class="hero-section1" >
 
+</section>
 <?php
 // SessionManager::destroy();
 // dd(SessionManager::get('user_role'));

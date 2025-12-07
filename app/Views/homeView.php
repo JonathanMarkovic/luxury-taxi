@@ -30,7 +30,7 @@ $cars = $data['cars'];
                 </ul>
 
                 <script>
-                    
+
                 </script>
 
                 <div class="bookRow">
@@ -139,7 +139,9 @@ $cars = $data['cars'];
                     <div class="car-card">
                         <!-- Carousel -->
                         <?php if (!empty($car['images'])): ?>
-                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel">
+                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel"  style="height: 600px; display: flex;
+  align-items: center;
+  justify-content: center;">
                                 <div class="carousel-indicators">
                                     <?php foreach ($car['images'] as $index => $image): ?>
                                         <button type="button"
@@ -157,7 +159,7 @@ $cars = $data['cars'];
                                             <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>"
                                                 class="d-block w-100"
                                                 alt="<?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?>"
-                                                style="height: 250px; object-fit: cover;">
+                                                style="width:100%;">
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
@@ -171,25 +173,35 @@ $cars = $data['cars'];
                                 </button>
                             </div>
                         <?php else: ?>
-                            <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 600px;">
                                 <span class="text-white">No Image Available</span>
                             </div>
                         <?php endif; ?>
 
                         <!-- Card Body -->
                         <div class="car-card-body">
-                            <h3 class="car-title"><?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' ' . $car['year']) ?></h3>
-                            <p class="card-details">
-                            <div class="car-detail-item">
-                                <span class="car-detail-label">Capacity:</span>
-                                <span class="car-detail-value"><?= htmlspecialchars($car['capacity']) ?></span>
-                            </div>
-                            <div class="car-detail-item">
-                                <span class="car-detail-label">Price:</span>
-                                <span class="car-detail-value">$ <?= htmlspecialchars($car['approx_price']) ?> / hour</span>
-                            </div>
-                            </p>
+                        <h3 class="car-title"><?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' ' . $car['year']) ?></h3>
+                        <p class="card-details">
+                        <hr class="custom-line">
+
+                        <div class="car-detail-item">
+                            <span class="car-detail-label">Model:</span>
+                            <span class="car-detail-value"><?= htmlspecialchars($car['model']) ?></span>
                         </div>
+                        <div class="car-detail-item">
+                            <span class="car-detail-label">Year:</span>
+                            <span class="car-detail-value"><?= htmlspecialchars($car['year'])?></span>
+                        </div>
+                        <div class="car-detail-item">
+                            <span class="car-detail-label">Capacity:</span>
+                            <span class="car-detail-value"><?= htmlspecialchars($car['capacity']) ?></span>
+                        </div>
+                        <div class="car-detail-item">
+                            <span class="car-detail-label">Average Price:</span>
+                            <span class="car-detail-value">$ <?= htmlspecialchars($car['approx_price'])?> / hour</span>
+                        </div>
+                        </p>
+                    </div>
                     </div>
                 </div>
             <?php endforeach; ?>

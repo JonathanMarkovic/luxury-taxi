@@ -15,8 +15,8 @@
         </div>
         <div class="footer-section">
             <h3>Contact Us</h3>
-            <p><i class="bi bi-telephone"></i> +1 514 111 2222</p>
-            <p><i class="bi bi-envelope"></i> email@example.com</p>
+            <p><i class="bi bi-telephone"></i> +1 514 967 7575</p>
+            <p><i class="bi bi-envelope"></i> solafperformance@gmail.com</p>
             <div class="social-icons">
                 <a href="#"><i class="bi bi-facebook"></i></a>
                 <a href="#"><i class="bi bi-instagram"></i></a>

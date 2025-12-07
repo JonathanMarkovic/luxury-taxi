@@ -66,18 +66,33 @@ footer {
 /* Hero Section */
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url("https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600")
+        url("header.jpg")
             center/cover;
-    padding: 6rem 2rem;
     text-align: center;
+    width: 100%;
+    height: 24vh;
+   display: grid;
+  place-items: center;
+}
+
+.hero-section1 {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("header1.jpg")
+            center/cover;
+    text-align: center;
+    width: 100%;
+    height: 15vh;
+   display: grid;
+  place-items: center;
 }
 
 .hero-content {
     background-color: rgba(166, 129, 76, 0.9);
-    padding: 3rem;
+padding: 30px;
     max-width: 900px;
     margin: 0 auto;
     border-radius: 10px;
+
 }
 
 .hero-content h1 {
@@ -94,13 +109,14 @@ footer {
 /* Car Cards Section */
 .cars-section {
     padding: 4rem 2rem;
-    max-width: 1400px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
 .car-card {
     background-color: var(--card-bg);
     border: 1px solid #444;
+    height: 100%;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 2rem;
@@ -118,10 +134,52 @@ footer {
     background-color: #1a1a1a;
 }
 
-.car-carousel img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* Cars section */
+.col{
+    height:90vh;
+    padding: 40px;
+}
+
+.carsWrap {
+    text-align: center;
+    padding: 40px 20px;
+    /* background: linear-gradient(#c19763, #8a673f); */
+}
+
+
+.carsRow {
+    display: flex;
+    justify-content: center;
+
+}
+.car-detail-item{
+    font-size:1.9rem;
+    padding-bottom:20px;
+}
+.carBox {
+    width: 250px;
+    height: 260px;
+    background-color: #eee;
+    color: #000;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.all-cars-link {
+    border: 1px solid var(--primary-gold);
+    padding: 10px;
+    text-decoration: none;
+    color: var(--primary-gold);
+    border-radius: 4px;
+    transition: 0.5s ease-in-out;
+    background-color: var(--dark-bg);
+}
+
+.all-cars-link:hover {
+    background-color: var(--primary-gold);
+    color: var(--dark-bg);
 }
 
 .carousel-control-prev,
@@ -143,26 +201,44 @@ footer {
 
 .car-card-body {
     padding: 1.5rem;
+    height: 100%;
 }
-
+.custom-line {
+  border: none;
+  height: 4px;
+  background-color: var(--primary-gold);
+  width: 100%;
+  margin: 20px 0;
+}
 .car-title {
-    font-size: 1.5rem;
+    font-size: 2.3rem;
     font-weight: bold;
     margin-bottom: 1rem;
-    color: #fff;
+    color: white;
+    text-align: center;
+    padding-top:5px;
 }
 
-.car-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+
+.car-carousel {
+    height: 600px;
+    width: 100%;
 }
 
+.car-carousel .carousel-inner,
+.car-carousel .carousel-item {
+    height: 600px;
+    width: 100%;
+}
+
+.car-carousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
 .car-detail-item {
     display: flex;
     justify-content: space-between;
-    font-size: 0.9rem;
 }
 
 .car-detail-label {
@@ -487,7 +563,10 @@ footer {
     margin-left: 8px;
     margin-top: 8px;
     color: #555;
+
 }
+
+
 
 .form-control {
     padding-left: 30px;
@@ -568,49 +647,7 @@ footer {
     color: #a6814c;
 }
 
-/* Cars section */
-.carsWrap {
-    text-align: center;
-    padding: 40px 20px;
-    /* background: linear-gradient(#c19763, #8a673f); */
-}
 
-.carsTitle {
-    font-size: 28px;
-    margin-bottom: 30px;
-}
-
-.carsRow {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.carBox {
-    width: 250px;
-    height: 260px;
-    background-color: #eee;
-    color: #000;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.all-cars-link {
-    border: 1px solid var(--primary-gold);
-    padding: 10px;
-    text-decoration: none;
-    color: var(--primary-gold);
-    border-radius: 4px;
-    transition: 0.5s ease-in-out;
-    background-color: var(--dark-bg);
-}
-
-.all-cars-link:hover {
-    background-color: var(--primary-gold);
-    color: var(--dark-bg);
-}
 
 /* Reservation view page */
 .static-reservation-banner {
