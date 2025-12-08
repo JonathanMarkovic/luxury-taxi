@@ -18,7 +18,7 @@ class CarModel extends BaseModel
      */
     public function fetchCars(): mixed
     {
-        $sql = "SELECT * FROM cars";
+        $sql = "SELECT * FROM cars ORDER BY brand, model";
 
         $cars = $this->selectAll($sql);
 

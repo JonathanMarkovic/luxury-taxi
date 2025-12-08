@@ -3,6 +3,9 @@
 use App\Helpers\SessionManager;
 use App\Helpers\FlashMessage;
 
+$reservation = $data['reservations'];
+$cars = $data['cars'];
+
 ?>
 
 <div class="reservationBox p-4"
@@ -13,8 +16,7 @@ use App\Helpers\FlashMessage;
 
         <!-- Car image -->
         <div class="col-md-3 d-flex align-items-start justify-content-center">
-            <img src="/uploads/images/car20.jpg"
-                style="width:100%; max-width:220px; border-radius:6px; border:2px solid #a6814c;">
+            <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>" alt="<?= $reservation['brand'] . " " . $reservation['model'] . " " . $reservation['year'] ?>">
         </div>
 
         <!-- Customer Details -->
@@ -80,6 +82,7 @@ use App\Helpers\FlashMessage;
                     <div class="row g-3 mb-3">
                         <div class="col-md-12 position-relative">
                             <select name="reservation_type" id="reservation_type" class="form-select custom-floating-select">
+                                <option value="" disabled selected hidden>Select a Reservation Type</option>
                                 <option value="hourly" <?= ($reservation['reservation_type'] ?? '') === 'hourly' ? 'selected' : '' ?>>Hourly</option>
                                 <option value="trip" <?= ($reservation['reservation_type'] ?? '') === 'trip' ? 'selected' : '' ?>>Trip</option>
                             </select>
@@ -90,9 +93,11 @@ use App\Helpers\FlashMessage;
                     <div class="row g-3 mb-3">
                         <div class="col-md-12 position-relative">
                             <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
-                                <?php foreach ($data['cars'] as $car): ?>
-                                    <option value="<?= $car['cars_id'] ?>"
-                                        data-image="<?= htmlspecialchars($car['image_path'] ?? '') ?>"
+                                <option value="" disabled selected hidden>Select a Vehicle</option>
+                                <!-- Loop through all cars -->
+                                <?php foreach ($cars as $car): ?>
+                                    <option
+                                        value="<?= $car['cars_id'] ?>"
                                         <?= (isset($reservation['cars_id']) && $reservation['cars_id'] == $car['cars_id']) ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' (' . $car['year'] . ')') ?>
                                     </option>
@@ -104,13 +109,11 @@ use App\Helpers\FlashMessage;
 
 
                     <!-- Price -->
-                    <br>
                     <div class="static-reservation-banner">
                         Price
                         <br>
                         <?= $reservation['total_amount'] == null ? "not set" : "$ " . $reservation['total_amount'] ?>
                     </div>
-                    <br>
                     <!-- Payment -->
                     <div class="static-reservation-banner">
                         Payment Status
@@ -151,7 +154,7 @@ use App\Helpers\FlashMessage;
         </div>
 
         <!-- Delete Modal -->
-        <div class="modal fade" id="deleteModal<?= $reservation['reservation_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel<?= $car['cars_id'] ?>" aria-hidden="true">
+        <div class="modal fade" id="deleteModal<?= $reservation['reservation_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel<?= $reservation['reservation_id'] ?>" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

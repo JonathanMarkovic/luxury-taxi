@@ -4,6 +4,9 @@ use App\Helpers\ViewHelper;
 
 $page_title = 'Create a Reservation';
 ViewHelper::loadAdminHeader($page_title);
+
+$cars = $data['cars'];
+
 ?>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -45,14 +48,36 @@ ViewHelper::loadAdminHeader($page_title);
                                 <label for="floatingInputGrid">Phone Number</label>
                             </div>
                         </div>
+                    </div>
+                    <div class="row g-2">
                         <div class="col-md">
                             <!-- Reservation Type input -->
                             <label for="reservation_type">Reservation Type</label>
                             <select name="reservation_type" id="reservation_type" class="form-select">
+                                <option value="" disabled selected>Select an occasion</option>
                                 <option value="hourly">Hourly</option>
                                 <option value="trip">Trip</option>
                             </select>
                         </div>
+                        <div class="col-md-12 position-relative">
+                            <label for="cars_id" class="floating-label">Vehicle</label>
+                            <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
+
+                                <!-- Placeholder for create view -->
+                                <option value="" disabled selected>Select a vehicle</option>
+
+                                <!-- Loop through all cars -->
+                                <?php foreach ($cars as $car): ?>
+                                    <option
+                                        value="<?= $car['cars_id'] ?>"
+                                        <?= (isset($reservation['cars_id']) && $reservation['cars_id'] == $car['cars_id']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' (' . $car['year'] . ')') ?>
+                                    </option>
+                                <?php endforeach; ?>
+
+                            </select>
+                        </div>
+
                     </div>
                     <div class="row g-2"> <!-- Third row container -->
                         <div class="col-md">
@@ -97,8 +122,8 @@ ViewHelper::loadAdminHeader($page_title);
                         <a href="<?= APP_ADMIN_URL ?>/reservations" class="btn btn-danger">Cancel</a>
                         <button type="submit" class="btn btn-primary">Create</button>
                     </div>
-        </div>
-    </form>
+                </div>
+            </form>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

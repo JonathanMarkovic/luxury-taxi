@@ -82,6 +82,7 @@ footer {
     height: 24vh;
     display: grid;
     place-items: center;
+    margin-bottom: 30px;
 }
 
 .hero-content {
@@ -504,7 +505,7 @@ footer {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 8px;
-    width: 550px;
+    /* width: 600px; */
 }
 .bookingTabs {
     list-style: none;
@@ -553,10 +554,6 @@ footer {
     margin-left: 8px;
     margin-top: 8px;
     color: #555;
-}
-
-.form-control {
-    padding-left: 30px;
 }
 
 .reserveBtn {
@@ -637,6 +634,7 @@ footer {
     padding: 6px 12px;
     border-radius: 6px;
     color: white;
+    margin-bottom: 15px;
 }
 
 .pending-reservation-banner {
@@ -688,13 +686,30 @@ footer {
     box-sizing: border-box;
 }
 
-.custom-floating-select:focus + .floating-label,
+/* .custom-floating-select:focus + .floating-label,
 .custom-floating-select:not(:placeholder-shown) + .floating-label,
 .custom-floating-select option:checked + .floating-label {
     transform: translateY(-1.2rem);
     font-size: 0.8rem;
     color: rgb(85, 85, 85);
+} */
+
+.custom-floating-select:focus + .floating-label,
+.custom-floating-select:not([value=""]) + .floating-label {
+    transform: translateY(-1.2rem);
+    font-size: 0.8rem;
+    color: rgb(85, 85, 85);
 }
+
+.custom-floating-select {
+    height: 55px;
+    line-height: 45px;
+    padding-left: 0.75rem;
+    padding-top: 10px;
+    padding-bottom: 0;
+    box-sizing: border-box;
+}
+
 
 .floating-label {
     position: absolute;

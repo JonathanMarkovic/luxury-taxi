@@ -5,6 +5,8 @@ use App\Helpers\ViewHelper;
 $page_title = 'View Reservation';
 
 $reservation = $data['reservations'];
+$car = $data['car'];
+$cars = $data['cars'];
 
 
 ViewHelper::loadAdminHeader($page_title);
@@ -55,16 +57,28 @@ ViewHelper::loadAdminHeader($page_title);
                 </div>
 
                 <div class="row g-3 mb-3"> <!-- Third row -->
-                    <div class="col-md-12">
-                        <label for="reservation_type" class="form-label">Reservation Type</label>
-                        <div class="form-floating">
-                            <select name="reservation_type" id="reservation_type" class="form-select">
-                                <option value="hourly" <?= $reservation['reservation_type'] == 'hourly' ? 'selected' : '' ?>>Hourly</option>
-                                <option value="trip" <?= $reservation['reservation_type'] == 'trip' ? 'selected' : '' ?>>Trip</option>
-                            </select>
-                        </div>
+                    <div class="col-md-12 position-relative">
+                        <label for="reservation_type" class="floating-label">Reservation Type</label>
+                        <select name="reservation_type" id="reservation_type" class="form-select custom-floating-select">
+                            <option value="hourly" <?= ($reservation['reservation_type'] ?? '') === 'hourly' ? 'selected' : '' ?>>Hourly</option>
+                            <option value="trip" <?= ($reservation['reservation_type'] ?? '') === 'trip' ? 'selected' : '' ?>>Trip</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 position-relative">
+                        <label for="cars_id" class="floating-label">Vehicle</label>
+                        <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
+                            <!-- Loop through all cars -->
+                            <?php foreach ($cars as $car): ?>
+                                <option
+                                    value="<?= $car['cars_id'] ?>"
+                                    <?= (isset($reservation['cars_id']) && $reservation['cars_id'] == $car['cars_id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' (' . $car['year'] . ')') ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
+
 
                 <div class="row g-3 mb-3"> <!-- Fourth row -->
                     <div class="col-md-6">

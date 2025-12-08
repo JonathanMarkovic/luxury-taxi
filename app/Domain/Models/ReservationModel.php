@@ -94,8 +94,20 @@ class ReservationModel extends BaseModel
      */
     public function fetchReservations(): mixed
     {
-        $sql = "SELECT reservations.*, users.email FROM reservations
-        JOIN users ON users.user_id = reservations.user_id";
+        $sql = <<<SQL
+            SELECT
+                r.*,
+                u.email,
+                rc.cars_id AS selected_car_id,
+                c.cars_id AS car_id,
+                c.brand,
+                c.model,
+                c.year
+            FROM reservations r
+            JOIN users u ON u.user_id = r.user_id
+            LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
+            LEFT JOIN cars c ON c.cars_id = rc.cars_id
+        SQL;
         $reservations = $this->selectAll($sql);
         return $reservations;
     }
@@ -123,17 +135,26 @@ class ReservationModel extends BaseModel
     {
         $sql = <<<sql
             SELECT
-            R.*,
-            U.first_name,
-            U.last_name,
-            U.email,
-            U.phone,
-            P.total_amount,
-            P.payment_status
-            FROM reservations R
-            LEFT JOIN users U ON R.user_id = U.user_id
-            LEFT JOIN payments P ON r.reservation_id = P.reservation_id
-            WHERE R.user_id = :user_id
+                r.*,
+                u.first_name,
+                u.last_name,
+                u.email,
+                u.phone,
+                p.total_amount,
+                p.payment_status,
+                c.cars_id,
+                c.brand,
+                c.model,
+                c.year,
+                ci.image_id,
+                ci.image_path
+                    FROM reservations r
+                    JOIN users u ON u.user_id = r.user_id
+                    LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
+                    LEFT JOIN cars c ON c.cars_id = rc.cars_id
+                    LEFT JOIN car_images ci ON c.cars_id = ci.cars_id
+                    LEFT JOIN payments p ON r.reservation_id = p.reservation_id
+                WHERE r.user_id = :user_id
         sql;
 
         $reservations = $this->selectAll($sql, ['user_id' => $user_id]);
@@ -162,6 +183,37 @@ class ReservationModel extends BaseModel
 
         $last_id = $this->pdo->lastInsertId();
         return $last_id;
+    }
+
+    /**
+     * Summary of addCarToReservation
+     * Creates a new reservation_cars in the database
+     * @param array $data
+     * @return bool|string
+     */
+    public function addCarToReservation(int $cars_id, int $reservation_id)
+    {
+        $sql = "INSERT INTO reservation_cars VALUES (:cars_id, :reservation_id)";
+
+        return $this->execute($sql, ['cars_id' => $cars_id, 'reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of getCarForReservation
+     * Selects cars in the database
+     * @param array $data
+     * @return bool|string
+     */
+    public function getCarForReservation(int $reservation_id)
+    {
+        $sql = <<<sql
+            SELECT c.*
+            FROM cars c
+            INNER JOIN reservation_cars rc ON rc.cars_id = c.cars_id
+            WHERE rc.reservation_id = :reservation_id
+        sql;
+
+        return $this->selectAll($sql, ['reservation_id' => $reservation_id]);
     }
 
     /**
@@ -274,25 +326,66 @@ class ReservationModel extends BaseModel
         ]);
     }
 
-    public function updateCustomerReservation($reservation_id, array $data) {
-        $sql = <<<sql
-            UPDATE reservations
-            SET
-                pickup = :pickup,
-                dropoff = :dropoff,
-                start_time = :start_time,
-                end_time = :end_time,
-                reservation_type = :reservation_type
-            WHERE reservation_id = :reservation_id
-        sql;
+    public function updateCustomerReservation($reservation_id, array $data)
+    {
+        // Start the tran to update both tables
+        $this->beginTransaction();
 
-        return $this->execute($sql, [
-            'pickup' => $data['pickup'],
-            'dropoff' => $data['dropoff'],
-            'start_time' => $data['start_time'],
-            'end_time' => $data['end_time'],
-            'reservation_type' => $data['reservation_type'],
-            'reservation_id' => $reservation_id
-        ]);
+        try {
+            // Update the reservation
+            $sqlReservation = <<<sql
+                UPDATE reservations
+                SET
+                    pickup = :pickup,
+                    dropoff = :dropoff,
+                    start_time = :start_time,
+                    end_time = :end_time,
+                    reservation_type = :reservation_type
+                WHERE reservation_id = :reservation_id
+            sql;
+
+            $count = $this->execute($sqlReservation, [
+                'pickup' => $data['pickup'],
+                'dropoff' => $data['dropoff'],
+                'start_time' => $data['start_time'],
+                'end_time' => $data['end_time'],
+                'reservation_type' => $data['reservation_type'],
+                'reservation_id' => $reservation_id
+            ]);
+
+            // Don't throw exception if no rows are affected
+            if ($count === false) {
+                throw new \Exception("Database error");
+            }
+
+            if (isset($data['cars_id'])) {
+                // Update the car
+                $sqlCar = <<<sql
+                    UPDATE reservation_cars
+                    SET cars_id = :cars_id
+                    WHERE reservation_id = :reservation_id
+                sql;
+
+
+                $count = $this->execute($sqlCar, [
+                    'cars_id' => $data['cars_id'],
+                    'reservation_id' => $reservation_id
+                ]);
+
+                // Don't throw exeption if no rows are affected
+                if ($count === false) {
+                    throw new \Exception("Database error");
+                }
+            }
+
+            // Commit the transaction
+            $this->commit();
+
+            return true;
+        } catch (\Exception $e) {
+            // Rollback if it doesn't work
+            $this->rollback();
+            throw $e;
+        }
     }
 }
