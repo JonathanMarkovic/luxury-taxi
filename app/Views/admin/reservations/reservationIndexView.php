@@ -48,7 +48,7 @@ $reservations = $data['reservations'];
                 $highlightClass = '';
                 if (
                     ($reservation['reservation_status'] == 'cancelled' && isset($reservation['total_paid']) && $reservation['total_paid'] !== null) ||
-                    ($reservation['reservation_status'] == 'pending' && isset($reservation['total_paid']) && isset($reservation['price']) && $reservation['total_paid'] > $reservation['price'])
+                    (isset($reservation['total_paid']) && isset($reservation['price']) && $reservation['total_paid'] > $reservation['price']) || ($reservation['reservation_status'] == 'pending' && isset($reservation['total_paid']) && isset($reservation['price']) && $reservation['total_paid'] == $reservation['price']) || ($reservation['reservation_status'] == 'pending' && isset($reservation['price']))
                 ) {
                     $highlightClass = 'table-warning';
                 }
