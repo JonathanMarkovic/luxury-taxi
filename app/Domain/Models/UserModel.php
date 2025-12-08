@@ -41,11 +41,17 @@ class UserModel extends BaseModel
 
     public function updateUser($user_id, array $data): int
     {
+        // dd($data);
+        // dd($user_id);
+
+        $password = $data['password'];
+        $password_hash = password_hash($password, PASSWORD_BCRYPT);
+
         $sql = "UPDATE users
-        SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone
+        SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, password = :password
         WHERE user_id = :id";
 
-        return $this->execute($sql, ['id' => $user_id, 'first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone']]);
+        return $this->execute($sql, ['id' => $user_id, 'first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone'], 'password' => $password_hash]);
     }
 
     /**
