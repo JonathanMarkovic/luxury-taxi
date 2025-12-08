@@ -48,7 +48,7 @@ class UserModel extends BaseModel
         $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
         $sql = "UPDATE users
-        SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, password = :password
+        SET first_name = :first_name, last_name = :last_name, email = :email, phone = :phone, password = :password, role = 'customer'
         WHERE user_id = :id";
 
         return $this->execute($sql, ['id' => $user_id, 'first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone' => $data['phone'], 'password' => $password_hash]);
