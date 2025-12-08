@@ -101,6 +101,7 @@ class ReservationController extends BaseController
         } else {
             return $this->redirect($request, $response, 'reservations.create');
         }
+        FlashMessage::success("Reservation added: You will get an email with your reservation details. Reservation Number: $reservation_id");
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
@@ -375,12 +376,6 @@ class ReservationController extends BaseController
         }
 
         // check if payment exists, it there is a set price and status is pending
-        if ($this->payment_model->ifPaymen        if ($reservation['reservation_status'] == 'denied' || $reservation['reservation_status'] == 'refunded') {
-            FlashMessage::warning("The Reservation is either already denied or refunded");
-            return false;
-        }
-
-        // check if payment exists, it there is a set price and status is pending
         if ($this->payment_model->ifPaymentExists($reservation_id) == true && $reservation['reservation_status'] == 'pending') {
             $this->payment_model->updateTotalAmount($reservation_id, $price);
             $this->reservation_model->approveReservation($reservation_id);
@@ -388,21 +383,8 @@ class ReservationController extends BaseController
             return true;
         }
 
-        // check if there is a payment and status is already approved and the admin wants to change the price
-        if ($this->payment_model->ifPaymentExists($reservation_id) == true && $reservation['reservation_status'] == 'approved' ) {
-
-            $this->payment_model->updateTotalAmount($reservation_id, $price);
-            if ( $reservation['reservation_status'] == 'pending') {
-               $this->reservation_model->approveReservation($reservation_id);
-            }
-
-            FlashMessage::success("Price changed to $price");
-            //todo: send an email saying the price was changed
-            return true;
-        }
-
-        // check if its not been paid ->normal approval flow, create new payment
         if ($this->payment_model->ifPaymentExists($reservation_id) == false) {
+            // normal approval flow, create new payment
             $this->reservation_model->approveReservation($reservation_id);
             $this->payment_model->createPayment($reservation_id, $price);
             FlashMessage::success("Reservation Approved");
@@ -410,7 +392,6 @@ class ReservationController extends BaseController
         }
         return false;
     }
-
 
     private function denyReservation(int $reservation_id): bool
     {
@@ -440,20 +421,14 @@ class ReservationController extends BaseController
             FlashMessage::success("Payment Refunded");
             return true;
         }
-        //if the admin ever approves and the price decreases,
-        if ($payment['total_paid'] > $payment['total_amount'] && ($reservation['reservation_status'] == 'pending' || $reservation['reservation_status'] == 'approved') ){
-            $this->payment_model->refundPayment($reservation_id);//set status as refunded
+        if ($payment['total_paid'] > $payment['total_amount'] && $reservation['reservation_status'] == 'pending') {
+            $this->payment_model->refundPayment($reservation_id);
+            $this->reservation_model->approveReservation($reservation_id);
             $this->payment_model->updateTotalPaid($reservation_id, $payment['total_amount']);
-            if ( $reservation['reservation_status'] == 'pending') {
-               $this->reservation_model->approveReservation($reservation_id);
-            }
-
             FlashMessage::success("Payment Refunded");
             //TODO: send email saying it will be refunded
             return true;
-        }
-
-        else {
+        } else {
             FlashMessage::warning("Cannot refund: Customer hasnt paid yet or reservation not cancelled");
             return false;
         }
