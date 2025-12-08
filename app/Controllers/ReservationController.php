@@ -97,11 +97,10 @@ class ReservationController extends BaseController
 
             //? Add car to reservation
             $this->reservation_model->addCarToReservation($data['cars_id'], $reservation_id);
-            FlashMessage::success("Reservation added: You will get an email with your reservation details. You can monitor the status of your booking in the find reservations tab using your email and your reservation number: $reservation_id");
+            FlashMessage::success("Reservation added: You will get an email with your reservation details. Reservation Number: $reservation_id");
         } else {
             return $this->redirect($request, $response, 'reservations.create');
         }
-        FlashMessage::success("Reservation added: You will get an email with your reservation details. Reservation Number: $reservation_id");
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
