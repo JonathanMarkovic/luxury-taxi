@@ -369,7 +369,13 @@ class ReservationController extends BaseController
         $reservation = $this->reservation_model->fetchReservationById($reservation_id);
         //$payment = $this->payment_model->fetchPaymentByID($reservation_id);
 
-        if ($reservation['reservation_status'] == 'denied' || $reservation['reservation_status'] == 'refunded') {
+        if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
+            FlashMessage::warning("The Reservation is either already confirmed or refunded");
+            return false;
+        }
+
+        // check if payment exists, it there is a set price and status is pending
+        if ($this->payment_model->ifPaymen        if ($reservation['reservation_status'] == 'denied' || $reservation['reservation_status'] == 'refunded') {
             FlashMessage::warning("The Reservation is either already denied or refunded");
             return false;
         }
@@ -487,7 +493,6 @@ class ReservationController extends BaseController
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations/view/" . $reservationId)->withStatus(302);
             }
         }
-
 
         // deny button clicked
         if (isset($post['deny'])) {
