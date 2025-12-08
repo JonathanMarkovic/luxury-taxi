@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Domain\Models\PaymentModel;
 use App\Domain\Models\ReservationModel;
 use App\Domain\Models\UserModel;
+use App\Domain\Models\CarModel;
 use App\Helpers\FlashMessage;
 use App\Helpers\SessionManager;
 use DI\Container;
@@ -16,7 +17,7 @@ use DateTime as GlobalDateTime;
 
 class ReservationController extends BaseController
 {
-    public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model, private PaymentModel $payment_model)
+    public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model, private PaymentModel $payment_model, private CarModel $car_model)
     {
         parent::__construct($container);
     }
@@ -24,6 +25,7 @@ class ReservationController extends BaseController
     public function index(Request $request, Response $response, array $args): Response
     {
         $reservations = $this->reservation_model->fetchReservations();
+        $cars = $this->car_model->fetchCars();
         foreach ($reservations as $key => $reservation) {
             $customer = $this->user_model->fetchUserById($reservation['user_id']);
             $payment = $this->payment_model->fetchPaymentByID($reservation['reservation_id']);
@@ -36,7 +38,8 @@ class ReservationController extends BaseController
         $data['data'] = [
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'cars' => $cars
         ];
 
         return $this->render(
@@ -93,11 +96,11 @@ class ReservationController extends BaseController
                 $data['user_id'] = $user['user_id'];
             }
             // dd($data);
-            $this->reservation_model->createAndGetId($data);
+            $reservation_id = $this->reservation_model->createAndGetId($data);
         } else {
             return $this->redirect($request, $response, 'reservations.create');
         }
-        FlashMessage::success("Reservation added: You will get an email with your reservation details");
+        FlashMessage::success("Reservation added: You will get an email with your reservation details. Reservation Number: $reservation_id");
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
@@ -112,8 +115,12 @@ class ReservationController extends BaseController
         // } else {
         //     echo 'email not sent';
         // }
-
-        return $this->redirect($request, $response, 'reservations.index');
+        // dd(SessionManager::get('user_role'));
+        if (SessionManager::get('user_role') === 'admin') {
+            return $this->redirect($request, $response, 'reservations.index');
+        } else {
+            return $this->redirect($request, $response, 'customer.reservations');
+        }
     }
 
     /**
@@ -136,7 +143,8 @@ class ReservationController extends BaseController
         return $this->redirect($request, $response, 'reservations.index');
     }
 
-    public function cancel(Request $request, Response $response, array $args) : Response {
+    public function cancel(Request $request, Response $response, array $args): Response
+    {
         $reservation_id = $args['reservation_id'];
 
         if (is_numeric($reservation_id)) {

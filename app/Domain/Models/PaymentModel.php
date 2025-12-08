@@ -64,7 +64,7 @@ class PaymentModel extends BaseModel
     public function payPayment($reservation_id): int
     {
         $sql = "UPDATE payments
-        SET payment_status = paid,
+        SET payment_status = 'paid',
         paid_at = current_timestamp()
         WHERE reservation_id = :reservation_id";
 
@@ -114,13 +114,15 @@ class PaymentModel extends BaseModel
 
         return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
-    public function fetchTotalAMount($reservation_id): mixed {
+    public function fetchTotalAMount($reservation_id): mixed
+    {
         $sql = "SELECT total_amount FROM payments WHERE reservation_id = :reservation_id";
 
         return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
 
-    public function refundPayment($reservation_id): int {
+    public function refundPayment($reservation_id): int
+    {
         $sql = "UPDATE payments
         SET payment_status = 'refunded'
         WHERE reservation_id = :reservation_id";
@@ -128,7 +130,8 @@ class PaymentModel extends BaseModel
         return $this->execute($sql, ['reservation_id' => $reservation_id]);
     }
 
-    public function updateTotalAmount($reservation_id, $new_total): int {
+    public function updateTotalAmount($reservation_id, $new_total): int
+    {
         $sql = "UPDATE payments
         SET total_amount = :total_amount
         WHERE reservation_id = :reservation_id";
@@ -136,7 +139,8 @@ class PaymentModel extends BaseModel
         return $this->execute($sql, ['total_amount' => $new_total, 'reservation_id' => $reservation_id]);
     }
 
-    public function updateTotalPaid($reservation_id, $new_total): int {
+    public function updateTotalPaid($reservation_id, $new_total): int
+    {
         $sql = "UPDATE payments
         SET total_paid = :total_paid
         WHERE reservation_id = :reservation_id";
@@ -144,7 +148,8 @@ class PaymentModel extends BaseModel
         return $this->execute($sql, ['total_paid' => $new_total, 'reservation_id' => $reservation_id]);
     }
 
-    public function updatePaymentStatus($reservation_id, $new_status): int {
+    public function updatePaymentStatus($reservation_id, $new_status): int
+    {
         $sql = "UPDATE payments
         SET payment_status = :payment_status
         WHERE reservation_id = :reservation_id";
@@ -165,10 +170,11 @@ class PaymentModel extends BaseModel
         return $this->selectOne($sql, ['reservation_id' => $reservation_id]);
     }
 
-    public function ifPaymentExists($reservation_id): bool {
+    public function ifPaymentExists($reservation_id): bool
+    {
         $sql = "SELECT COUNT(*) as count FROM payments WHERE reservation_id = :reservation_id";
         $result = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
-        if($result['count'] > 0){
+        if ($result['count'] > 0) {
             return true;
         } else {
             return false;

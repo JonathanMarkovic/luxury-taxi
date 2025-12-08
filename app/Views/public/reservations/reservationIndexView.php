@@ -70,11 +70,5 @@ if (SessionManager::get('is_authenticated')) {
             <?php endforeach; ?>
 
         <?php
-    } else {
-
-
-        ?>
-            <!-- Put guest find reservation form here -->
-        <?php
     }
-        ?>
+    ?>

@@ -73,7 +73,10 @@ class AuthController extends BaseController
 
         // Check if email already exists using $this->userModel->emailExists($email)
         if ($this->userModel->emailExists($email)) {
-            $errors[] = "This email is already associated to an account.";
+            $user = $this->userModel->findByEmail($email);
+            if ($user['role'] === 'customer') {
+                $errors[] = "This email is already associated to an account.";
+            }
         }
 
         // Validate phone number format
@@ -123,7 +126,13 @@ class AuthController extends BaseController
             ];
 
             // Call $this->userModel->createUser($userData)
-            $userId = $this->userModel->createUser($userData);
+            if ($this->userModel->emailExists($email)) {
+                $user = $this->userModel->findByEmail($email);
+                // dd($this->userModel->updateUser($user['user_id'], $userData));
+                $this->userModel->updateUser($user['user_id'], $userData);
+            } else {
+                $userId = $this->userModel->createUser($userData);
+            }
 
             // Display success message using FlashMessage::success()
             FlashMessage::success("Registration successful! Please log in.");
@@ -199,6 +208,8 @@ class AuthController extends BaseController
         SessionManager::set('user_name', $user['first_name'] . ' ' . $user['last_name']);
         SessionManager::set('user_role', $user['role']);
         SessionManager::set('is_authenticated', true);
+        SessionManager::set('first_name', $user['first_name']);
+        SessionManager::set('last_name', $user['last_name']);
 
         // $reservations = $this->reservationModel->fetchReservationByUserID($user['user_id']);
         // dd($reservations);
