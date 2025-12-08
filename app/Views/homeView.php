@@ -28,8 +28,6 @@ $phone = SessionManager::get('user_phone') ?? '';
 
     <section class="heroWrap">
         <div class="bookingWrap">
-
-
             <form class="bookingForm" method="post" action="<?= APP_USER_URL ?>/reservations/store">
                 <ul class="bookingTabs">
                     <li><button type="button" id="trip" class="bookingTab active">Trip</button></li>
@@ -68,69 +66,56 @@ $phone = SessionManager::get('user_phone') ?? '';
                     }
                 </script>
 
-                <div class="bookRow">
-                    <div class="bookCol">
+                <div class="row g-2 bookRow">
+                    <div class="col-md">
                         <label for="first_name">First Name</label>
                         <input id="first_name" name="first_name" type="text" class="form-control" value="<?= $first_name ?>">
                     </div>
-                    <div class="bookCol">
+                    <div class="col-md">
                         <label for="last_name">Last Name</label>
                         <input id="last_name" name="last_name" type="text" class="form-control" value="<?= $last_name ?>">
                     </div>
                 </div>
 
-                <div class="bookRow">
-                    <div class="bookCol">
+                <div class="row g-2 bookRow">
+                    <div class="col-md">
                         <label for="email">Email</label>
-                        <div class="inputIcon"><i class="bi bi-envelope"></i></div>
                         <input id="email" name="email" type="email" class="form-control" value="<?= $email ?>">
                     </div>
-
-
-                    <div class="bookCol">
+                    <div class="col-md">
                         <label for="phone">Phone</label>
-                        <div class="inputIcon"><i class="bi bi-telephone"></i></div>
                         <input id="phone" name="phone" type="text" class="form-control" value="<?= $phone ?>">
                     </div>
                 </div>
 
-                <div class="bookRow">
-                    <div class="bookCol">
-                        <label for="pickup">Pickup</label>
-                        <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
+                <div class="row g-2 bookRow">
+                    <div class="col-md">
+                        <label for="pickup">Pickup Location</label>
                         <input id="pickup" name="pickup" type="text" class="form-control">
                     </div>
-
-
-                    <div class="bookCol">
-                        <label for="dropoff">Dropoff</label>
-                        <div class="inputIcon"><i class="bi bi-geo-alt"></i></div>
+                    <div class="col-md">
+                        <label for="dropoff">Drop-off Location</label>
                         <input id="dropoff" name="dropoff" type="text" class="form-control">
                     </div>
                 </div>
-                <div class="bookRow">
 
-                    <div class="bookCol">
+                <div class="row g-2 bookRow">
+                    <div class="col-md">
                         <label for="start_time">Start Time</label>
-                        <div class="inputIcon"><i class="bi bi-clock"></i></div>
                         <input id="start_time" name="start_time" type="datetime-local" class="form-control">
                     </div>
 
-                    <div class="bookCol">
+                    <div class="col-md">
                         <label for="end_time">End Time</label>
-                        <div class="inputIcon"><i class="bi bi-clock"></i></div>
                         <input id="end_time" name="end_time" type="datetime-local" class="form-control" disabled="true">
                     </div>
                 </div>
-
-
-                <div class="bookRow">
+                <div class="row g-1 bookRow">
                     <div class="bookFull">
                         <label for="comments">Comments</label>
                         <textarea id="comments" name="comments" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
-
                 <button class="reserveBtn" action="submit">Reserve</button>
             </form>
         </div>
