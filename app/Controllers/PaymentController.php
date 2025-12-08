@@ -37,8 +37,8 @@ class PaymentController extends BaseController
             token: SQUARE_SANDBOX_ACCESS_TOKEN,
             // token: SQUARE_PRODUCTION_ACCESS_TOKEN,
             options: [
-                // 'baseUrl' => Environments::Sandbox->value // Used by default
-                'baseUrl' => Environments::Production->value
+                'baseUrl' => Environments::Sandbox->value // Used by default
+                // 'baseUrl' => Environments::Production->value
             ]
         );
         try {
@@ -147,7 +147,9 @@ class PaymentController extends BaseController
                 // FlashMessage::success($status);
                 $payload['redirect_to'] = RouteContext::fromRequest($request)
                     ->getRouteParser()
-                    ->urlFor('reservations.index');
+                    ->urlFor('customer.reservations');
+
+                $this->payment_model->payPayment($reservation_id);
             } else {
                 FlashMessage::error('Payment Failed');
             }
