@@ -26,7 +26,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
 ?>
     <!-- Guest hero section -->
     <div class="hero-and-form">
-        <section class="hero-section1">
+        <section class="hero-section">
             <div class="hero-content">
                 <h1>Find your Reservation</h1>
                 <p>Enter your booking details below to quickly find and manage your reservation.</p>
@@ -48,10 +48,10 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
 <?php
 } else { ?>
     <!-- Customer hero section -->
-    <section class="hero-section1">
+    <section class="hero-section">
         <div class="hero-content">
             <h1>View Reservations</h1>
-            <p>Easily and efficiently view and manage all your bookings.</p>
+            <p>Easily and efficiently manage all your bookings.</p>
         </div>
     </section>
 <?php } ?>

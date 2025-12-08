@@ -22,7 +22,8 @@ class HomeController extends BaseController
     public function index(Request $request, Response $response, array $args): Response
     {
 
-        $cars = $this->car_model->fetchTopThreeCars();
+        $cars = $cars = $this->car_model->fetchCars();
+        $threeCars = $this->car_model->fetchTopThreeCars();
 
         // & creates a copy of $car
         foreach ($cars as &$car) {
@@ -33,6 +34,7 @@ class HomeController extends BaseController
             'title' => 'Home',
             'message' => 'Welcome to the home page',
             'current_page' => 'home',
+            'threeCars' => $threeCars,
             'cars' => $cars
         ];
 

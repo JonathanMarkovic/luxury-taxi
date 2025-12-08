@@ -8,8 +8,8 @@ $reservation = $data['reservations'];
 $car = $data['car'];
 $cars = $data['cars'];
 
-
 ViewHelper::loadAdminHeader($page_title);
+
 ?>
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -17,7 +17,7 @@ ViewHelper::loadAdminHeader($page_title);
     <div class="mb-4">
         <?= App\Helpers\FlashMessage::render() ?>
     </div>
-    <h2>Reservation Viewing</h2>
+    <h2>Reservation View</h2>
     <br>
     <div class="row">
         <!-- Left side: Form -->
@@ -67,15 +67,16 @@ ViewHelper::loadAdminHeader($page_title);
                     <div class="col-md-12 position-relative">
                         <label for="cars_id" class="floating-label">Vehicle</label>
                         <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
-                            <!-- Loop through all cars -->
-                            <?php foreach ($cars as $car): ?>
+                            <?php foreach ($cars as $c): ?>
                                 <option
-                                    value="<?= $car['cars_id'] ?>"
-                                    <?= (isset($reservation['cars_id']) && $reservation['cars_id'] == $car['cars_id']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' (' . $car['year'] . ')') ?>
+                                    value="<?= $c['cars_id'] ?>"
+                                    <?= (!empty($car) && $car['cars_id'] == $c['cars_id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($c['brand'] . ' ' . $c['model'] . ' (' . $c['year'] . ')') ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
+
+
                     </div>
                 </div>
 

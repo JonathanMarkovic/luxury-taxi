@@ -7,6 +7,7 @@ use App\Helpers\ViewHelper;
 $page_title = 'Home';
 ViewHelper::loadCustomerHeader($page_title, 'home');
 $cars = $data['cars'];
+$threeCars = $data['threeCars'];
 // dd($cars);
 
 $first_name = SessionManager::get('first_name') ?? '';
@@ -17,9 +18,7 @@ $phone = SessionManager::get('user_phone') ?? '';
 ?>
 <div class="page-content">
     <?= FlashMessage::render() ?>
-
     <section class="aboutWrap">
-
         <div class="aboutText">
             <h2 class="aboutTitle">Solaf Performance</h2>
             <p>We combine luxury, reliability, and professionalism to deliver an exceptional travel experience. From airport transfers and regular pickups to corporate travel, special events, and long-distance journeys, our premium vehicles and expert chauffeurs ensure you arrive relaxed, refreshed, and on time. Every ride is crafted with comfort and elegance in mind — where sophistication meets convenience.</p>
@@ -28,7 +27,7 @@ $phone = SessionManager::get('user_phone') ?? '';
 
     <section class="heroWrap">
         <div class="bookingWrap">
-            <form class="bookingForm" method="post" action="<?= APP_USER_URL ?>/reservations/store">
+            <form class="bookingForm" method="post" action="<?= APP_USER_URL ?>/reservations/book">
                 <ul class="bookingTabs">
                     <li><button type="button" id="trip" class="bookingTab active">Trip</button></li>
                     <li><button type="button" id="hourly" class="bookingTab">Hourly</button></li>
@@ -110,13 +109,38 @@ $phone = SessionManager::get('user_phone') ?? '';
                         <input id="end_time" name="end_time" type="datetime-local" class="form-control" disabled="true">
                     </div>
                 </div>
+                <div class="row g-2 bookRow">
+                    <div class="col-md">
+                        <label for="cars_id">Vehicle</label>
+                        <select name="cars_id" id="cars_id" class="form-select" required>
+                            <!-- Placeholder for create view -->
+                            <option value="" disabled selected>Select a vehicle</option>
+
+                            <!-- Loop through all cars -->
+                            <?php foreach ($cars as $car): ?>
+                                <option
+                                    value="<?= $car['cars_id'] ?>"
+                                    <?= (isset($reservation['cars_id']) && $reservation['cars_id'] == $car['cars_id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' (' . $car['year'] . ')') ?>
+                                </option>
+                            <?php endforeach; ?>
+
+                        </select>
+                    </div>
+                </div>
                 <div class="row g-1 bookRow">
                     <div class="bookFull">
                         <label for="comments">Comments</label>
                         <textarea id="comments" name="comments" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
-                <button class="reserveBtn" action="submit">Reserve</button>
+                <div class="row g-1">
+                    <div class="col-md text-end">
+                        <button class="reserveBtn" action="submit">
+                            Reserve
+                        </button>
+                    </div>
+                </div>
             </form>
         </div>
     </section>
@@ -154,14 +178,17 @@ $phone = SessionManager::get('user_phone') ?? '';
         <h2 class="stepsTitle">Our Cars</h2>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" class="cars-section">
-            <?php foreach ($cars as $car): ?>
+            <?php foreach ($threeCars as $car): ?>
                 <div class="col">
                     <div class="car-card">
                         <!-- Carousel -->
                         <?php if (!empty($car['images'])): ?>
-                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" style="height: 600px; display: flex;
-  align-items: center;
-  justify-content: center;">
+                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" style="
+                                height: 600px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                ">
                                 <div class="carousel-indicators">
                                     <?php foreach ($car['images'] as $index => $image): ?>
                                         <button type="button"

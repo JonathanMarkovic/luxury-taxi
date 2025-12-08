@@ -56,18 +56,27 @@ class ReservationModel extends BaseModel
 
         $user = $this->user_model->findByEmail($user_email);
         $sql = "SELECT
-            reservations.*,
-            users.first_name,
-            users.last_name,
-            users.email,
-            users.phone,
-            payments.total_amount as total_amount,
-            payments.total_paid as total_paid,
-            payments.payment_status as payment_status
-        FROM reservations
-        JOIN users ON users.user_id = reservations.user_id
-        LEFT JOIN payments ON payments.reservation_id = reservations.reservation_id
-        WHERE reservations.reservation_id = :reservation_id";
+                r.*,
+                u.first_name,
+                u.last_name,
+                u.email,
+                u.phone,
+                p.total_amount,
+                p.payment_status,
+                p.total_amount,
+                c.cars_id,
+                c.brand,
+                c.model,
+                c.year,
+                ci.image_id,
+                ci.image_path
+                    FROM reservations r
+                    JOIN users u ON u.user_id = r.user_id
+                    LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
+                    LEFT JOIN cars c ON c.cars_id = rc.cars_id
+                    LEFT JOIN car_images ci ON c.cars_id = ci.cars_id
+                    LEFT JOIN payments p ON r.reservation_id = p.reservation_id
+                WHERE r.reservation_id = :reservation_id";
 
         $reservation = $this->selectAll($sql, ['reservation_id' => $reservation_id]);
         return $reservation;
@@ -142,6 +151,7 @@ class ReservationModel extends BaseModel
                 u.phone,
                 p.total_amount,
                 p.payment_status,
+                p.total_amount,
                 c.cars_id,
                 c.brand,
                 c.model,
@@ -193,7 +203,7 @@ class ReservationModel extends BaseModel
      */
     public function addCarToReservation(int $cars_id, int $reservation_id)
     {
-        $sql = "INSERT INTO reservation_cars VALUES (:cars_id, :reservation_id)";
+        $sql = "INSERT INTO reservation_cars (cars_id, reservation_id) VALUES (:cars_id, :reservation_id)";
 
         return $this->execute($sql, ['cars_id' => $cars_id, 'reservation_id' => $reservation_id]);
     }

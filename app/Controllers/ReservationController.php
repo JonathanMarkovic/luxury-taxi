@@ -97,10 +97,10 @@ class ReservationController extends BaseController
 
             //? Add car to reservation
             $this->reservation_model->addCarToReservation($data['cars_id'], $reservation_id);
+            FlashMessage::success("Reservation added: You will get an email with your reservation details. You can monitor the status of your booking in the find reservations tab using your email and your reservation number: $reservation_id");
         } else {
             return $this->redirect($request, $response, 'reservations.create');
         }
-        FlashMessage::success("Reservation added: You will get an email with your reservation details. Reservation Number: $reservation_id");
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
@@ -345,6 +345,10 @@ class ReservationController extends BaseController
         // Fetch the car assigned to this reservation
         $car = $this->reservation_model->getCarForReservation($reservation_id);
 
+        if (is_array($car) && isset($car[0])) {
+            $car = $car[0];
+        }
+
         // Fetch all cars for dropdown
         $cars = $this->car_model->fetchCars();
 
@@ -355,6 +359,8 @@ class ReservationController extends BaseController
             'car' => $car,
             'cars' => $cars
         ];
+
+        // dd($car);
         return $this->render($response, '/admin/reservations/reservationEditView.php', $data);
     }
     private function approveReservation(int $reservation_id, array $data): bool
@@ -673,5 +679,57 @@ class ReservationController extends BaseController
             // Redirect back to 'customer.reservations' route
             return $this->redirect($request, $response, 'customer.reservations');
         }
+    }
+
+    /**
+     * Summary of store
+     * Extracts and validates the input data for a new reservation
+     * before calling on the ReservationsModel to store the reservations's
+     * information in the database.
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function createCustomerReservation(Request $request, Response $response, array $args): Response
+    {
+        $data = $request->getParsedBody();
+
+        $errors = [];
+        // dd($data);
+
+        if ($this->validate($data)) {
+            //* Checks if the email already exists in the database, and if it does grabs their user_id to link to the reservation
+            if ($this->user_model->emailExists($data['email'])) {
+                $user = $this->user_model->findByEmail($data['email']);
+                // if email exists, grab user_id
+                $data['user_id'] = $user['user_id'];
+            }
+
+            //? Add reservation
+            $reservation_id = $this->reservation_model->createAndGetId($data);
+
+            //? Add car to reservation
+            $this->reservation_model->addCarToReservation($data['cars_id'], $reservation_id);
+            FlashMessage::success("Reservation added: You will get an email with your reservation details. You can monitor the status of your booking in the find reservations tab using your email and reservation number: $reservation_id");
+        } else {
+            return $this->redirect($request, $response, 'home.index');
+        }
+
+        //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
+        $to = $data['email'];
+        $subject = "Reservation Created";
+        $message = "Solaf Performance has received your reservation request. You will get a response soon";
+        $headers = "From: " . OWNER_EMAIL . "\r\n" .
+            "Reply-to: " . OWNER_EMAIL . "\r\n" .
+            "X-Mailer: PHP/" . phpversion();
+
+        // if (mail($to, $subject, $message, $headers)) {
+        //     echo 'email sent';
+        // } else {
+        //     echo 'email not sent';
+        // }
+        // dd(SessionManager::get('user_role'));
+        return $this->redirect($request, $response, 'home.index');
     }
 }

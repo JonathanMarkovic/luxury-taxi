@@ -62,7 +62,6 @@ $cars = $data['cars'];
                         <div class="col-md-12 position-relative">
                             <label for="cars_id" class="floating-label">Vehicle</label>
                             <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
-
                                 <!-- Placeholder for create view -->
                                 <option value="" disabled selected>Select a vehicle</option>
 
