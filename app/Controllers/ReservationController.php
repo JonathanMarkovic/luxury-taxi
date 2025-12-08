@@ -115,8 +115,8 @@ class ReservationController extends BaseController
         // } else {
         //     echo 'email not sent';
         // }
-
-        if (SessionManager::get('role') === 'admin') {
+        // dd(SessionManager::get('user_role'));
+        if (SessionManager::get('user_role') === 'admin') {
             return $this->redirect($request, $response, 'reservations.index');
         } else {
             return $this->redirect($request, $response, 'customer.reservations');
