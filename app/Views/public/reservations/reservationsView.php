@@ -8,6 +8,7 @@ $page_title = "View Reservations";
 ViewHelper::loadCustomerHeader($page_title, 'find-reservation');
 
 $reservations = $data['reservations'] ?? [];
+$cars = $data['cars'] ?? [];
 
 // Get session values
 $user_role = SessionManager::get('user_role');
@@ -59,7 +60,13 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
 <?php if (!empty($reservations)) { ?>
     <div class="container my-5">
         <?php foreach ($reservations as $reservation): ?>
-            <?php include __DIR__ . '/reservationCard.php'; ?>
+            <?php
+            $data = [
+                'reservations' => $reservation,
+                'cars' => $cars
+            ];
+            include __DIR__ . '/reservationCard.php';
+            ?>
             <br>
         <?php endforeach; ?>
     </div>

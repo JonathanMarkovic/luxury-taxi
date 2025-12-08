@@ -94,16 +94,20 @@ class ReservationModel extends BaseModel
      */
     public function fetchReservations(): mixed
     {
-        $sql = <<<sql
-            SELECT r.*,
-            u.email,
-            rc.*,
-            c.*
+        $sql = <<<SQL
+            SELECT
+                r.*,
+                u.email,
+                rc.cars_id AS selected_car_id,
+                c.cars_id AS car_id,
+                c.brand,
+                c.model,
+                c.year
             FROM reservations r
             JOIN users u ON u.user_id = r.user_id
-            JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
-            JOIN cars c ON c.cars_id = rc.cars_id
-        sql;
+            LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
+            LEFT JOIN cars c ON c.cars_id = rc.cars_id
+        SQL;
         $reservations = $this->selectAll($sql);
         return $reservations;
     }
@@ -131,17 +135,26 @@ class ReservationModel extends BaseModel
     {
         $sql = <<<sql
             SELECT
-            R.*,
-            U.first_name,
-            U.last_name,
-            U.email,
-            U.phone,
-            P.total_amount,
-            P.payment_status
-            FROM reservations R
-            LEFT JOIN users U ON R.user_id = U.user_id
-            LEFT JOIN payments P ON r.reservation_id = P.reservation_id
-            WHERE R.user_id = :user_id
+                r.*,
+                u.first_name,
+                u.last_name,
+                u.email,
+                u.phone,
+                p.total_amount,
+                p.payment_status,
+                c.cars_id,
+                c.brand,
+                c.model,
+                c.year,
+                ci.image_id,
+                ci.image_path
+                    FROM reservations r
+                    JOIN users u ON u.user_id = r.user_id
+                    LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
+                    LEFT JOIN cars c ON c.cars_id = rc.cars_id
+                    LEFT JOIN car_images ci ON c.cars_id = ci.cars_id
+                    LEFT JOIN payments p ON r.reservation_id = p.reservation_id
+                WHERE r.user_id = :user_id
         sql;
 
         $reservations = $this->selectAll($sql, ['user_id' => $user_id]);
@@ -313,7 +326,8 @@ class ReservationModel extends BaseModel
         ]);
     }
 
-    public function updateCustomerReservation($reservation_id, array $data) {
+    public function updateCustomerReservation($reservation_id, array $data)
+    {
         $sql = <<<sql
             UPDATE reservations
             SET

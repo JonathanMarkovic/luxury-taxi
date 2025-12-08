@@ -57,7 +57,7 @@ class ReservationController extends BaseController
     public function create(Request $request, Response $response, array $args): Response
     {
         $cars = $this->car_model->fetchCars();
-        
+
         $data['data'] = [
             'title' => 'Reservations',
             'message' => 'Welcome to the Reservations Creation page',
@@ -544,7 +544,7 @@ class ReservationController extends BaseController
 
         $data['data'] = [
             'title' => 'reservations',
-            'reservations' => $reservation ?? []
+            'reservations' => $reservation ?? [],
         ];
 
         // dd($reservation);
@@ -563,20 +563,25 @@ class ReservationController extends BaseController
     public function customerIndex(Request $request, Response $response, array $args): Response
     {
         $user_id = SessionManager::get('user_id');
-        if (sizeof($args) > 0) {
-            print_r("Testing");
-            dd($args);
-        }
 
+        $reservations = [];
         if ($user_id !== null) {
             $reservations = $this->reservation_model->fetchAllCustomerReservations($user_id);
         }
 
-        SessionManager::set('modify_mode', false);
+        // Fetch all cars for the drop-down
+        $cars = $this->car_model->fetchCars();
+
+        // Set modify_mode to false if it isn't already true
+        $modify_mode = SessionManager::get('modify_mode') ?? false;
+        $edit_reservation = SessionManager::get('edit_reservation') ?? null;
 
         $data['data'] = [
             'title' => 'reservations',
-            'reservations' => $reservations ?? []
+            'reservations' => $reservations,
+            'cars' => $cars,
+            'modify_mode' => $modify_mode,
+            'edit_reservation' => $edit_reservation
         ];
 
         return $this->render($response, 'public/reservations/reservationsView.php', $data);
@@ -622,35 +627,14 @@ class ReservationController extends BaseController
     {
         // Get form data
         $formData = $request->getParsedBody();
-
-        $errors = [];
         $reservation_id = $args['reservation_id'];
 
-        // Extract each field
-        $newPickup = $formData['pickup'];
-        $newDropoff = $formData['dropoff'];
-        $newStartTime = $formData['start_time'];
-        $newEndTime = $formData['end_time'];
-        $newReservationType = $formData['reservation_type'];
+        $errors = [];
 
-        if (empty($newPickup)) {
-            $errors[] = "Please fill in Pickup field.";
-        }
-
-        if (empty($newDropoff)) {
-            $errors[] = "Please fill in Drop-off field.";
-        }
-
-        if (empty($newStartTime)) {
-            $errors[] = "Please fill in Start Time field.";
-        }
-
-        if (empty($newEndTime)) {
-            $errors[] = "Please fill in End Time field.";
-        }
-
-        if (empty($newReservationType)) {
-            $errors[] = "Please select a reservation type.";
+        foreach (['pickup', 'dropoff', 'start_time', 'end_time', 'reservation_type'] as $field) {
+            if (empty($formData[$field])) {
+                $errors[] = "Please fill in " . ucfirst(str_replace('_', ' ', $field)) . ".";
+            }
         }
 
         if (!empty($errors)) {
@@ -663,11 +647,12 @@ class ReservationController extends BaseController
         // If validation passes, update the reservation
         try {
             $reservationData = [
-                'pickup' => $newPickup,
-                'dropoff' => $newDropoff,
-                'start_time' => $newStartTime,
-                'end_time' => $newEndTime,
-                'reservation_type' => $newReservationType
+                'pickup' => $formData['pickup'],
+                'dropoff' => $formData['dropoff'],
+                'start_time' => $formData['start_time'],
+                'end_time' => $formData['end_time'],
+                'reservation_type' => $formData['reservation_type'],
+                'cars_id' => $formData['cars_id']
             ];
 
             $this->reservation_model->updateCustomerReservation($reservation_id, $reservationData);
@@ -676,6 +661,7 @@ class ReservationController extends BaseController
 
             // reset modify_mode after saving
             SessionManager::set('modify_mode', false);
+            SessionManager::remove('edit_reservation');
 
             return $this->redirect($request, $response, 'customer.reservations');
         } catch (\Exception $e) {
