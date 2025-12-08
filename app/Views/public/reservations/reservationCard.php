@@ -16,7 +16,7 @@ $cars = $data['cars'];
 
         <!-- Car image -->
         <div class="col-md-3 d-flex align-items-start justify-content-center">
-            <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>" alt="<?= $reservation['brand'] . " " . $reservation['model'] . " " . $reservation['year']?>">
+            <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>" alt="<?= $reservation['brand'] . " " . $reservation['model'] . " " . $reservation['year'] ?>">
         </div>
 
         <!-- Customer Details -->
@@ -82,6 +82,7 @@ $cars = $data['cars'];
                     <div class="row g-3 mb-3">
                         <div class="col-md-12 position-relative">
                             <select name="reservation_type" id="reservation_type" class="form-select custom-floating-select">
+                                <option value="" disabled selected hidden>Select a Reservation Type</option>
                                 <option value="hourly" <?= ($reservation['reservation_type'] ?? '') === 'hourly' ? 'selected' : '' ?>>Hourly</option>
                                 <option value="trip" <?= ($reservation['reservation_type'] ?? '') === 'trip' ? 'selected' : '' ?>>Trip</option>
                             </select>
@@ -92,6 +93,7 @@ $cars = $data['cars'];
                     <div class="row g-3 mb-3">
                         <div class="col-md-12 position-relative">
                             <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
+                                <option value="" disabled selected hidden>Select a Vehicle</option>
                                 <!-- Loop through all cars -->
                                 <?php foreach ($cars as $car): ?>
                                     <option
@@ -107,13 +109,11 @@ $cars = $data['cars'];
 
 
                     <!-- Price -->
-                    <br>
                     <div class="static-reservation-banner">
                         Price
                         <br>
                         <?= $reservation['total_amount'] == null ? "not set" : "$ " . $reservation['total_amount'] ?>
                     </div>
-                    <br>
                     <!-- Payment -->
                     <div class="static-reservation-banner">
                         Payment Status

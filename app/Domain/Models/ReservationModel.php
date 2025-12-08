@@ -328,24 +328,64 @@ class ReservationModel extends BaseModel
 
     public function updateCustomerReservation($reservation_id, array $data)
     {
-        $sql = <<<sql
-            UPDATE reservations
-            SET
-                pickup = :pickup,
-                dropoff = :dropoff,
-                start_time = :start_time,
-                end_time = :end_time,
-                reservation_type = :reservation_type
-            WHERE reservation_id = :reservation_id
-        sql;
+        // Start the tran to update both tables
+        $this->beginTransaction();
 
-        return $this->execute($sql, [
-            'pickup' => $data['pickup'],
-            'dropoff' => $data['dropoff'],
-            'start_time' => $data['start_time'],
-            'end_time' => $data['end_time'],
-            'reservation_type' => $data['reservation_type'],
-            'reservation_id' => $reservation_id
-        ]);
+        try {
+            // Update the reservation
+            $sqlReservation = <<<sql
+                UPDATE reservations
+                SET
+                    pickup = :pickup,
+                    dropoff = :dropoff,
+                    start_time = :start_time,
+                    end_time = :end_time,
+                    reservation_type = :reservation_type
+                WHERE reservation_id = :reservation_id
+            sql;
+
+            $count = $this->execute($sqlReservation, [
+                'pickup' => $data['pickup'],
+                'dropoff' => $data['dropoff'],
+                'start_time' => $data['start_time'],
+                'end_time' => $data['end_time'],
+                'reservation_type' => $data['reservation_type'],
+                'reservation_id' => $reservation_id
+            ]);
+
+            // Don't throw exception if no rows are affected
+            if ($count === false) {
+                throw new \Exception("Database error");
+            }
+
+            if (isset($data['cars_id'])) {
+                // Update the car
+                $sqlCar = <<<sql
+                    UPDATE reservation_cars
+                    SET cars_id = :cars_id
+                    WHERE reservation_id = :reservation_id
+                sql;
+
+
+                $count = $this->execute($sqlCar, [
+                    'cars_id' => $data['cars_id'],
+                    'reservation_id' => $reservation_id
+                ]);
+
+                // Don't throw exeption if no rows are affected
+                if ($count === false) {
+                    throw new \Exception("Database error");
+                }
+            }
+
+            // Commit the transaction
+            $this->commit();
+
+            return true;
+        } catch (\Exception $e) {
+            // Rollback if it doesn't work
+            $this->rollback();
+            throw $e;
+        }
     }
 }

@@ -666,7 +666,9 @@ class ReservationController extends BaseController
             return $this->redirect($request, $response, 'customer.reservations');
         } catch (\Exception $e) {
             // Display error message using FlashMessage::error()
-            FlashMessage::error("Updating reservation failed. Please try again.");
+            FlashMessage::error("Updating reservation failed. Please try again." . $e->getMessage());
+
+            error_log($e->getTraceAsString());
 
             // Redirect back to 'customer.reservations' route
             return $this->redirect($request, $response, 'customer.reservations');
