@@ -54,6 +54,7 @@ $cars = $data['cars'];
                             <!-- Reservation Type input -->
                             <label for="reservation_type">Reservation Type</label>
                             <select name="reservation_type" id="reservation_type" class="form-select">
+                                <option value="" disabled selected>Select an occasion</option>
                                 <option value="hourly">Hourly</option>
                                 <option value="trip">Trip</option>
                             </select>
@@ -63,9 +64,7 @@ $cars = $data['cars'];
                             <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
 
                                 <!-- Placeholder for create view -->
-                                <?php if (!isset($reservation['cars_id'])): ?>
-                                    <option value="" disabled selected>Select a vehicle</option>
-                                <?php endif; ?>
+                                <option value="" disabled selected>Select a vehicle</option>
 
                                 <!-- Loop through all cars -->
                                 <?php foreach ($cars as $car): ?>
