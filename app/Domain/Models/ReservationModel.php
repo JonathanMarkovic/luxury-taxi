@@ -94,8 +94,16 @@ class ReservationModel extends BaseModel
      */
     public function fetchReservations(): mixed
     {
-        $sql = "SELECT reservations.*, users.email FROM reservations
-        JOIN users ON users.user_id = reservations.user_id";
+        $sql = <<<sql
+            SELECT r.*,
+            u.email,
+            rc.*,
+            c.*
+            FROM reservations r
+            JOIN users u ON u.user_id = r.user_id
+            JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
+            JOIN cars c ON c.cars_id = rc.cars_id
+        sql;
         $reservations = $this->selectAll($sql);
         return $reservations;
     }

@@ -82,6 +82,7 @@ footer {
     height: 15vh;
     display: grid;
     place-items: center;
+    margin-bottom: 30px;
 }
 
 .hero-content {

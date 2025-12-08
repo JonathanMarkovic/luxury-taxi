@@ -30,7 +30,8 @@ $reservations = $data['reservations'];
                 <td>Start Time</td>
                 <td>End Time</td>
                 <td>Pickup</td>
-                <td>Dropoff</td>
+                <td>Drop-off</td>
+                <td>Vehicle</td>
                 <td>Comments</td>
                 <td>Reservation Type</td>
                 <td>Reservation Status</td>
@@ -60,6 +61,7 @@ $reservations = $data['reservations'];
                     <td><?= $reservation['end_time'] ?></td>
                     <td><?= $reservation['pickup'] ?></td>
                     <td><?= $reservation['dropoff'] ?></td>
+                    <td><?= $reservation['brand'] ?> <?= $reservation['model'] ?> <?= $reservation['year'] ?></td>
                     <td><?= $reservation['comments'] ?></td>
                     <td><?= $reservation['reservation_type'] ?></td>
                     <td>
