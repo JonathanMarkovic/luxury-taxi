@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "home": "Home",
+    "reservation": "Find Reservation",
+    "cars": "Our Cars",
+    "contact": "Contact Us",
+    "login": "Login",
+    "sign up": "Sign Up"
+  },
+  "home": {
+    "description": "We combine luxury, reliability, and professionalism to deliver an exceptional travel experience. From airport transfers and regular pickups to corporate travel, special events, and long-distance journeys, our premium vehicles and expert chauffeurs ensure you arrive relaxed, refreshed, and on time. Every ride is crafted with comfort and elegance in mind — where sophistication meets convenience.",
+    "trip": "Trip",
+    "hourly": "Hourly",
+    "firstN": "First Name",
+    "lastN": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "pickup": "Pickup",
+    "dropoff": "Dropoff",
+    "start": "Start Time",
+    "end": "End Time",
+    "comments": "Comments",
+    "reserve": "Reserve",
+    "howItWorks": "How it works",
+    "works1": "Reserve Your Car",
+    "works1Desc": "Browse our available vehicles and submit a reservation request for your preferred car and dates.",
+    "works2": "Admin Confirmation",
+    "works2Desc": "Our team reviews your request, confirms availability, and provides the final rental price.",
+    "works3": "Secure Booking",
+    "works3Desc": "Pay in person on the day of your reservation or online prior to your reservation.",
+    "works4": "Pickup & Go",
+    "works4Desc": "Your driver arrives at the scheduled time to take you to your destination safely and comfortably.",
+    "ourCars": "Our Cars",
+    "carsButton": "View All Cars"
+  },
+  "reservation": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "cars": {
+    "title": "Find The Perfect Car",
+    "description": "Explore our collection of premium vehicles designed to meet every travel need. Whether you're heading to the airport, a corporate event, or a night out, our cars combine performance, elegance, and luxury to deliver the perfect ride every time."
+
+  },
+  "faq": {
+    "title": "Find Answers About Our Services",
+    "description": "Excellence is part of our transparency. Learn more about how we drive you in style.",
+    "Qdesc": "Send us a message if you need any additional information, and we'll get back to you as soon as possible!",
+    "submit": "Submit",
+    "email": "Email"
+
+  },
+  "footer": {
+    "description": "Luxurious & reliable transport for every journey.",
+    "HelpfulLinks": "Helpful Links"
+
+  },
+  "login": {
+    "welcome": "Welcome Back!",
+    "welcomeDesc": "Enter your credentials to access your information",
+    "password": "Password",
+    "login": "Login",
+    "register": "Don't have an account? Register here"
+  },
+  "register":{
+    "create": "Create An Account",
+    "desc": "You can view your reservations easier!",
+    "firstN": "First Name",
+    "lastN": "Last Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "pass": "Confirm Password",
+    "register": "Register",
+    "login": "Already have an account? Login here"
+  }
+}
