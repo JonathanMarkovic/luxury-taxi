@@ -5,6 +5,8 @@ use App\Helpers\ViewHelper;
 $page_title = 'View Reservation';
 
 $reservation = $data['reservations'];
+$car = $data['car'];
+$cars = $data['cars'];
 
 
 ViewHelper::loadAdminHeader($page_title);
@@ -64,7 +66,31 @@ ViewHelper::loadAdminHeader($page_title);
                             </select>
                         </div>
                     </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-12 position-relative">
+                            <select name="cars_id" id="cars_id" class="form-select custom-floating-select">
+
+                                <!-- Placeholder for create view -->
+                                <?php if (!isset($reservation['cars_id'])): ?>
+                                    <option value="" disabled selected>Select a vehicle</option>
+                                <?php endif; ?>
+
+                                <!-- Loop through all cars -->
+                                <?php foreach ($cars as $car): ?>
+                                    <option
+                                        value="<?= $car['cars_id'] ?>"
+                                        <?= (isset($reservation['cars_id']) && $reservation['cars_id'] == $car['cars_id']) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($car['brand'] . ' ' . $car['model'] . ' (' . $car['year'] . ')') ?>
+                                    </option>
+                                <?php endforeach; ?>
+
+                            </select>
+
+                            <label for="cars_id" class="floating-label">Vehicle</label>
+                        </div>
+                    </div>
                 </div>
+
 
                 <div class="row g-3 mb-3"> <!-- Fourth row -->
                     <div class="col-md-6">
@@ -191,23 +217,23 @@ ViewHelper::loadAdminHeader($page_title);
 </main>
 
 <!-- Refund Modal -->
-    <div class="modal fade" id="refundModal<?= $reservation['reservation_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="refundModalLabel<?= $reservation['reservation_id'] ?>" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h1 class="modal-title fs-5" id="refundModalLabel<?= $reservation['reservation_id'] ?>">Refund Reservation</h1>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to refund this reservation?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
-                    <button type="submit" form="updateForm<?= $reservation['reservation_id'] ?>" name="refund" class="btn btn-primary">Refund</button>
-                </div>
+<div class="modal fade" id="refundModal<?= $reservation['reservation_id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="refundModalLabel<?= $reservation['reservation_id'] ?>" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h1 class="modal-title fs-5" id="refundModalLabel<?= $reservation['reservation_id'] ?>">Refund Reservation</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to refund this reservation?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                <button type="submit" form="updateForm<?= $reservation['reservation_id'] ?>" name="refund" class="btn btn-primary">Refund</button>
             </div>
         </div>
     </div>
+</div>
 </main>
 
 <script>
@@ -282,7 +308,7 @@ ViewHelper::loadAdminHeader($page_title);
 
             const script = document.createElement('script');
             script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDNMWPTWGhqZ0rJzKSSsk9EP-YUupehQfw&libraries=places&callback=initMap';
-            script.defer = true; 
+            script.defer = true;
             script.onerror = (error) => {
                 console.error("Failed to load Google Maps script:", error);
                 mapsLoading = false;
@@ -304,7 +330,10 @@ ViewHelper::loadAdminHeader($page_title);
         }
 
         map = new google.maps.Map(mapElement, {
-            center: { lat: 45.508888, lng: -73.561668 },
+            center: {
+                lat: 45.508888,
+                lng: -73.561668
+            },
             zoom: 12,
         });
 

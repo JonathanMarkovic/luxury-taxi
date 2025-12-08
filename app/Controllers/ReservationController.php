@@ -31,10 +31,7 @@ class ReservationController extends BaseController
             $payment = $this->payment_model->fetchPaymentByID($reservation['reservation_id']);
             $reservations[$key]['price'] = $payment['total_amount'] ?? null;
             $reservations[$key]['total_paid'] = $payment['total_paid'] ?? null;
-            // $reservation['email'] = $customer['email'];
-            // dd($reservation);
         }
-        // dd($reservations);
         $data['data'] = [
             'title' => 'Admin',
             'message' => 'Welcome to the admin page',
@@ -48,11 +45,7 @@ class ReservationController extends BaseController
             $data
         );
     }
-/*
-    public function show(Request $request, Response $response, array $args): Response {
-        return
-    }
-*/
+
     /**
      * Summary of create
      * Loads the reservation creation page for the user
@@ -63,9 +56,12 @@ class ReservationController extends BaseController
      */
     public function create(Request $request, Response $response, array $args): Response
     {
+        $cars = $this->car_model->fetchCars();
+        
         $data['data'] = [
             'title' => 'Reservations',
-            'message' => 'Welcome to the Reservations Creation page'
+            'message' => 'Welcome to the Reservations Creation page',
+            'cars' => $cars
         ];
 
         return $this->render($response, 'admin/reservations/reservationCreateView.php', $data);
@@ -95,8 +91,12 @@ class ReservationController extends BaseController
                 // if email exists, grab user_id
                 $data['user_id'] = $user['user_id'];
             }
-            // dd($data);
+
+            //? Add reservation
             $reservation_id = $this->reservation_model->createAndGetId($data);
+
+            //? Add car to reservation
+            $this->reservation_model->addCarToReservation($data['cars_id'], $reservation_id);
         } else {
             return $this->redirect($request, $response, 'reservations.create');
         }
@@ -338,11 +338,22 @@ class ReservationController extends BaseController
     public function view(Request $request, Response $response, array $args): Response
     {
         $reservation_id = $args['reservation_id'];
-        $reservations = $this->reservation_model->fetchReservationById($reservation_id);
+
+        // Fetch reservation
+        $reservation = $this->reservation_model->fetchReservationById($reservation_id);
+
+        // Fetch the car assigned to this reservation
+        $car = $this->reservation_model->getCarForReservation($reservation_id);
+
+        // Fetch all cars for dropdown
+        $cars = $this->car_model->fetchCars();
+
+        // Pass everything to the view
         $data = [
             'title' => 'Reservation',
-            'reservations' => $reservations,
-
+            'reservations' => $reservation,
+            'car' => $car,
+            'cars' => $cars
         ];
         return $this->render($response, '/admin/reservations/reservationEditView.php', $data);
     }

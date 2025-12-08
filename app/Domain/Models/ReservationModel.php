@@ -165,6 +165,37 @@ class ReservationModel extends BaseModel
     }
 
     /**
+     * Summary of addCarToReservation
+     * Creates a new reservation_cars in the database
+     * @param array $data
+     * @return bool|string
+     */
+    public function addCarToReservation(int $cars_id, int $reservation_id)
+    {
+        $sql = "INSERT INTO reservation_cars VALUES (:cars_id, :reservation_id)";
+
+        return $this->execute($sql, ['cars_id' => $cars_id, 'reservation_id' => $reservation_id]);
+    }
+
+    /**
+     * Summary of getCarForReservation
+     * Selects cars in the database
+     * @param array $data
+     * @return bool|string
+     */
+    public function getCarForReservation(int $reservation_id)
+    {
+        $sql = <<<sql
+            SELECT c.*
+            FROM cars c
+            INNER JOIN reservation_cars rc ON rc.cars_id = c.cars_id
+            WHERE rc.reservation_id = :reservation_id
+        sql;
+
+        return $this->selectAll($sql, ['reservation_id' => $reservation_id]);
+    }
+
+    /**
      * Summary of deleteReservation
      * Removes a reservation from the database
      * @param mixed $reservation_id
