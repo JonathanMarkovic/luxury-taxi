@@ -124,7 +124,7 @@ class PaymentModel extends BaseModel
     public function refundPayment($reservation_id): int
     {
         $sql = "UPDATE payments
-        SET payment_status = 'refunded'
+        SET payment_status = 'refunded', total_paid = total_amount
         WHERE reservation_id = :reservation_id";
 
         return $this->execute($sql, ['reservation_id' => $reservation_id]);

@@ -152,13 +152,15 @@ ViewHelper::loadAdminHeader($page_title);
         </div>
 
         <!-- Google maps, add later -->
-        <div class="col-md-6">
+        <div class="col-md-6 ">
             <div class="border rounded p-3" style="height: 87%; min-height: 600px; background-color: #f8f9fa;" id="map">
                 <p class="text-center text-muted mt-5">Google Maps</p>
             </div>
             <br>
-            <div>
+            <div class="col-md-12 d-flex justify-content-start gap-2">
                 <button onclick="calculateRoute()" class="btn btn-secondary">View Direction</button>
+                <br>
+                <div id="output" class="d-flex gap-2" style="font-size: 18px; white-space: nowrap"></div>
             </div>
         </div>
     </div>
@@ -265,6 +267,8 @@ ViewHelper::loadAdminHeader($page_title);
     let map, directionService, directionRenderer;
     let mapsLoaded = false;
     let mapsLoading = false;
+    var source = document.getElementById("pickup").value;
+    var destination = document.getElementById("dropoff").value;
 
     function loadGoogleMaps() {
         return new Promise((resolve, reject) => {
@@ -333,19 +337,12 @@ ViewHelper::loadAdminHeader($page_title);
     }
 
     async function calculateRoute() {
-        console.log("calculateRoute called");
-        var source = document.getElementById("pickup").value;
-        var destination = document.getElementById("dropoff").value;
-
-        console.log("Source:", source, "Destination:", destination);
-
         if (!source || !destination) {
-            alert("Please enter both pickup and dropoff locations");
+            alert("There is no dropoff location");
             return;
         }
 
         try {
-            console.log("Loading Google Maps...");
             await loadGoogleMaps();
             console.log("Google Maps loaded, checking map initialization...");
 
@@ -356,15 +353,27 @@ ViewHelper::loadAdminHeader($page_title);
             var request = {
                 origin: source,
                 destination: destination,
-                travelMode: 'DRIVING'
+                travelMode: 'DRIVING',
+                unitSystem: 'IMPERIAL'
             };
-
-            console.log("Requesting directions with:", request);
             directionService.route(request, function(result, status) {
                 console.log("Directions response - Status:", status);
                 if (status == 'OK') {
+
+                    const output = document.querySelector("#output");
+                    const distance = result.routes[0].legs[0].distance.text;
+                    const duration = result.routes[0].legs[0].duration.text;
+                    output.innerHTML = `
+                        <div class="border rounded px-3 py-2 bg-light">
+                            <span class="text-muted">Distance:</span>
+                            <strong class="ms-1">${distance}</strong>
+                        </div>
+                        <div class="border rounded px-3 py-2 bg-light">
+                            <span class="text-muted">Duration:</span>
+                            <strong class="ms-1">${duration}</strong>
+                        </div>
+                    `;
                     directionRenderer.setDirections(result);
-                    console.log("Directions rendered successfully");
                 } else {
                     console.error("Directions failed:", status, result);
                     alert("Could not display directions due to: " + status);
@@ -375,6 +384,8 @@ ViewHelper::loadAdminHeader($page_title);
             alert("Failed to load Google Maps. Error: " + error.message);
         }
     }
+
+    //calculate the distance
 </script>
 <?php
 ViewHelper::loadJsScripts();
