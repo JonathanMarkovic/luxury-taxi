@@ -8,7 +8,7 @@ $cars = $data['cars'];
 
 ?>
 
-<div class="page-content"
+<div class="reservationBox p-4"
     style="background:#111; border:1px solid #333; border-radius:10px; color:white;">
 
     <div class="row">
