@@ -14,6 +14,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Controllers\DateTime;
 use DateTime as GlobalDateTime;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class ReservationController extends BaseController
 {
@@ -106,15 +109,11 @@ class ReservationController extends BaseController
         $to = $data['email'];
         $subject = "Reservation Created";
         $message = "Solaf Performance has received your reservation request. You will get a response soon";
-        $headers = "From: " . OWNER_EMAIL . "\r\n" .
-            "Reply-to: " . OWNER_EMAIL . "\r\n" .
-            "X-Mailer: PHP/" . phpversion();
+        // $headers = "From: " . OWNER_EMAIL . "\r\n" .
+        //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
+        //     "X-Mailer: PHP/" . phpversion();
 
-        // if (mail($to, $subject, $message, $headers)) {
-        //     echo 'email sent';
-        // } else {
-        //     echo 'email not sent';
-        // }
+        sendMail($to, $subject, $message);
         // dd(SessionManager::get('user_role'));
         if (SessionManager::get('user_role') === 'admin') {
             return $this->redirect($request, $response, 'reservations.index');
@@ -175,7 +174,6 @@ class ReservationController extends BaseController
             return $this->redirect($request, $response, 'reservations.update');
         }
 
-
         // Create and redirect
         // try {
 
@@ -191,15 +189,8 @@ class ReservationController extends BaseController
         $to = $data['email'];
         $subject = "Reservation Created";
         $message = "Solaf Performance has received your reservation request. You will get a response soon";
-        $headers = "From: " . OWNER_EMAIL . "\r\n" .
-            "Reply-to: " . OWNER_EMAIL . "\r\n" .
-            "X-Mailer: PHP/" . phpversion();
 
-        // if (mail($to, $subject, $message, $headers)) {
-        //     echo 'email sent';
-        // } else {
-        //     echo 'email not sent';
-        // }
+        sendMail($to, $subject, $message);
 
         FlashMessage::success("Reservation Added Successfully");
 
@@ -221,7 +212,7 @@ class ReservationController extends BaseController
         $email = $data['email'];
         $phone = $data['phone'];
         $start_time = $data['start_time'];
-        $end_time = $data['end_time'];
+        $end_time = $data['end_time'] ?? null;
         $pickup = $data['pickup'];
         $dropoff = $data['dropoff'];
 
@@ -312,15 +303,8 @@ class ReservationController extends BaseController
         $to = $args['email'];
         $subject = "Reservation Confirmed";
         $message = "Hello your reservation at $start_time has been Cancelled";
-        $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-            "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-            "X-Mailer: PHP/" . phpversion();
 
-        // if (mail($to, $subject, $message, $headers)) {
-        //     echo 'email sent';
-        // } else {
-        //     echo 'email not sent';
-        // }
+        sendMail($to, $subject, $message);
 
         return $this->index($request, $response, $args);
     }
@@ -440,15 +424,17 @@ class ReservationController extends BaseController
                 $to = $reservation['email'];
                 $subject = "Reservation Confirmed";
                 $message = "Hello your reservation at $start_time has been approved by Solaf Performance";
-                $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-                    "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-                    "X-Mailer: PHP/" . phpversion();
+                // $headers = "From: " . OWNER_EMAIL . "\r\n" .
+                //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
+                //     "X-Mailer: PHP/" . phpversion();
 
                 // if (mail($to, $subject, $message, $headers)) {
                 //     echo 'email sent';
                 // } else {
                 //     echo 'email not sent';
                 // }
+
+                sendMail($to, $subject, $message);
 
                 // Redirect to index on success
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
@@ -469,15 +455,17 @@ class ReservationController extends BaseController
                 $to = $reservation['email'];
                 $subject = "Reservation Denied";
                 $message = "Hello your reservation at $start_time has been denied by Solaf Performance";
-                $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-                    "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-                    "X-Mailer: PHP/" . phpversion();
+                // $headers = "From: " . OWNER_EMAIL . "\r\n" .
+                //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
+                //     "X-Mailer: PHP/" . phpversion();
 
                 // if (mail($to, $subject, $message, $headers)) {
                 //     echo 'email sent';
                 // } else {
                 //     echo 'email not sent';
                 // }
+
+                sendMail($to, $subject, $message);
 
                 // Redirect to index on success
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
@@ -497,15 +485,17 @@ class ReservationController extends BaseController
                 $to = $reservation['email'];
                 $subject = "Reservation Refunded";
                 $message = "Hello your reservation at $start_time has been refunded by Solaf Performance";
-                $headers = "From: SOLAFEMAILHERE" . "\r\n" .
-                    "Reply-to: SOLAFEMAILHERE" . "\r\n" .
-                    "X-Mailer: PHP/" . phpversion();
+                // $headers = "From: " . OWNER_EMAIL . "\r\n" .
+                //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
+                //     "X-Mailer: PHP/" . phpversion();
 
                 // if (mail($to, $subject, $message, $headers)) {
                 //     echo 'email sent';
                 // } else {
                 //     echo 'email not sent';
                 // }
+
+                sendMail($to, $subject, $message);
 
                 // Redirect to index on success
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
@@ -579,10 +569,6 @@ class ReservationController extends BaseController
             //if its a guest. fetch from the session
             $modify_mode = SessionManager::get('modify_mode') ?? false;
             $edit_reservation = SessionManager::get('edit_reservation') ?? null;
-
-            error_log("Guest user - modify_mode: " . ($modify_mode ? 'true' : 'false'));
-        error_log("Guest reservation: " . print_r($edit_reservation, true));
-
 
             if ($modify_mode === true && $edit_reservation !== null) {
                 $reservations = [$edit_reservation];
@@ -709,11 +695,6 @@ class ReservationController extends BaseController
             // fetch the nw updated info
             $updatedReservation = $this->reservation_model->fetchReservationById($reservation_id);
 
-            // DEBUG: Log what we got back
-        error_log("Updated reservation data: " . print_r($updatedReservation, true));
-        error_log("Price: " . ($updatedReservation['price'] ?? 'NULL'));
-        error_log("Cars ID: " . ($updatedReservation['cars_id'] ?? 'NULL'));
-
 
             //check if the user is logged in or a guest
             $user_id = SessionManager::get('user_id');
@@ -782,16 +763,10 @@ class ReservationController extends BaseController
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
         $subject = "Reservation Created";
-        $message = "Solaf Performance has received your reservation request. You will get a response soon";
-        $headers = "From: " . OWNER_EMAIL . "\r\n" .
-            "Reply-to: " . OWNER_EMAIL . "\r\n" .
-            "X-Mailer: PHP/" . phpversion();
+        $message = "Solaf Performance has received your reservation request. You will get a response soon.";
 
-        // if (mail($to, $subject, $message, $headers)) {
-        //     echo 'email sent';
-        // } else {
-        //     echo 'email not sent';
-        // }
+        sendMail($to, $subject, $message);
+
         // dd(SessionManager::get('user_role'));
         return $this->redirect($request, $response, 'home.index');
     }

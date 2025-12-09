@@ -8,7 +8,6 @@ declare(strict_types=1);
  * directly.
  */
 
-
 /**
  * dd: dump and die.
  *
@@ -210,5 +209,62 @@ if (!function_exists('trans')) {
         }
 
         return $translator->trans($key, $parameters, $locale);
+    }
+}
+
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+
+/**
+ * Summary of sendMail
+ * Function for sending emails using php mailer
+ * @param mixed $email
+ * @param mixed $subject
+ * @param mixed $message
+ * @return void
+ */
+function sendMail($email, $subject, $message)
+{
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+
+    $mail->SMTPAuth = true;
+
+    //Sets the email to use gmail
+    $mail->Host = MAILHOST;
+
+    //Account credentials
+    $mail->Username = USERNAME;
+    $mail->Password = PASSWORD;
+
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
+    $mail->Port = 587;
+
+    //Sets the from emails and name for the email's header
+    $mail->setFrom(SEND_FROM, SEND_FROM_NAME);
+
+    //The receiving address
+    $mail->addAddress($email);
+
+    //Sets the reply to email and name
+    $mail->addReplyTo(REPLY_TO, REPLY_TO_NAME);
+
+    $mail->isHTML(true);
+
+    //Set the subject and message
+    $mail->Subject = $subject;
+
+    $mail->Body = $message;
+
+    $mail->AltBody = $message;
+
+    //send the email and return a status message
+    if (!$mail->send()) {
+        return "Email not sent. Please try again";
+    } else {
+        return "success";
     }
 }
