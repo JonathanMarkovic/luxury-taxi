@@ -43,7 +43,7 @@ return static function (Slim\App $app): void {
         $group->post('/reservations', [ReservationController::class, 'guestShow']); //->setName('guest.reservation');
         $group->get('/reservations', [ReservationController::class, 'customerIndex'])->setName('customer.reservations');
         $group->post('/reservations/update/{reservation_id}', [ReservationController::class, 'updateCustomerReservation']);
-        $group->get('reservations/edit/{reservation_id}', [ReservationController::class, 'editCustomerReservation']) ->setName('customer.reservations.edit');
+        $group->get('reservations/edit/{reservation_id}/{email}', [ReservationController::class, 'editCustomerReservation']) ->setName('customer.reservations.edit');
         $group->post('/reservations/store', [ReservationController::class, 'store']);
         $group->post('/reservations/book', [ReservationController::class, 'createCustomerReservation']);
         $group->get('/reservations/cancel/{reservation_id}', [ReservationController::class, 'cancel'])->setName('reservation.cancel');

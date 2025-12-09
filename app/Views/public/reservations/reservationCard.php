@@ -4,11 +4,28 @@ use App\Helpers\SessionManager;
 use App\Helpers\FlashMessage;
 $page_title = "View Reservations";
 ViewHelper::loadCustomerHeader($page_title, 'reservation');
+
+
 $reservation = $data['reservations'] ?? [];
 $cars = $data['cars'] ?? [];
 
 ?>
 
+<?php if (empty($reservations)): ?>
+    <div class="container mt-5">
+        <p>No reservations found.</p>
+    </div>
+<?php else: ?>
+    <?php foreach ($reservations as $reservation): ?>
+        <?php
+            if (!is_array($reservation)) {
+                continue;
+            }
+
+            $isEditing = ($data['modify_mode'] ?? false) &&
+                         isset($data['edit_reservation']['reservation_id']) &&
+                         ($data['edit_reservation']['reservation_id'] ?? null) == ($reservation['reservation_id'] ?? null);
+        ?>
 <div class="reservation-box" style="background-color: #1a1a1a">
     <div class="row align-items-start">
         <!-- Customer Details -->
@@ -91,7 +108,7 @@ $cars = $data['cars'] ?? [];
                             <div class="info-box">
                                 <div class="info-box-label">Price</div>
                                 <div class="info-box-value">
-                                    <?= $reservation['total_amount'] == null ? "Not set" : "$" . number_format($reservation['total_amount'], 2) ?>
+                                     <?= $reservation['total_amount'] ?? $reservation['price']?>
                                 </div>
                             </div>
                         </div>
@@ -139,6 +156,9 @@ $cars = $data['cars'] ?? [];
     </div>
 </div>
 
+
+
+
 <!-- Update Confirmation Modal -->
 <div class="modal fade custom-modal" id="updateModal<?= $reservation['reservation_id'] ?>" ...>
     <div class="modal-dialog modal-dialog-centered">
@@ -179,3 +199,5 @@ $cars = $data['cars'] ?? [];
         </div>
     </div>
 </div>
+<?php endforeach; ?>
+<?php endif; ?>
