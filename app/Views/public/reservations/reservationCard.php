@@ -8,19 +8,12 @@ $cars = $data['cars'];
 
 ?>
 
-<div class="reservationBox p-4"
+<div class="page-content"
     style="background:#111; border:1px solid #333; border-radius:10px; color:white;">
 
     <div class="row">
-        <?= FlashMessage::render() ?>
-
-        <!-- Car image -->
-        <div class="col-md-3 d-flex align-items-start justify-content-center">
-            <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>" alt="<?= $reservation['brand'] . " " . $reservation['model'] . " " . $reservation['year'] ?>">
-        </div>
-
         <!-- Customer Details -->
-        <div class="col-md-3">
+        <div class="col-md-4">
             <p><strong>First Name: </strong><?= $reservation['first_name'] ?></p>
             <p><strong>Last Name: </strong><?= $reservation['last_name'] ?></p>
             <p><strong>Email: </strong><?= $reservation['email'] ?></p>
@@ -47,7 +40,7 @@ $cars = $data['cars'];
         </div>
 
         <!-- Reservation Details & Edit Form -->
-        <div class="col-md-4">
+        <div class="col-md-5">
             <form action="<?= APP_USER_URL ?>/reservations/edit/<?= $reservation['reservation_id'] ?>" method="post">
                 <fieldset id="fieldset_<?= $reservation['reservation_id'] ?>" <?= SessionManager::get('modify_mode') == false ? " disabled" : "" ?>>
                     <!-- Pickup input -->
@@ -125,7 +118,7 @@ $cars = $data['cars'];
         </div>
 
         <!-- Buttons -->
-        <div class="col-md-2 d-flex flex-column justify-content-start gap-2">
+        <div class="col-md-3 d-flex flex-column justify-content-start gap-2">
             <?php if (!in_array($reservation['reservation_status'], ['completed', 'denied', 'cancelled'])) { ?>
                 <!-- Cancel Button -->
                 <button class="btn"
