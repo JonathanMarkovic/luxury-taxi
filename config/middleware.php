@@ -3,12 +3,16 @@
 declare(strict_types=1);
 
 use App\Middleware\ExceptionMiddleware;
+use App\Middleware\LocaleMiddleware;
 use App\Middleware\SessionMiddleware;
 use Slim\App;
 
 return function (App $app) {
     //TODO: Add your middleware here.
+    $app->add(LocaleMiddleware::class);
+    $app->add(SessionMiddleWare::class);
 
+    $app->add(LocaleMiddleware::class);
     // 1. Parse form data
     $app->addBodyParsingMiddleware();
 
