@@ -30,6 +30,10 @@ class HomeController extends BaseController
             $car['images'] = $this->car_image_model->fetchImagesById($car['cars_id']);
         }
 
+        foreach ($threeCars as &$car) {
+            $car['images'] = $this->car_image_model->fetchImagesById($car['cars_id']);
+        }
+
         $data = [
             'title' => 'Home',
             'message' => 'Welcome to the home page',

@@ -190,7 +190,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                                 justify-content: center;
                                 ">
                                 <div class="carousel-indicators">
-                                    <?php foreach ($cars['images'] as $index => $image): ?>
+                                    <?php foreach ($car['images'] as $index => $image): ?>
                                         <button type="button"
                                             data-bs-target="#carousel<?= $car['cars_id'] ?>"
                                             data-bs-slide-to="<?= $index ?>"
