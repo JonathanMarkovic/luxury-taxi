@@ -1,0 +1,252 @@
+
+.reservation-box {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: white;
+    padding: 2rem;
+}
+
+.reservation-box .form-control,
+.reservation-box .form-select {
+    background-color: #1a1a1a !important;
+
+    color: white !important;
+}
+
+.reservation-box .form-control:focus,
+.reservation-box .form-select:focus {
+    background-color: #222 !important;
+    border-color: #555 !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+.reservation-box .form-floating > label,
+.reservation-box .floating-label {
+    color: #888 !important;
+}
+
+.reservation-box .form-control:focus ~ label,
+.reservation-box .form-control:not(:placeholder-shown) ~ label {
+    color: #aaa !important;
+}
+
+
+
+.info-box {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.info-box-label {
+    color: #888;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.info-box-value {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.btn-action {
+    width: 100%;
+    padding: 0.625rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.btn-cancel {
+    background: #000000;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background: #1d0000;
+}
+
+.btn-modify {
+    background: #ffffff;
+}
+
+.btn-modify:hover {
+    background: #fde9da;
+    color: #1a1a1a;
+
+}
+
+.btn-pay {
+    background: #d4a574;
+    color: #1a1a1a;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+}
+
+.btn-pay:hover {
+    background: #e0b589;
+    color: #1a1a1a;
+}
+
+.custom-modal .modal-content {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: white;
+}
+
+.custom-modal .modal-header {
+    border-bottom: 1px solid #333;
+}
+
+.custom-modal .modal-footer {
+    border-top: 1px solid #333;
+}
+
+.custom-modal .btn-close {
+    filter: invert(1);
+}
+
+.custom-modal .btn-secondary {
+    background: #8b7355;
+    border: none;
+}
+
+.custom-modal .btn-secondary:hover {
+    background: #a0826b;
+}
+
+.custom-modal .btn-danger {
+    background: #7f1d1d;
+    border: none;
+}
+
+.custom-modal .btn-danger:hover {
+    background: #991b1b;
+}
+.status-text {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.status-pending {
+    color: #d4a574;
+}
+
+.status-approved {
+    color: #4ade80;
+}
+
+.status-cancelled {
+    color: #ef4444;
+}
+
+.status-completed {
+    color: #60a5fa;
+}
+
+.status-denied {
+    color: #f87171;
+}
+
+
+.search-container {
+        max-width: 600px;
+        margin: 3rem auto;
+        padding: 2rem;
+    }
+
+    .reservation-search-form {
+        background: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 12px;
+        padding: 2.5rem;
+    }
+
+    .search-inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .search-label {
+        display: block;
+        color: #888;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.5px;
+    }
+
+    .search-input {
+        width: 100%;
+        background: #111;
+        border: 2px solid #333;
+        border-radius: 8px;
+        padding: 0.875rem 1rem;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .search-input::placeholder {
+        color: #555;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: #d4a574;
+        background: #1a1a1a;
+    }
+
+    .search-input:focus ~ .search-label,
+    .search-input:not(:placeholder-shown) ~ .search-label {
+        color: #d4a574;
+    }
+
+    .search-btn {
+        width: 100%;
+        background: #d4a574;
+        color: #1a1a1a;
+        border: none;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .search-btn:hover {
+        background: #e0b589;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+    }
+
+    .search-btn:active {
+        transform: translateY(0);
+    }
+
+    .search-btn svg {
+        width: 18px;
+        height: 18px;
+    }

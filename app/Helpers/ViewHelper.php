@@ -125,6 +125,8 @@ class ViewHelper
         require_once APP_VIEWS_PATH . '/common/customer/customerLogin.php';
     }
 
+  
+
     public static function loadCustomerFooter(): void
     {
         require_once APP_VIEWS_PATH . '/common/customer/customerFooter.php';

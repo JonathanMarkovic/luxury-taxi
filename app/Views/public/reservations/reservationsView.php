@@ -33,15 +33,21 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
             </div>
         </section>
         <div class="page-content">
-            <form action="reservations" method="post" class="d-flex flex-column align-items-center gap-3">
-                <div class="mb-3">
-                    <input type="text" id="email" name="email" placeholder="Email Address" class="find-reservation-input">
-                </div>
-                <div class="mb-3">
-                    <input type="text" id="reservation_id" name="reservation_id" placeholder="Confirmation Number" class="find-reservation-input">
-                </div>
-                <button action="submit" class="all-cars-link">Search</button>
-            </form>
+            <div class="search-container">
+                <form action="reservations" method="post" class="reservation-search-form">
+                    <div class="search-inputs">
+                        <div class="input-wrapper">
+                            <label for="email" class="search-label">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" class="search-input" required>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="reservation_id" class="search-label">Confirmation Number</label>
+                            <input type="text" id="reservation_id" name="reservation_id" placeholder="Enter confirmation number" class="search-input" required>
+                        </div>
+                    </div>
+                    <button action="submit" class="all-cars-link">Search</button>
+                </form>
+            </div>
         </div>
     </div>
 

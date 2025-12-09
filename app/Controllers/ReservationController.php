@@ -143,16 +143,6 @@ class ReservationController extends BaseController
         return $this->redirect($request, $response, 'reservations.index');
     }
 
-    public function cancel(Request $request, Response $response, array $args): Response
-    {
-        $reservation_id = $args['reservation_id'];
-
-        if (is_numeric($reservation_id)) {
-            $this->reservation_model->cancelReservation($reservation_id);
-        }
-
-        return $this->redirect($request, $response, 'customer.reservations');
-    }
 
     /**
      * Summary of update
@@ -629,8 +619,23 @@ class ReservationController extends BaseController
         // Put data in session so form can reload pre-filled
         SessionManager::set("modify_mode", true);
         SessionManager::set("edit_reservation", $reservation);
+        $cars = $this->car_model->fetchCars();
 
         // Redirect back to the booking page (where form will be pre-filled)
+        return $this->render($response,'public/reservations/reservationCard.php', [
+        'reservation' => [$reservation],
+        'cars' => $cars
+    ]);
+    }
+ public function cancel(Request $request, Response $response, array $args): Response
+    {
+        $reservation_id = $args['reservation_id'];
+
+        if (is_numeric($reservation_id)) {
+            $this->reservation_model->cancelReservation($reservation_id);
+            FlashMessage::error("Successfully cancelled reservation!");
+        }
+
         return $this->redirect($request, $response, 'customer.reservations');
     }
 
@@ -671,11 +676,13 @@ class ReservationController extends BaseController
 
             FlashMessage::success("Successfully updated reservation!");
 
-            // reset modify_mode after saving
-            SessionManager::set('modify_mode', false);
-            SessionManager::remove('edit_reservation');
+            // fetch the nw updated info
+             $updatedReservation = $this->reservation_model->fetchReservationById($reservation_id);
+            SessionManager::set('modify_mode', true);
+            SessionManager::set('edit_reservation', $updatedReservation);
 
             return $this->redirect($request, $response, 'customer.reservations');
+
         } catch (\Exception $e) {
             // Display error message using FlashMessage::error()
             FlashMessage::error("Updating reservation failed. Please try again." . $e->getMessage());
