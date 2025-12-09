@@ -11,8 +11,15 @@ define('APP_ROOT_DIR_NAME', basename(dirname(__FILE__, 2)));
 // Define the path of the application's views directory.
 define('APP_VIEWS_PATH', realpath(APP_BASE_DIR_PATH . '/app/Views'));
 
-//the clients email for emailing customers
-define('OWNER_EMAIL', '');
+//* Values for setting up emailing
+// TODO: CHANGE THIS TO SOLAF PERFORMANCE EMAIL
+define('USERNAME', 'testingsolafwebsite@gmail.com');
+define('MAILHOST', "smtp.gmail.com");
+define('SEND_FROM', 'testingsolafwebsite@gmail.com');
+define('SEND_FROM_NAME', "Solaf Performance");
+//* Same as the send from email
+define('REPLY_TO', 'testingsolafwebsite@gmail.com');
+define('REPLY_TO_NAME', 'Tigran');
 
 // Define the path of the application's lang directory
 define('APP_LANG_PATH', realpath(APP_BASE_DIR_PATH . '/lang'));
