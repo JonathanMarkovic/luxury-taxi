@@ -8,7 +8,6 @@ declare(strict_types=1);
  * directly.
  */
 
-
 /**
  * dd: dump and die.
  *
@@ -225,15 +224,18 @@ use PHPMailer\PHPMailer\SMTP;
  * @param mixed $message
  * @return void
  */
-function sendMail($email, $subject, $message) {
+function sendMail($email, $subject, $message)
+{
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
 
     $mail->SMTPAuth = true;
 
+    //Sets the email to use gmail
     $mail->Host = MAILHOST;
 
+    //Account credentials
     $mail->Username = USERNAME;
     $mail->Password = PASSWORD;
 
@@ -241,20 +243,25 @@ function sendMail($email, $subject, $message) {
 
     $mail->Port = 587;
 
+    //Sets the from emails and name for the email's header
     $mail->setFrom(SEND_FROM, SEND_FROM_NAME);
 
+    //The receiving address
     $mail->addAddress($email);
 
+    //Sets the reply to email and name
     $mail->addReplyTo(REPLY_TO, REPLY_TO_NAME);
 
     $mail->isHTML(true);
 
+    //Set the subject and message
     $mail->Subject = $subject;
 
     $mail->Body = $message;
 
     $mail->AltBody = $message;
 
+    //send the email and return a status message
     if (!$mail->send()) {
         return "Email not sent. Please try again";
     } else {
