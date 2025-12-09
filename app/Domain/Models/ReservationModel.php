@@ -52,11 +52,12 @@ class ReservationModel extends BaseModel
      */
     public function fetchReservationGuest($user_email, $reservation_id): mixed
     {
-        $sql = "SELECT * FROM reservations WHERE reservation_id = :reservation_id AND user_id = (SELECT user_id FROM users WHERE email = :user_email)";
+        // $sql = "SELECT * FROM reservations WHERE reservation_id = :reservation_id AND user_id = (SELECT user_id FROM users WHERE email = :user_email)";
 
         $user = $this->user_model->findByEmail($user_email);
         $sql = "SELECT
                 r.*,
+                u.user_id,
                 u.first_name,
                 u.last_name,
                 u.email,
@@ -67,18 +68,16 @@ class ReservationModel extends BaseModel
                 c.cars_id,
                 c.brand,
                 c.model,
-                c.year,
-                ci.image_id,
-                ci.image_path
+                c.year
                     FROM reservations r
                     JOIN users u ON u.user_id = r.user_id
                     LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
                     LEFT JOIN cars c ON c.cars_id = rc.cars_id
-                    LEFT JOIN car_images ci ON c.cars_id = ci.cars_id
                     LEFT JOIN payments p ON r.reservation_id = p.reservation_id
-                WHERE r.reservation_id = :reservation_id";
+                WHERE r.reservation_id = :reservation_id
+                AND u.user_id = (SELECT u.user_id FROM users WHERE email = :user_email)";
 
-        $reservation = $this->selectAll($sql, ['reservation_id' => $reservation_id]);
+        $reservation = $this->selectAll($sql, ['reservation_id' => $reservation_id, 'user_email' => $user_email]);
         return $reservation;
     }
 

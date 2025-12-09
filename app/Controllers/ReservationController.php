@@ -543,14 +543,20 @@ class ReservationController extends BaseController
         $guestEmail = $info['email'];
         $reservationId = $info['reservation_id'];
 
-        // dd($guestEmail);
-
         $reservation = $this->reservation_model->fetchReservationGuest($guestEmail, $reservationId);
-        // dd($reservation);
+        $cars = $this->car_model->fetchCars();
+
+        if ($reservation) {
+            SessionManager::set('modify_mode', true);
+            SessionManager::set('edit_reservation', $reservation[0]);
+        }
 
         $data['data'] = [
             'title' => 'reservations',
-            'reservations' => $reservation ?? [],
+            'reservations' => $reservation,
+            'cars' => $cars,
+            'modify_mode' => true,
+            'edit_reservation' => $reservation[0] ?? null
         ];
 
         // dd($reservation);

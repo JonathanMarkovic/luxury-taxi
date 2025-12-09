@@ -485,7 +485,7 @@ footer {
 /* Hero wrap and booking form*/
 
 .heroWrap {
-    background: url("/uploads/images/car19.jpg") center/cover no-repeat;
+    background: url("car19.jpg") center/cover no-repeat;
     padding: 70px 0;
     display: flex;
     justify-content: center;

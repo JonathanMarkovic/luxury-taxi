@@ -3,7 +3,7 @@
 use App\Helpers\FlashMessage;
 use App\Helpers\SessionManager;
 use App\Helpers\ViewHelper;
-//TODO: set the page title dynamically based on the view being rendered in the controller.
+
 $page_title = 'Home';
 ViewHelper::loadCustomerHeader($page_title, 'home');
 $cars = $data['cars'];
@@ -190,7 +190,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                                 justify-content: center;
                                 ">
                                 <div class="carousel-indicators">
-                                    <?php foreach ($car['images'] as $index => $image): ?>
+                                    <?php foreach ($cars['images'] as $index => $image): ?>
                                         <button type="button"
                                             data-bs-target="#carousel<?= $car['cars_id'] ?>"
                                             data-bs-slide-to="<?= $index ?>"
@@ -203,13 +203,13 @@ $phone = SessionManager::get('user_phone') ?? '';
                                 <div class="carousel-inner">
                                     <?php foreach ($car['images'] as $index => $image): ?>
                                         <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                            <img src="<?= APP_BASE_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>"
-                                                class="d-block w-100"
-                                                alt="<?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?>"
-                                                style="width:100%;">
+                                            <img src="<?= APP_USER_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>"
+                                                alt="<?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?>" class="d-block w-100">
+                                            >
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
+
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $car['cars_id'] ?>" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
