@@ -123,16 +123,33 @@ class ReservationModel extends BaseModel
     public function fetchReservationById($reservation_id): mixed
     {
         $sql = "SELECT
-            reservations.*,
-            users.first_name,
-            users.last_name,
-            users.email,
-            users.phone,
-            payments.total_amount as price,
-            payments.total_paid as total_paid
+            reservations.reservation_id,
+        reservations.user_id,
+        reservations.start_time,
+        reservations.end_time,
+        reservations.pickup,
+        reservations.dropoff,
+        reservations.comments,
+        reservations.reservation_type,
+        reservations.reservation_status,
+        reservations.created_at,
+        reservations.updated_at,
+        users.first_name,
+        users.last_name,
+        users.email,
+        users.phone,
+        payments.payment_status,
+        payments.total_amount as price,
+        payments.total_paid as total_paid,
+        reservation_cars.cars_id,
+        cars.brand,
+        cars.model,
+        cars.year
         FROM reservations
         JOIN users ON users.user_id = reservations.user_id
-        LEFT JOIN payments ON payments.reservation_id = reservations.reservation_id
+       LEFT JOIN payments ON payments.reservation_id = reservations.reservation_id
+    LEFT JOIN reservation_cars ON reservation_cars.reservation_id = reservations.reservation_id
+    LEFT JOIN cars ON cars.cars_id = reservation_cars.cars_id
         WHERE reservations.reservation_id = :reservation_id";
 
         $reservation = $this->selectOne($sql, ['reservation_id' => $reservation_id]);
@@ -141,32 +158,40 @@ class ReservationModel extends BaseModel
 
     public function fetchAllCustomerReservations($user_id): mixed
     {
-        $sql = <<<sql
-            SELECT
-                r.*,
-                u.first_name,
-                u.last_name,
-                u.email,
-                u.phone,
-                p.total_amount,
-                p.payment_status,
-                p.total_amount,
-                c.cars_id,
-                c.brand,
-                c.model,
-                c.year,
-                ci.image_id,
-                ci.image_path
-                    FROM reservations r
-                    JOIN users u ON u.user_id = r.user_id
-                    LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
-                    LEFT JOIN cars c ON c.cars_id = rc.cars_id
-                    LEFT JOIN car_images ci ON c.cars_id = ci.cars_id
-                    LEFT JOIN payments p ON r.reservation_id = p.reservation_id
-                WHERE r.user_id = :user_id
-        sql;
+        $sql = "SELECT
+               reservations.reservation_id,
+        reservations.user_id,
+        reservations.start_time,
+        reservations.end_time,
+        reservations.pickup,
+        reservations.dropoff,
+        reservations.comments,
+        reservations.reservation_type,
+        reservations.reservation_status,
+        reservations.created_at,
+        reservations.updated_at,
+        users.first_name,
+        users.last_name,
+        users.email,
+        users.phone,
+        payments.payment_status,
+        payments.total_amount as price,
+        payments.total_paid as total_paid,
+        reservation_cars.cars_id,
+        cars.brand,
+        cars.model,
+        cars.year
+        FROM reservations
+    JOIN users ON users.user_id = reservations.user_id
+    LEFT JOIN payments ON payments.reservation_id = reservations.reservation_id
+    LEFT JOIN reservation_cars ON reservation_cars.reservation_id = reservations.reservation_id
+    LEFT JOIN cars ON cars.cars_id = reservation_cars.cars_id
+    WHERE reservations.user_id = :user_id
+    GROUP BY reservations.reservation_id
+    ORDER BY reservations.created_at DESC";
 
         $reservations = $this->selectAll($sql, ['user_id' => $user_id]);
+
         return $reservations;
     }
 
@@ -367,8 +392,14 @@ class ReservationModel extends BaseModel
                 throw new \Exception("Database error");
             }
 
-            if (isset($data['cars_id'])) {
-                // Update the car
+            if (isset($data['cars_id']) && !empty($data['cars_id'])) {
+                //check if record exists in reservation_cars table
+            $checkSql = "SELECT cars_id FROM reservation_cars WHERE reservation_id = :reservation_id";
+
+            $exists = $this->selectOne($checkSql, ['reservation_id' => $reservation_id]);
+
+            if ($exists) {
+                //update the car
                 $sqlCar = <<<sql
                     UPDATE reservation_cars
                     SET cars_id = :cars_id
@@ -380,7 +411,18 @@ class ReservationModel extends BaseModel
                     'cars_id' => $data['cars_id'],
                     'reservation_id' => $reservation_id
                 ]);
+            }else {
+                //insert new car in case we didnt have one before
+                $sqlCar = <<<sql
+                    INSERT INTO reservation_cars (reservation_id, cars_id)
+                    VALUES (:reservation_id, :cars_id)
+                sql;
 
+                $count = $this->execute($sqlCar, [
+                    'reservation_id' => $reservation_id,
+                    'cars_id' => $data['cars_id']
+                ]);
+            }
                 // Don't throw exeption if no rows are affected
                 if ($count === false) {
                     throw new \Exception("Database error");

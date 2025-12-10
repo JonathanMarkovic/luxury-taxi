@@ -542,7 +542,12 @@ class ReservationController extends BaseController
         // dd($reservation);
         return $this->render($response, 'public/reservations/reservationsView.php', $data);
     }
+    public function customerDetails(Request $request, Response $response, array $args): Response
+    {
+        $user_id = SessionManager::get('user_id');
 
+        return $this->render($response, 'public/reservations/reservationsView.php');
+    }
     /**
      * Summary of customerIndex
      * This loads the reservationsView
@@ -557,23 +562,29 @@ class ReservationController extends BaseController
         $user_id = SessionManager::get('user_id');
 
         $reservations = [];
+        //if the suer is logged in
         if ($user_id !== null) {
             $reservations = $this->reservation_model->fetchAllCustomerReservations($user_id);
+        } else {
+            //if its a guest. fetch from the session
+            $modify_mode = SessionManager::get('modify_mode') ?? false;
+            $edit_reservation = SessionManager::get('edit_reservation') ?? null;
+
+            if ($modify_mode === true && $edit_reservation !== null) {
+                $reservations = [$edit_reservation];
+            }
         }
 
         // Fetch all cars for the drop-down
         $cars = $this->car_model->fetchCars();
 
-        // Set modify_mode to false if it isn't already true
-        $modify_mode = SessionManager::get('modify_mode') ?? false;
-        $edit_reservation = SessionManager::get('edit_reservation') ?? null;
 
-        $data['data'] = [
+        $data = [
             'title' => 'reservations',
             'reservations' => $reservations,
             'cars' => $cars,
-            'modify_mode' => $modify_mode,
-            'edit_reservation' => $edit_reservation
+            'modify_mode' => SessionManager::get('modify_mode') ?? false,
+            'edit_reservation' => SessionManager::get('edit_reservation') ?? null
         ];
 
         return $this->render($response, 'public/reservations/reservationsView.php', $data);
@@ -587,35 +598,49 @@ class ReservationController extends BaseController
      * @param array $args
      * @return void
      */
-    public function customerDetails(Request $request, Response $response, array $args): Response
-    {
-        $user_id = SessionManager::get('user_id');
 
-        return $this->render($response, 'public/reservations/reservationsView.php');
-    }
 
     public function editCustomerReservation(Request $request, Response $response, array $args): Response
     {
-        $reservationId = $args['reservation_id'];
+        //try fetching from the session manager in case they update the reservation and the page gets reloaded
+        $reservationId = $args['reservation_id'] ?? SessionManager::get('last_reservation_id');
+        $email = $args['email'] ?? SessionManager::get('last_reservation_email');
 
-        // Fetch the reservation by ID
+
+        //fetch the reservation by ID
+       try {
         $reservation = $this->reservation_model->fetchReservationById($reservationId);
-
+        //cehck if reservation wasnt found
         if (!$reservation) {
             FlashMessage::error("Reservation not found.");
             return $this->redirect($request, $response, 'customer.reservations');
         }
+        //check if emails match
+        if ($reservation['email'] !== $email) {
+            FlashMessage::error("Email does not match this reservation.");
+            return $this->redirect($request, $response, 'customer.reservations');
+        }
 
-        // Put data in session so form can reload pre-filled
+        //in the db, the name of the column is total_amount, but we use 'price' alias in some places
+        //check for both so that the price will be displayed correctly in the edit form
+        if (!isset($reservation['price']) && isset($reservation['total_amount'])) {
+            $reservation['price'] = $reservation['total_amount'];
+        }
+
+        //stpre the user info in session
+
         SessionManager::set("modify_mode", true);
         SessionManager::set("edit_reservation", $reservation);
-        $cars = $this->car_model->fetchCars();
+        SessionManager::set("last_reservation_id", $reservationId);
+        SessionManager::set("last_reservation_email", $email);
 
-        // Redirect back to the booking page (where form will be pre-filled)
-        return $this->render($response, 'public/reservations/reservationCard.php', [
-            'reservation' => [$reservation],
-            'cars' => $cars
-        ]);
+        return $this->redirect($request, $response, 'customer.reservations');
+
+    } catch (\Exception $e) {
+        error_log("Error in editCustomerReservation: " . $e->getMessage());
+        FlashMessage::error("An error occurred. Please try again.");
+        return $this->redirect($request, $response, 'customer.reservations');
+    }
     }
     public function cancel(Request $request, Response $response, array $args): Response
     {
@@ -664,14 +689,31 @@ class ReservationController extends BaseController
 
             $this->reservation_model->updateCustomerReservation($reservation_id, $reservationData);
 
+
             FlashMessage::success("Successfully updated reservation!");
 
             // fetch the nw updated info
             $updatedReservation = $this->reservation_model->fetchReservationById($reservation_id);
+
+
+            //check if the user is logged in or a guest
+            $user_id = SessionManager::get('user_id');
+
+        if ($user_id === null) {
+            //if its a guest then keep the reservation in session so they can see it after the reload
             SessionManager::set('modify_mode', true);
             SessionManager::set('edit_reservation', $updatedReservation);
+            SessionManager::set('last_reservation_id', $reservation_id);
+            SessionManager::set('last_reservation_email', $updatedReservation['email']);
+        } else {
+            // clear session because customerIndex will fetch all reservations
+            SessionManager::clear('modify_mode');
+            SessionManager::clear('edit_reservation');
+            SessionManager::clear('last_reservation_id');
+            SessionManager::clear('last_reservation_email');
+        }
 
-            return $this->redirect($request, $response, 'customer.reservations');
+            return $this->redirect($request, $response, 'customer.reservations.edit');
         } catch (\Exception $e) {
             // Display error message using FlashMessage::error()
             FlashMessage::error("Updating reservation failed. Please try again." . $e->getMessage());
