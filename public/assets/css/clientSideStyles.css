@@ -488,14 +488,18 @@ footer {
     background: url("car19.jpg") center/cover no-repeat;
     padding: 70px 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: flex-start; 
+    padding-left: 60px; 
 }
 
 .bookingWrap {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 8px;
-    /* width: 600px; */
+    margin-left: 0 !important; 
+    margin-right:0 !important;
+    margin-top: 20px;
 }
 .bookingTabs {
     list-style: none;
