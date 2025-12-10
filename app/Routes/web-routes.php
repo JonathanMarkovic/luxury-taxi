@@ -22,6 +22,8 @@ use App\Middleware\AdminAuthMiddleware;
 use App\Middleware\AuthMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Controllers\TwoFactorController;
+use App\Middleware\TwoFactorMiddleware;
 
 return static function (Slim\App $app): void {
     //* NOTE: Route naming pattern: [controller_name].[method_name]
@@ -43,7 +45,7 @@ return static function (Slim\App $app): void {
         $group->post('/reservations', [ReservationController::class, 'guestShow']); //->setName('guest.reservation');
         $group->get('/reservations', [ReservationController::class, 'customerIndex'])->setName('customer.reservations');
         $group->post('/reservations/update/{reservation_id}', [ReservationController::class, 'updateCustomerReservation']);
-        $group->get('reservations/edit/{reservation_id}/{email}', [ReservationController::class, 'editCustomerReservation']) ->setName('customer.reservations.edit');
+        $group->get('reservations/edit/{reservation_id}/{email}', [ReservationController::class, 'editCustomerReservation'])->setName('customer.reservations.edit');
         $group->post('/reservations/store', [ReservationController::class, 'store']);
         $group->post('/reservations/book', [ReservationController::class, 'createCustomerReservation']);
         $group->get('/reservations/cancel/{reservation_id}', [ReservationController::class, 'cancel'])->setName('reservation.cancel');
@@ -108,4 +110,30 @@ return static function (Slim\App $app): void {
     //* Payment Routes
     $app->get('/payment/{reservation_id}', [PaymentController::class, 'index'])->setName('user.payment');
     $app->post('/payment/{reservation_id}', [PaymentController::class, 'pay']);
+
+    // 2FA Setup routes (requires auth, but not 2FA verification)
+    $app->get('/2fa/setup', [TwoFactorController::class, 'showSetup'])
+        ->setName('2fa.setup');
+
+    $app->post('/2fa/verify-and-enable', [TwoFactorController::class, 'verifyAndEnable'])
+        ->setName('2fa.enable');
+
+    // 2FA Verification during login
+    $app->get('/2fa/verify', [TwoFactorController::class, 'showVerify'])
+        ->setName('2fa.verify')
+        ->add(AuthMiddleware::class);
+
+    $app->post('/2fa/verify', [TwoFactorController::class, 'verify'])
+        ->setName('2fa.verify.post');
+
+    // 2FA Disable (requires full auth including 2FA)
+    $app->get('/2fa/disable', [TwoFactorController::class, 'showDisable'])
+        ->setName('2fa.disable.show')
+        ->add(TwoFactorMiddleware::class)
+        ->add(AuthMiddleware::class);
+
+    $app->post('/2fa/disable', [TwoFactorController::class, 'disable'])
+        ->setName('2fa.disable')
+        ->add(TwoFactorMiddleware::class)
+        ->add(AuthMiddleware::class);
 };

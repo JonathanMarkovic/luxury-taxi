@@ -9,10 +9,11 @@ use App\Helpers\SessionManager;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Domain\Models\TwoFactorAuthModel;
 
 class AuthController extends BaseController
 {
-    public function __construct(Container $container, private UserModel $userModel, private ReservationModel $reservationModel)
+    public function __construct(Container $container, private UserModel $userModel, private ReservationModel $reservationModel, private TwoFactorAuthModel $two_factor_auth_model)
     {
         parent::__construct($container);
     }
@@ -134,11 +135,14 @@ class AuthController extends BaseController
                 $userId = $this->userModel->createUser($userData);
             }
 
+            SessionManager::set('user_id', $userId);
+            SessionManager::set('user_email', $email);
             // Display success message using FlashMessage::success()
             FlashMessage::success("Registration successful! Please log in.");
 
             // Redirect to 'auth.login' route
-            return $this->redirect($request, $response, 'auth.login');
+            // return $this->redirect($request, $response, 'auth.login');
+            return $this->redirect($request, $response, '2fa.setup');
         } catch (\Exception $e) {
             // Display error message using FlashMessage::error()
             FlashMessage::error("Registration failed. Please try again.");
@@ -210,6 +214,10 @@ class AuthController extends BaseController
         SessionManager::set('is_authenticated', true);
         SessionManager::set('first_name', $user['first_name']);
         SessionManager::set('last_name', $user['last_name']);
+        //2FA
+        $has2FA = $this->two_factor_auth_model->isEnabled($user['user_id']);
+        SessionManager::set('requires_2fa', $has2FA);
+        SessionManager::set('two_factor_verified', !$has2FA);
 
         // $reservations = $this->reservationModel->fetchReservationByUserID($user['user_id']);
         // dd($reservations);
@@ -249,9 +257,12 @@ class AuthController extends BaseController
      */
     public function dashboard(Request $request, Response $response, array $args): Response
     {
+        $userId = SessionManager::get('user_id');
+        $has2FA = $this->two_factor_auth_model->isEnabled($userId);
         // Create a $data array with 'title' => 'Dashboard'
         $data = [
-            'title' => 'Dashboard'
+            'title' => 'Dashboard',
+            'has2FA' => $has2FA
         ];
 
         // Render 'user/dashboard.php' view and pass $data
