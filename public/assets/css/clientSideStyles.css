@@ -497,8 +497,8 @@ footer {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 8px;
-    margin-left: 0;
-    margin-right:0;
+    margin-left: 0 !important; 
+    margin-right:0 !important;
     margin-top: 20px;
 }
 .bookingTabs {
