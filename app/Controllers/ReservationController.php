@@ -608,39 +608,38 @@ class ReservationController extends BaseController
 
 
         //fetch the reservation by ID
-       try {
-        $reservation = $this->reservation_model->fetchReservationById($reservationId);
-        //cehck if reservation wasnt found
-        if (!$reservation) {
-            FlashMessage::error("Reservation not found.");
+        try {
+            $reservation = $this->reservation_model->fetchReservationById($reservationId);
+            //cehck if reservation wasnt found
+            if (!$reservation) {
+                FlashMessage::error("Reservation not found.");
+                return $this->redirect($request, $response, 'customer.reservations');
+            }
+            //check if emails match
+            if ($reservation['email'] !== $email) {
+                FlashMessage::error("Email does not match this reservation.");
+                return $this->redirect($request, $response, 'customer.reservations');
+            }
+
+            //in the db, the name of the column is total_amount, but we use 'price' alias in some places
+            //check for both so that the price will be displayed correctly in the edit form
+            if (!isset($reservation['price']) && isset($reservation['total_amount'])) {
+                $reservation['price'] = $reservation['total_amount'];
+            }
+
+            //stpre the user info in session
+
+            SessionManager::set("modify_mode", true);
+            SessionManager::set("edit_reservation", $reservation);
+            SessionManager::set("last_reservation_id", $reservationId);
+            SessionManager::set("last_reservation_email", $email);
+
+            return $this->redirect($request, $response, 'customer.reservations');
+        } catch (\Exception $e) {
+            error_log("Error in editCustomerReservation: " . $e->getMessage());
+            FlashMessage::error("An error occurred. Please try again.");
             return $this->redirect($request, $response, 'customer.reservations');
         }
-        //check if emails match
-        if ($reservation['email'] !== $email) {
-            FlashMessage::error("Email does not match this reservation.");
-            return $this->redirect($request, $response, 'customer.reservations');
-        }
-
-        //in the db, the name of the column is total_amount, but we use 'price' alias in some places
-        //check for both so that the price will be displayed correctly in the edit form
-        if (!isset($reservation['price']) && isset($reservation['total_amount'])) {
-            $reservation['price'] = $reservation['total_amount'];
-        }
-
-        //stpre the user info in session
-
-        SessionManager::set("modify_mode", true);
-        SessionManager::set("edit_reservation", $reservation);
-        SessionManager::set("last_reservation_id", $reservationId);
-        SessionManager::set("last_reservation_email", $email);
-
-        return $this->redirect($request, $response, 'customer.reservations');
-
-    } catch (\Exception $e) {
-        error_log("Error in editCustomerReservation: " . $e->getMessage());
-        FlashMessage::error("An error occurred. Please try again.");
-        return $this->redirect($request, $response, 'customer.reservations');
-    }
     }
     public function cancel(Request $request, Response $response, array $args): Response
     {
@@ -699,19 +698,19 @@ class ReservationController extends BaseController
             //check if the user is logged in or a guest
             $user_id = SessionManager::get('user_id');
 
-        if ($user_id === null) {
-            //if its a guest then keep the reservation in session so they can see it after the reload
-            SessionManager::set('modify_mode', true);
-            SessionManager::set('edit_reservation', $updatedReservation);
-            SessionManager::set('last_reservation_id', $reservation_id);
-            SessionManager::set('last_reservation_email', $updatedReservation['email']);
-        } else {
-            // clear session because customerIndex will fetch all reservations
-            SessionManager::clear('modify_mode');
-            SessionManager::clear('edit_reservation');
-            SessionManager::clear('last_reservation_id');
-            SessionManager::clear('last_reservation_email');
-        }
+            if ($user_id === null) {
+                //if its a guest then keep the reservation in session so they can see it after the reload
+                SessionManager::set('modify_mode', true);
+                SessionManager::set('edit_reservation', $updatedReservation);
+                SessionManager::set('last_reservation_id', $reservation_id);
+                SessionManager::set('last_reservation_email', $updatedReservation['email']);
+            } else {
+                // clear session because customerIndex will fetch all reservations
+                SessionManager::clear('modify_mode');
+                SessionManager::clear('edit_reservation');
+                SessionManager::clear('last_reservation_id');
+                SessionManager::clear('last_reservation_email');
+            }
 
             return $this->redirect($request, $response, 'customer.reservations.edit');
         } catch (\Exception $e) {

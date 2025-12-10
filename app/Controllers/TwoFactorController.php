@@ -38,13 +38,13 @@ class TwoFactorController extends BaseController
         $userId = SessionManager::get('user_id');
         $userEmail = SessionManager::get('user_email');
         // $userEmail = $user['email'];
-
+        // dd($userId);
         // Check if user already has 2FA enabled
         // $twoFactorModel = $this->container->get(TwoFactorAuthModel::class);
         if ($this->two_factor_auth_model->isEnabled($userId)) {
             // SessionManager::setFlash('error', '2FA is already enabled.');
             FlashMessage::error('2FA is already enabled');
-            return $this->redirect($request, $response, 'auth.login');
+            return $this->redirect($request, $response, 'home.index');
         }
 
         // TODO: Create a QR code provider instance

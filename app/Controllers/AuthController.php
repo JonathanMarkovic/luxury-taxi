@@ -219,6 +219,10 @@ class AuthController extends BaseController
         SessionManager::set('requires_2fa', $has2FA);
         SessionManager::set('two_factor_verified', !$has2FA);
 
+        if ($has2FA == false) {
+            return $this->redirect($request, $response, '2fa.setup');
+        }
+
         // $reservations = $this->reservationModel->fetchReservationByUserID($user['user_id']);
         // dd($reservations);
         // SessionManager::set('reservations', $reservations);
