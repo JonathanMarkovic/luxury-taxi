@@ -36,7 +36,7 @@ ViewHelper::loadCustomerHeader($page_title);
                     <div class="col-md-6">
                         <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" required>
                     </div>
-                    <h3>Shipping Address</h3>
+                    <h3>Billing Address</h3>
                     <hr>
                     <!-- First name input -->
                     <div class="col-md-6">

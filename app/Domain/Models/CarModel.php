@@ -3,6 +3,7 @@
 namespace App\Domain\Models;
 
 use App\Helpers\Core\PDOService;
+use App\Helpers\FlashMessage;
 
 class CarModel extends BaseModel
 {
@@ -88,13 +89,22 @@ class CarModel extends BaseModel
      */
     public function deleteCar($cars_id): int
     {
-        //* Need to first delete all the images related to this car
-        $sql1 = "DELETE FROM car_images WHERE cars_id = :cars_id";
-        $this->execute($sql1, ['cars_id' => $cars_id]);
-        //* Then we can delete the car from the database without worrying about foreign key constraints
-        $sql2 = "DELETE FROM cars WHERE cars_id = :cars_id";
-        return $this->execute($sql2, ['cars_id' => $cars_id]);
+        try {
+            // Delete images
+            $sql1 = "DELETE FROM car_images WHERE cars_id = :cars_id";
+            $this->execute($sql1, ['cars_id' => $cars_id]);
+
+            // Try to delete the car
+            $sql2 = "DELETE FROM cars WHERE cars_id = :cars_id";
+            return $this->execute($sql2, ['cars_id' => $cars_id]);
+        } catch (\PDOException $e) {
+            if ($e->getCode() === '23000') { // SQLSTATE for FK constraint violation
+                return 0; // delete failed
+            }
+            throw $e;
+        }
     }
+
 
     /**
      * Summary of updateCar
