@@ -199,15 +199,20 @@ class CarsController extends BaseController
         $cars_id = $args['cars_id'];
 
         if (is_numeric($cars_id)) {
-            $this->car_model->deleteCar($cars_id);
-            FlashMessage::success("Car has been successfully deleted.");
-        } else {
-            FlashMessage::error('Error deleting this car.');
-        }
+            $result = $this->car_model->deleteCar($cars_id);
 
+            if ($result !== 0) {
+                FlashMessage::success("Car has been successfully deleted.");
+            } else {
+                FlashMessage::error("Cannot delete car, it has active reservations.");
+            }
+        } else {
+            FlashMessage::error('Invalid car ID.');
+        }
 
         return $this->redirect($request, $response, 'cars.index');
     }
+
 
     /**
      * Summary of update
