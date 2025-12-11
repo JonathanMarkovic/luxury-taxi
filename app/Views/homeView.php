@@ -224,7 +224,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                                         <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                                             <img src="<?= APP_USER_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>"
                                                 alt="<?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?>" class="d-block w-100">
-                                            >
+                                            
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
