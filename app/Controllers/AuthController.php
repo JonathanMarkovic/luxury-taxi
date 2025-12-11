@@ -335,4 +335,19 @@ class AuthController extends BaseController
 
         return $this->redirect($request, $response, 'auth.login');
     }
+
+    public function requestEmail(Request $request, Response $response, array $args): Response
+    {
+        return $this->render($response, 'auth/emailForm.php');
+    }
+
+    public function setEmail(Request $request, Response $response, array $args): Response
+    {
+        $formData = $request->getParsedBody();
+        // dd($formData);
+        $user = $this->userModel->findByEmail($formData['identifier']);
+        SessionManager::set('user_id', $user['user_id']);
+        SessionManager::set('is_authenticated', true);
+        return $this->redirect($request, $response, 'password.change');
+    }
 }

@@ -51,6 +51,8 @@ return static function (Slim\App $app): void {
         $group->get('/reservations/cancel/{reservation_id}', [ReservationController::class, 'cancel'])->setName('reservation.cancel');
         $group->get('/changePassword', [AuthController::class, 'changePassword'])->setName('password.change')->add(TwoFactorMiddleware::class);
         $group->post('/changePassword', [AuthController::class, 'saveNewPassword'])->add(TwoFactorMiddleware::class);
+        $group->get('/email', [AuthController::class, 'requestEmail'])->setName('email.form');
+        $group->post('/email', [AuthController::class, 'setEmail']);
     });
 
     // Admin Routes
