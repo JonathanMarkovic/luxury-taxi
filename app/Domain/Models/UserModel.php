@@ -180,4 +180,20 @@ class UserModel extends BaseModel
         }
         return null;
     }
+
+    /**
+     * Summary of saveNewPassword
+     * Updates a user's password
+     * @param int $userId
+     * @param string $newPassword
+     * @return int
+     */
+    public function saveNewPassword(int $userId, String $newPassword): int
+    {
+        $sql = "UPDATE users SET password = :password WHERE user_id = :user_id";
+
+        $password_hash = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        return $this->execute($sql, ['password' => $password_hash, 'user_id' => $userId]);
+    }
 }

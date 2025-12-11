@@ -40,15 +40,16 @@ class PublicFaqController extends BaseController
         $email = $questionFormData['email'];
         $message = $questionFormData['message'];
 
-        $to = "taliamuro3@gmail.com";
+        $to = SEND_FROM;
         $subject = "Client Question";
-        $headers = "From: $email";
+        $message = $message . "\r\n\r\nSent from $email";
 
         if (!empty($email) && !empty($message)) {
-            if (mail($to, $subject, $message, $headers)) {
-                FlashMessage::success("Email sent successfully!");
-            } else {
-                FlashMessage::error("Email sending failed.");
+            try {
+                sendMail($to, $subject, $message);
+                FlashMessage::success("Email sent! Our team will get back to you as soon as possible.");
+            } catch (\Exception $e) {
+                FlashMessage::error("Failed to send email. Please try again.");
             }
         } else {
             FlashMessage::error("Please fill in all fields.");

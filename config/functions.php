@@ -257,7 +257,7 @@ function sendMail($email, $subject, $message)
     //Set the subject and message
     $mail->Subject = $subject;
 
-    $mail->Body = $message;
+    $mail->Body = nl2br($message);
 
     $mail->AltBody = $message;
 

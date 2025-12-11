@@ -198,7 +198,8 @@ class TwoFactorController extends BaseController
 
         // Redirect to dashboard
         //todo fix the route here after testing is done
-        return $this->redirect($request, $response, 'home.index');
+        // return $this->redirect($request, $response, 'home.index');
+        return $this->redirect($request, $response, 'password.change');
     }
 
     /**

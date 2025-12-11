@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="footer">
+<footer class="footer" id="footer-section">
     <div class="footer-content">
         <div class="footer-section">
             <h3>Solaf Performance</h3>
