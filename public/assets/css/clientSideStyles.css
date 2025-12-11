@@ -467,7 +467,7 @@ footer {
     padding: 25px;
     border-radius: 8px;
     margin-left: 0 !important;
-    margin-right:0 !important;
+    margin-right: 0 !important;
     margin-top: 20px;
 }
 .bookingTabs {
@@ -528,7 +528,6 @@ footer {
     transition: 0.5s ease-in-out;
     background-color: var(--card-bg);
 }
-
 
 .reserveBtn:hover {
     background-color: var(--primary-gold);
@@ -601,6 +600,13 @@ footer {
     color: #a6814c;
 }
 
+/* Payments page */
+.payment-form-container {
+    max-width: 900px;
+    background-color: var(--card-bg);
+    padding: 50px;
+    border-radius: 8px;
+}
 
 /* .custom-floating-select:focus + .floating-label,
 .custom-floating-select:not(:placeholder-shown) + .floating-label,
@@ -609,8 +615,6 @@ footer {
     font-size: 0.8rem;
     color: rgb(85, 85, 85);
 } */
-
-
 
 .about {
     background: #111;
@@ -710,3 +714,29 @@ footer {
     color: var(--primary-gold);
 }
 
+.language-switcher {
+    display: inline-block;
+}
+
+.lang-link {
+    display: inline-block;
+    width: 120px;
+    padding: 10px;
+    background-color:transparent;
+    text-decoration: none;
+    color: white ;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.lang-link:hover {
+    background-color: transparent;
+    color: var(--primary-gold);
+}
+
+/* Payment styling */
+.payment-form-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
