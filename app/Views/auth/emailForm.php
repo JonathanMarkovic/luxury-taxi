@@ -15,31 +15,17 @@ ViewHelper::loadCustomerLogin($page_title, 'login');
         <div class="card-body">
             <?= App\Helpers\FlashMessage::render() ?>
 
-            <form method="POST" action="login">
+            <form method="POST" action="<?= APP_USER_URL ?>/email">
                 <!-- Email -->
                 <div class="mb-3-1">
                     <label for="identifier" style="color: black;font-weight: bold;  padding-bottom: 8px;">Email</label>
                     <input type="text" class="form-control" id="identifier" name="identifier" placeholder="Email">
 
                 </div>
-                <br>
-                <div class="mb-3-2">
-                    <label for="password" style="color: black;font-weight: bold;  padding-bottom: 8px;">Password</label>
-                    <input
-                        placeholder="Password"
-                        type="password"
-                        class="form-control"
-                        id="password"
-                        name="password"
-                        required>
-                </div>
 
-                <div class="mt-3 " style="padding-bottom: 80px; text-align: right;">
-                    <a class="authentication-link" href="public/email">Forgot password?</a>
-                </div>
                 <br>
                 <div class="d-grid gap-2" style="place-items: center;">
-                    <button type="submit" class="authentication-btn">Login</button>
+                    <button type="submit" class="authentication-btn">Reset Password</button>
                 </div>
             </form>
 

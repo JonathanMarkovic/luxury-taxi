@@ -1,6 +1,7 @@
 <?php
 
 use App\Helpers\FlashMessage;
+use App\Helpers\SessionManager;
 use App\Helpers\ViewHelper;
 
 $page_title = $data['title'];
@@ -20,6 +21,7 @@ FlashMessage::render();
 
         <div class="card-body">
             <form method="POST" action="<?= APP_USER_URL ?>/changePassword">
+
                 <!-- new password -->
                 <div class="mb-3-1" style="padding-bottom: 20px;">
                     <label class="field-name" style="color: black; font-weight: bold;  padding-bottom: 8px;">New Password</label>
@@ -43,10 +45,10 @@ FlashMessage::render();
 
                 </div>
                 <div class="mt-3 " style="padding-bottom: 80px; text-align: right;">
-                <a class="authentication-link" href="<?= APP_BASE_URL ?>/login" >Go Back</a>
-            </div>
+                    <a class="authentication-link" href="<?= APP_BASE_URL ?>/login">Go Back</a>
+                </div>
 
-                <div class="d-grid gap-2"  style="place-items: center;">
+                <div class="d-grid gap-2" style="place-items: center;">
                     <button type="submit" class="authentication-btn">
                         Reset Password
                     </button>
