@@ -61,13 +61,13 @@ ViewHelper::loadCustomerLogin($page_title, 'register');
                         <br>
                         <input type="hidden" name="role" value="customer">
 
-                        <div class="d-grid gap-2">
+                        <div class="d-grid gap-2" style="place-items: center;">
                             <button type="submit" class="authentication-btn">Register</button>
                         </div>
                     </form>
 
                     <div class="mt-3 text-center">
-                        <p style="color: black; font-size: 20px; ">Already have an account? <a class="authentication-link" href="login">Login here</a></p>
+                        <p style="color: black;">Already have an account? <a class="authentication-link" href="login">Login here</a></p>
                     </div>
                 </div>
             </div>

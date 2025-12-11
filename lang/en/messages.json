@@ -19,6 +19,8 @@
     "dropoff": "Dropoff",
     "start": "Start Time",
     "end": "End Time",
+    "vehicle":"Vehicle",
+    "selectVehicle": "Select a vehicle",
     "comments": "Comments",
     "reserve": "Reserve",
     "howItWorks": "How it works",
@@ -31,6 +33,10 @@
     "works4": "Pickup & Go",
     "works4Desc": "Your driver arrives at the scheduled time to take you to your destination safely and comfortably.",
     "ourCars": "Our Cars",
+    "model": "Model",
+    "year": "Year",
+    "capacity": "Capacity",
+    "avgPrice": "Average Price",
     "carsButton": "View All Cars"
   },
   "reservation": {
