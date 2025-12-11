@@ -64,7 +64,7 @@ class ReservationModel extends BaseModel
                 u.phone,
                 p.total_amount,
                 p.payment_status,
-                p.total_amount,
+                p.total_amount as price,
                 c.cars_id,
                 c.brand,
                 c.model,
@@ -395,35 +395,35 @@ class ReservationModel extends BaseModel
 
             if (isset($data['cars_id']) && !empty($data['cars_id'])) {
                 //check if record exists in reservation_cars table
-            $checkSql = "SELECT cars_id FROM reservation_cars WHERE reservation_id = :reservation_id";
+                $checkSql = "SELECT cars_id FROM reservation_cars WHERE reservation_id = :reservation_id";
 
-            $exists = $this->selectOne($checkSql, ['reservation_id' => $reservation_id]);
+                $exists = $this->selectOne($checkSql, ['reservation_id' => $reservation_id]);
 
-            if ($exists) {
-                //update the car
-                $sqlCar = <<<sql
+                if ($exists) {
+                    //update the car
+                    $sqlCar = <<<sql
                     UPDATE reservation_cars
                     SET cars_id = :cars_id
                     WHERE reservation_id = :reservation_id
                 sql;
 
 
-                $count = $this->execute($sqlCar, [
-                    'cars_id' => $data['cars_id'],
-                    'reservation_id' => $reservation_id
-                ]);
-            }else {
-                //insert new car in case we didnt have one before
-                $sqlCar = <<<sql
+                    $count = $this->execute($sqlCar, [
+                        'cars_id' => $data['cars_id'],
+                        'reservation_id' => $reservation_id
+                    ]);
+                } else {
+                    //insert new car in case we didnt have one before
+                    $sqlCar = <<<sql
                     INSERT INTO reservation_cars (reservation_id, cars_id)
                     VALUES (:reservation_id, :cars_id)
                 sql;
 
-                $count = $this->execute($sqlCar, [
-                    'reservation_id' => $reservation_id,
-                    'cars_id' => $data['cars_id']
-                ]);
-            }
+                    $count = $this->execute($sqlCar, [
+                        'reservation_id' => $reservation_id,
+                        'cars_id' => $data['cars_id']
+                    ]);
+                }
                 // Don't throw exeption if no rows are affected
                 if ($count === false) {
                     throw new \Exception("Database error");
