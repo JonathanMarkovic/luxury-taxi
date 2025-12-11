@@ -695,6 +695,46 @@ footer {
 
 }
 
+.language-switcher {
+    display: inline-block;
+}
+
+.lang-link {
+    display: inline-block;
+    width: 120px;
+    padding: 10px;
+    background-color:transparent;
+    text-decoration: none;
+    color: white ;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.lang-link:hover {
+    background-color: transparent;
+    color: var(--primary-gold);
+}
+
+.language-switcher {
+    display: inline-block;
+}
+
+.lang-link {
+    display: inline-block;
+    width: 120px;
+    padding: 10px;
+    background-color:transparent;
+    text-decoration: none;
+    color: white ;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.lang-link:hover {
+    background-color: transparent;
+    color: var(--primary-gold);
+}
+
 /* Payment styling */
 .payment-form-content {
     display: flex;
