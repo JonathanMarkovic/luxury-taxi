@@ -51,7 +51,7 @@ use App\Helpers\SessionManager;
                         <a class="nav-link <?= $current_page === 'faq' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/faqs">FAQ</a>
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#footer-section">Contact Us</a></li>
                 </ul>
                 <div class="d-flex gap-3">
                     <ul class="navbar-nav mx-auto">
