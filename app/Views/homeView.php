@@ -24,8 +24,8 @@ $phone = SessionManager::get('user_phone') ?? '';
         <div class="bookingWrap">
             <form class="bookingForm" method="post" action="<?= APP_USER_URL ?>/reservations/book">
                 <ul class="bookingTabs">
-                    <li><button type="button" id="trip" class="bookingTab active">Trip</button></li>
-                    <li><button type="button" id="hourly" class="bookingTab">Hourly</button></li>
+                    <li><button type="button" id="trip" class="bookingTab active"><?= hs(trans('home.trip')) ?></button></li>
+                    <li><button type="button" id="hourly" class="bookingTab"><?= hs(trans('home.hourly')) ?></button></li>
                     <input type="hidden" id="reservation_type" name="reservation_type" value="trip">
                 </ul>
 
@@ -62,54 +62,54 @@ $phone = SessionManager::get('user_phone') ?? '';
 
                 <div class="row g-2 bookRow">
                     <div class="col-md">
-                        <label for="first_name">First Name</label>
+                        <label for="first_name"><?= hs(trans('home.firstN')) ?></label>
                         <input id="first_name" name="first_name" type="text" class="form-control" value="<?= $first_name ?>">
                     </div>
                     <div class="col-md">
-                        <label for="last_name">Last Name</label>
+                        <label for="last_name"><?= hs(trans('home.lastN')) ?></label>
                         <input id="last_name" name="last_name" type="text" class="form-control" value="<?= $last_name ?>">
                     </div>
                 </div>
 
                 <div class="row g-2 bookRow">
                     <div class="col-md">
-                        <label for="email">Email</label>
+                        <label for="email"><?= hs(trans('home.email')) ?></label>
                         <input id="email" name="email" type="email" class="form-control" value="<?= $email ?>">
                     </div>
                     <div class="col-md">
-                        <label for="phone">Phone</label>
+                        <label for="phone"><?= hs(trans('home.phone')) ?></label>
                         <input id="phone" name="phone" type="text" class="form-control" value="<?= $phone ?>">
                     </div>
                 </div>
 
                 <div class="row g-2 bookRow">
                     <div class="col-md">
-                        <label for="pickup">Pickup Location</label>
+                        <label for="pickup"><?= hs(trans('home.pickup')) ?></label>
                         <input id="pickup" name="pickup" type="text" class="form-control">
                     </div>
                     <div class="col-md">
-                        <label for="dropoff">Drop-off Location</label>
+                        <label for="dropoff"><?= hs(trans('home.dropoff')) ?></label>
                         <input id="dropoff" name="dropoff" type="text" class="form-control">
                     </div>
                 </div>
 
                 <div class="row g-2 bookRow">
                     <div class="col-md">
-                        <label for="start_time">Start Time</label>
+                        <label for="start_time"><?= hs(trans('home.start')) ?></label>
                         <input id="start_time" name="start_time" type="datetime-local" class="form-control">
                     </div>
 
                     <div class="col-md">
-                        <label for="end_time">End Time</label>
+                        <label for="end_time"><?= hs(trans('home.end')) ?></label>
                         <input id="end_time" name="end_time" type="datetime-local" class="form-control" >
                     </div>
                 </div>
                 <div class="row g-2 bookRow">
                     <div class="col-md">
-                        <label for="cars_id">Vehicle</label>
+                        <label for="cars_id"><?= hs(trans('home.vehicle')) ?></label>
                         <select name="cars_id" id="cars_id" class="form-select" required>
                             <!-- Placeholder for create view -->
-                            <option value="" disabled selected>Select a vehicle</option>
+                            <option value="" disabled selected><?= hs(trans('home.selectVehicle')) ?></option>
 
                             <!-- Loop through all cars -->
                             <?php foreach ($cars as $car): ?>
@@ -125,14 +125,14 @@ $phone = SessionManager::get('user_phone') ?? '';
                 </div>
                 <div class="row g-1 bookRow">
                     <div class="bookFull">
-                        <label for="comments">Comments</label>
+                        <label for="comments"><?= hs(trans('home.comments')) ?></label>
                         <textarea id="comments" name="comments" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="row g-1">
-                    <div class="col-md text-end">
+                    <div class="col-md text-center">
                         <button class="reserveBtn" action="submit">
-                            Reserve
+                            <?= hs(trans('home.reserve')) ?>
                         </button>
                     </div>
                 </div>
@@ -158,11 +158,7 @@ $phone = SessionManager::get('user_phone') ?? '';
             <h2>Solaf Performance</h2>
             <br>
             <p>
-                We combine luxury, reliability, and professionalism to deliver an exceptional travel
-                experience. From airport transfers and regular pickups to corporate travel,
-                special events, and long-distance journeys, our premium vehicles and expert chauffeurs
-                ensure you arrive relaxed, refreshed, and on time. Every ride is crafted with comfort
-                and elegance in mind — where sophistication meets convenience.
+               <?= hs(trans('home.description')) ?>
             </p>
         </div>
 
@@ -176,34 +172,34 @@ $phone = SessionManager::get('user_phone') ?? '';
 
     <section class="stepsWrap">
         <div class="stepsSection">
-            <h2 class="stepsTitle">How it works</h2>
+            <h2 class="stepsTitle"><?= hs(trans('home.howItWorks')) ?></h2>
             <br><br>
             <div class="stepsBox">
                 <div class="stepItem">
                     <div class="stepIcon"><i class="bi bi-car-front-fill"></i></div>
-                    <h4 class="stepHead">Reserve Your Car</h4>
-                    <p class="stepBody">Browse our available vehicles and submit a reservation request for your preferred car and dates.</p>
+                    <h4 class="stepHead"><?= hs(trans('home.works1')) ?></h4>
+                    <p class="stepBody"><?= hs(trans('home.works1Desc')) ?></p>
                 </div>
                 <div class="stepItem">
                     <div class="stepIcon"><i class="bi bi-check-circle-fill"></i></div>
-                    <h4 class="stepHead">Admin Confirmation</h4>
-                    <p class="stepBody">Our team reviews your request, confirms availability, and provides the final rental price.</p>
+                    <h4 class="stepHead"><?= hs(trans('home.works2')) ?></h4>
+                    <p class="stepBody"><?= hs(trans('home.works2Desc')) ?></p>
                 </div>
                 <div class="stepItem">
                     <div class="stepIcon"><i class="bi bi-credit-card-2-front-fill"></i></div>
-                    <h4 class="stepHead">Secure Booking</h4>
-                    <p class="stepBody">Pay in person on the day of your reservation or online prior to your reservation.</p>
+                    <h4 class="stepHead"><?= hs(trans('home.works3')) ?></h4>
+                    <p class="stepBody"><?= hs(trans('home.works3Desc')) ?></p>
                 </div>
                 <div class="stepItem">
                     <div class="stepIcon"><i class="bi bi-clock-history"></i></div>
-                    <h4 class="stepHead">Picp & Go</h4>
-                    <p class="stepBody">Your driver arrives at the scheduled time to take you to your destination safely and comfortably.</p>
+                    <h4 class="stepHead"><?= hs(trans('home.works4')) ?></h4>
+                    <p class="stepBody"><?= hs(trans('home.works4Desc')) ?></p>
                 </div>
             </div>
         </div>
     </section>
     <section class="carsWrap">
-        <h2 class="stepsTitle">Our Cars</h2>
+        <h2 class="stepsTitle"><?= hs(trans('home.ourCars')) ?></h2>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5" class="cars-section">
             <?php foreach ($threeCars as $car): ?>
@@ -255,19 +251,19 @@ $phone = SessionManager::get('user_phone') ?? '';
                                 <hr class="custom-line">
 
                             <div class="car-detail-item">
-                                <span class="car-detail-label">Model:</span>
+                                <span class="car-detail-label"><?= hs(trans('home.model')) ?>:</span>
                                 <span class="car-detail-value"><?= htmlspecialchars($car['model']) ?></span>
                             </div>
                             <div class="car-detail-item">
-                                <span class="car-detail-label">Year:</span>
+                                <span class="car-detail-label"><?= hs(trans('home.year')) ?>:</span>
                                 <span class="car-detail-value"><?= htmlspecialchars($car['year']) ?></span>
                             </div>
                             <div class="car-detail-item">
-                                <span class="car-detail-label">Capacity:</span>
+                                <span class="car-detail-label"><?= hs(trans('home.capacity')) ?>:</span>
                                 <span class="car-detail-value"><?= htmlspecialchars($car['capacity']) ?></span>
                             </div>
                             <div class="car-detail-item">
-                                <span class="car-detail-label">Average Price:</span>
+                                <span class="car-detail-label"><?= hs(trans('home.avgPrice')) ?>:</span>
                                 <span class="car-detail-value">$ <?= htmlspecialchars($car['approx_price']) ?> / hour</span>
                             </div>
                             </p>
@@ -276,7 +272,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                 </div>
             <?php endforeach; ?>
         </div>
-        <a class="all-cars-link" href="<?= APP_USER_URL ?>/cars">View All Cars</a>
+        <a class="all-cars-link" href="<?= APP_USER_URL ?>/cars"><?= hs(trans('home.carsButton')) ?></a>
     </section>
 </div>
 
