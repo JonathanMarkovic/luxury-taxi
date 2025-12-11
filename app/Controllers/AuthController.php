@@ -272,4 +272,67 @@ class AuthController extends BaseController
         // Render 'user/dashboard.php' view and pass $data
         return $this->render($response, 'user/dashboardView.php', $data);
     }
+
+    /**
+     * Summary of changePassword
+     * Renders the change password screen
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function changePassword(Request $request, Response $response, array $args): Response
+    {
+        $data = [
+            'title' => 'change-password',
+        ];
+
+        return $this->render($response, 'auth/resetPassword.php', $data);
+    }
+
+    public function saveNewPassword(Request $request, Response $response, array $args): Response
+    {
+        $formData = $request->getParsedBody();
+
+        $userId = -1;
+        //*Check if the user is logged in or they are using the forgot password link
+        if (SessionManager::get('is_authenticated')) {
+            $userId = SessionManager::get('user_id');
+        } else {
+            $user = $this->userModel->findByEmail($formData['email']);
+            $userId = $user['user_id'];
+        }
+
+        $password = $formData['password'];
+        $confirmPassword = $formData['confirmPassword'];
+
+        // Validate password length (minimum 8 characters)
+        if (strlen($password) < 8) {
+            $errors[] = "Password must be at least 8 characters long.";
+        }
+
+        // Validate password contains at least one number
+        if (!preg_match('/[0-9]/', $password)) {
+            $errors[] = "Password must contain at least one number.";
+        }
+
+        // Check if password matches confirm_password
+        if ($password !== $confirmPassword) {
+            $errors[] = "Passwords do not match.";
+        }
+
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                FlashMessage::error($error);
+            }
+
+            return $this->redirect($request, $response, 'auth/resetPassword.php');
+        }
+
+        // TODO: FINISH THIS PART
+        $this->userModel->saveNewPassword($userId, $password);
+        FlashMessage::success("Password changed");
+
+        return $this->redirect($request, $response, 'auth.login');
+    }
 }

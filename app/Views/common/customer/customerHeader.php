@@ -45,6 +45,7 @@
                     <li class="nav-item">
                         <a class="nav-link <?= $current_page === 'faq' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/faqs">FAQ</a>
                     </li>
+
                     <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
                 </ul>
                 <div class="d-flex gap-3">
@@ -62,6 +63,9 @@
                                 <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register">Sign Up</a>
                             </li>
                         <?php } else { ?>
+                            <li class="nav-item">
+                                <a class="nav-link <?= $current_page === 'change-password' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/changePassword">Change Password</a>
+                            </li>
                             <li>
                                 <a class="nav-link" href="<?= APP_BASE_URL ?>/logout">Logout</a>
                             </li>
