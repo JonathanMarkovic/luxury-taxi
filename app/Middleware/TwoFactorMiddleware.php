@@ -29,11 +29,11 @@ class TwoFactorMiddleware implements MiddlewareInterface
     public function process(Request $request, RequestHandler $handler): ResponseInterface
     {
         // Check if user is authenticated
-        
-        // if (!SessionManager::get('is_authenticated')) {
-        //     // Not authenticated, let AuthMiddleware handle it
-        //     return $handler->handle($request);
-        // }
+
+        if (!SessionManager::get('is_authenticated')) {
+            // Not authenticated, let AuthMiddleware handle it
+            return $handler->handle($request);
+        }
 
         $userId = SessionManager::get('user_id');
 
