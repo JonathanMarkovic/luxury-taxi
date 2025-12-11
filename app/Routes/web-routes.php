@@ -44,7 +44,7 @@ return static function (Slim\App $app): void {
         //*This route will handle the guest reservation search
         $group->post('/reservations', [ReservationController::class, 'guestShow']); //->setName('guest.reservation');
         $group->get('/reservations', [ReservationController::class, 'customerIndex'])->setName('customer.reservations');
-        $group->post('/reservations/update/{reservation_id}', [ReservationController::class, 'updateCustomerReservation']);
+        $group->post('/reservations/edit/{reservation_id}', [ReservationController::class, 'updateCustomerReservation']);
         $group->get('reservations/edit/{reservation_id}/{email}', [ReservationController::class, 'editCustomerReservation'])->setName('customer.reservations.edit');
         $group->post('/reservations/store', [ReservationController::class, 'store']);
         $group->post('/reservations/book', [ReservationController::class, 'createCustomerReservation']);

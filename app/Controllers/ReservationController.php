@@ -290,7 +290,7 @@ class ReservationController extends BaseController
 
         // TODO: NEED TO INCLUDE THE EMAIL FOR SOLAF PERFORMANCE AND ACTUALLY SEND THE EMAIL HERE
         $to = $args['email'];
-        $subject = "Reservation Confirmed";
+        $subject = "Reservation Cancelled";
         $message = "Hello your reservation at $start_time has been Cancelled";
 
         sendMail($to, $subject, $message);
@@ -621,6 +621,7 @@ class ReservationController extends BaseController
             return $this->redirect($request, $response, 'customer.reservations');
         }
     }
+
     public function cancel(Request $request, Response $response, array $args): Response
     {
         $reservation_id = $args['reservation_id'];
@@ -674,36 +675,14 @@ class ReservationController extends BaseController
             ];
 
             $this->reservation_model->updateCustomerReservation($reservation_id, $reservationData);
+
             FlashMessage::success("Successfully updated reservation!");
 
-            // fetch the nw updated info
-            $updatedReservation = $this->reservation_model->fetchReservationById($reservation_id);
+            // reset modify_mode after saving
+            SessionManager::set('modify_mode', false);
+            SessionManager::remove('edit_reservation');
 
-
-            $to = $updatedReservation['email'];
-            $subject = "Reservation Submitted";
-            $message = "Solaf Performance has received your reservation modification request with reservation number: $reservation_id. We will get back to you soon.";
-            sendMail($to, $subject, $message);
-
-
-            //check if the user is logged in or a guest
-            $user_id = SessionManager::get('user_id');
-
-            if ($user_id === null) {
-                //if its a guest then keep the reservation in session so they can see it after the reload
-                SessionManager::set('modify_mode', true);
-                SessionManager::set('edit_reservation', $updatedReservation);
-                SessionManager::set('last_reservation_id', $reservation_id);
-                SessionManager::set('last_reservation_email', $updatedReservation['email']);
-            } else {
-                // clear session because customerIndex will fetch all reservations
-                SessionManager::clear('modify_mode');
-                SessionManager::clear('edit_reservation');
-                SessionManager::clear('last_reservation_id');
-                SessionManager::clear('last_reservation_email');
-            }
-
-            return $this->redirect($request, $response, 'customer.reservations.edit');
+            return $this->redirect($request, $response, 'customer.reservations');
         } catch (\Exception $e) {
             // Display error message using FlashMessage::error()
             FlashMessage::error("Updating reservation failed. Please try again." . $e->getMessage());

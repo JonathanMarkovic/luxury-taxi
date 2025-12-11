@@ -32,23 +32,16 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
                 <p>Enter your booking details below to quickly find and manage your reservation.</p>
             </div>
         </section>
-        <?= FlashMessage::render() ?>
         <div class="page-content">
-            <div class="search-container">
-                <form action="reservations" method="post" class="reservation-search-form">
-                    <div class="search-inputs">
-                        <div class="input-wrapper">
-                            <label for="email" class="search-label">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="Enter your email" class="search-input" required>
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="reservation_id" class="search-label">Confirmation Number</label>
-                            <input type="text" id="reservation_id" name="reservation_id" placeholder="Enter confirmation number" class="search-input" required>
-                        </div>
-                    </div>
-                    <button action="submit" class="all-cars-link">Search</button>
-                </form>
-            </div>
+            <form action="reservations" method="post" class="d-flex flex-column align-items-center gap-3">
+                <div class="mb-3">
+                    <input type="text" id="email" name="email" placeholder="Email Address" class="find-reservation-input">
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="reservation_id" name="reservation_id" placeholder="Confirmation Number" class="find-reservation-input">
+                </div>
+                <button action="submit" class="all-cars-link">Search</button>
+            </form>
         </div>
     </div>
 
@@ -66,7 +59,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
 <!-- Reservation list (shared for guest and customer) -->
 <?php if (!empty($reservations)) { ?>
     <div class="page-content">
-
+        <?= FlashMessage::render() ?>
         <div class="container my-5">
             <?php foreach ($reservations as $reservation): ?>
                 <?php
@@ -81,6 +74,38 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
         </div>
     </div>
 <?php } ?>
+
+<script>
+    function toggleEdit(button) {
+        const box = button.closest('.reservationBox');
+        const fieldset = box.querySelector('fieldset');
+        // const form = document.getElementById('reservationDetails');
+        const form = box.querySelector('form');
+
+        let mode = button.getAttribute("data-mode");
+
+        if (mode === "modify") {
+            // Switch to edit mode with Save button
+            fieldset.disabled = false;
+            button.innerText = "Save";
+            button.style.background = "#1c4014";
+            button.setAttribute("data-mode", "save");
+
+        } else {
+            // Submit form if there are changes and switch back to Modify button
+            form.submit();
+
+            // After form submits, page reloads so this won't run.
+            // But in case you want it without reload:
+            fieldset.disabled = true;
+            button.innerText = "Modify";
+            button.style.background = "#555";
+            button.setAttribute("data-mode", "modify");
+        }
+    }
+</script>
+
+
 
 <?php
 ViewHelper::loadCustomerFooter();
