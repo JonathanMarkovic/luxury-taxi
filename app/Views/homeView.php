@@ -18,12 +18,7 @@ $phone = SessionManager::get('user_phone') ?? '';
 ?>
 <div class="page-content">
     <?= FlashMessage::render() ?>
-    <section class="aboutWrap">
-        <div class="aboutText">
-            <h2 class="aboutTitle">Solaf Performance</h2>
-            <p>We combine luxury, reliability, and professionalism to deliver an exceptional travel experience. From airport transfers and regular pickups to corporate travel, special events, and long-distance journeys, our premium vehicles and expert chauffeurs ensure you arrive relaxed, refreshed, and on time. Every ride is crafted with comfort and elegance in mind — where sophistication meets convenience.</p>
-        </div>
-    </section>
+
 
     <section class="heroWrap">
         <div class="bookingWrap">
@@ -106,7 +101,7 @@ $phone = SessionManager::get('user_phone') ?? '';
 
                     <div class="col-md">
                         <label for="end_time">End Time</label>
-                        <input id="end_time" name="end_time" type="datetime-local" class="form-control" disabled="true">
+                        <input id="end_time" name="end_time" type="datetime-local" class="form-control" >
                     </div>
                 </div>
                 <div class="row g-2 bookRow">
@@ -144,12 +139,45 @@ $phone = SessionManager::get('user_phone') ?? '';
             </form>
         </div>
     </section>
-
     <br>
+
+<section class="about">
+    <div class="about-grid">
+
+        <!-- TOP LEFT IMAGE -->
+        <div class="about-img about-img-1"></div>
+
+        <!-- TITLE BOX (OVERLAPPING) -->
+        <div class="about-title-box">
+            <h1>Canada<br>Montreal</h1>
+        </div>
+
+        <!-- BOTTOM LEFT TEXT -->
+        <div class="about-text">
+            <br><br>
+            <h2>Solaf Performance</h2>
+            <br>
+            <p>
+                We combine luxury, reliability, and professionalism to deliver an exceptional travel
+                experience. From airport transfers and regular pickups to corporate travel,
+                special events, and long-distance journeys, our premium vehicles and expert chauffeurs
+                ensure you arrive relaxed, refreshed, and on time. Every ride is crafted with comfort
+                and elegance in mind — where sophistication meets convenience.
+            </p>
+        </div>
+
+        <!-- BOTTOM RIGHT IMAGE -->
+        <div class="about-img about-img-2"></div>
+
+    </div>
+</section>
+
+    <br><br><br>
 
     <section class="stepsWrap">
         <div class="stepsSection">
             <h2 class="stepsTitle">How it works</h2>
+            <br><br>
             <div class="stepsBox">
                 <div class="stepItem">
                     <div class="stepIcon"><i class="bi bi-car-front-fill"></i></div>
@@ -168,7 +196,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                 </div>
                 <div class="stepItem">
                     <div class="stepIcon"><i class="bi bi-clock-history"></i></div>
-                    <h4 class="stepHead">Pickup & Go</h4>
+                    <h4 class="stepHead">Picp & Go</h4>
                     <p class="stepBody">Your driver arrives at the scheduled time to take you to your destination safely and comfortably.</p>
                 </div>
             </div>
@@ -183,12 +211,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                     <div class="car-card">
                         <!-- Carousel -->
                         <?php if (!empty($car['images'])): ?>
-                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" style="
-                                height: 600px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                ">
+                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" >
                                 <div class="carousel-indicators">
                                     <?php foreach ($car['images'] as $index => $image): ?>
                                         <button type="button"
@@ -220,7 +243,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                                 </button>
                             </div>
                         <?php else: ?>
-                            <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 600px;">
+                            <div class="bg-secondary d-flex align-items-center justify-content-center">
                                 <span class="text-white">No Image Available</span>
                             </div>
                         <?php endif; ?>

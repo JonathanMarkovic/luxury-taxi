@@ -22,7 +22,7 @@ $cars = $data['cars'];
                 <div class="car-card">
                     <!-- Carousel -->
                     <?php if (!empty($car['images'])): ?>
-                        <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" style="height: 600px; ">
+                        <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" >
                             <div class="carousel-indicators" style="object-fit:cover">
                                 <?php foreach ($car['images'] as $index => $image): ?>
                                     <button type="button"
@@ -54,7 +54,7 @@ $cars = $data['cars'];
                             </button>
                         </div>
                     <?php else: ?>
-                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 600px;">
+                        <div class="bg-secondary d-flex align-items-center justify-content-center" >
                             <span class="text-white">No Image Available</span>
                         </div>
                     <?php endif; ?>
