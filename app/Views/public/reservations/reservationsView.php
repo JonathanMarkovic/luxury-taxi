@@ -29,8 +29,8 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     <div class="hero-and-form">
         <section class="hero-section">
             <div class="hero-content">
-                <h1>Find your Reservation</h1>
-                <p>Enter your booking details below to quickly find and manage your reservation.</p>
+                <h1><?= hs(trans('reservations.guestHeroTitle')) ?></h1>
+                <p><?= hs(trans('reservations.guestHeroDesc')) ?></p>
             </div>
 
         </section>
@@ -39,12 +39,12 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
         <div class="page-content">
             <form action="reservations" method="post" class="d-flex flex-column align-items-center gap-3">
                 <div class="mb-3">
-                    <input type="text" id="email" name="email" placeholder="Email Address" class="find-reservation-input">
+                    <input type="text" id="email" name="email" placeholder=<?= hs(trans('reservations.emailPlaceholder')) ?> class="find-reservation-input">
                 </div>
                 <div class="mb-3">
-                    <input type="text" id="reservation_id" name="reservation_id" placeholder="Confirmation Number" class="find-reservation-input">
+                    <input type="text" id="reservation_id" name="reservation_id" placeholder=<?= hs(trans('reservations.confirmationPlaceholder')) ?> class="find-reservation-input">
                 </div>
-                <button action="submit" class="all-cars-link">Search</button>
+                <button action="submit" class="all-cars-link"><?= hs(trans('reservations.search')) ?></button>
             </form>
         </div>
     </div>
@@ -54,8 +54,8 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     <!-- Customer hero section -->
     <section class="hero-section">
         <div class="hero-content">
-            <h1>View Reservations</h1>
-            <p>Easily and efficiently manage all your bookings.</p>
+            <h1><?= hs(trans('reservations.customerHeroTitle')) ?></h1>
+            <p><?= hs(trans('reservations.customerHeroDesc')) ?></p>
         </div>
     </section>
 <?php } ?>
@@ -91,7 +91,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
         if (mode === "modify") {
             // Switch to edit mode with Save button
             fieldset.disabled = false;
-            button.innerText = "Save";
+            button.innerText = <?= hs(trans('reservations.save')) ?>;
             button.style.background = "#1c4014";
             button.setAttribute("data-mode", "save");
 
@@ -102,7 +102,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
             // After form submits, page reloads so this won't run.
             // But in case you want it without reload:
             fieldset.disabled = true;
-            button.innerText = "Modify";
+            button.innerText = <?= hs(trans('reservations.modify')) ?>;
             button.style.background = "#555";
             button.setAttribute("data-mode", "modify");
         }

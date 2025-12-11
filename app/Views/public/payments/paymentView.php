@@ -26,52 +26,52 @@ ViewHelper::loadCustomerHeader($page_title);
         <div class="payment-form-content">
             <div class="payment-form-container">
                 <form id="payment-form" class="row g-4">
-                    <h3>Contact Information</h3>
+                    <h3><?= hs(trans('payment.contactTitle')) ?></h3>
                     <hr>
                     <!-- Email input -->
                     <div class="col-md-6">
-                        <input type="text" id="email" name="email" class="form-control" placeholder="Email" required>
+                        <input type="text" id="email" name="email" class="form-control" placeholder=<?= hs(trans('payment.email')) ?> required>
                     </div>
                     <!-- Phone input -->
                     <div class="col-md-6">
-                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" required>
+                        <input type="text" id="phone" name="phone" class="form-control" placeholder=<?= hs(trans('payment.phone')) ?> required>
                     </div>
-                    <h3>Billing Address</h3>
+                    <h3><?= hs(trans('payment.billingTitle')) ?></h3>
                     <hr>
                     <!-- First name input -->
                     <div class="col-md-6">
-                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First name" required>
+                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder=<?= hs(trans('payment.firstName')) ?> required>
                     </div>
                     <!-- Last name input -->
                     <div class="col-md-6">
-                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last name" required>
+                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder=<?= hs(trans('payment.lastName')) ?> required>
                     </div>
                     <!-- Address line 1 input -->
                     <div class="col-md-12">
-                        <input type="text" id="address_line_1" name="address_line_1" class="form-control" placeholder="Address" required>
+                        <input type="text" id="address_line_1" name="address_line_1" class="form-control" placeholder=<?= hs(trans('payment.address1')) ?> required>
                     </div>
                     <!-- Address line 2 input -->
                     <div class="col-md-12">
-                        <input type="text" name="address_line_2" class="form-control" id="address_line_2" placeholder="Apartment, suite, etc. (optional)">
+                        <input type="text" name="address_line_2" class="form-control" id="address_line_2" placeholder=<?= hs(trans('payment.address2')) ?>>
                     </div>
                     <!-- City input -->
                     <div class="col-md-4">
-                        <input type="text" id="city" name="city" class="form-control" placeholder="City" required>
+                        <input type="text" id="city" name="city" class="form-control" placeholder=<?= hs(trans('payment.city')) ?> required>
                     </div>
                     <!-- Province input -->
                     <div class="col-md-4">
-                        <input type="text" id="province" name="province" class="form-control" placeholder="Province">
+                        <input type="text" id="province" name="province" class="form-control" placeholder=<?= hs(trans('payment.province')) ?>>
                     </div>
                     <!-- Country code input -->
                     <div class="col-md-4">
-                        <input type="text" id="country_code" name="country_code" class="form-control" placeholder="Country Code (ex: CA)">
+                        <input type="text" id="country_code" name="country_code" class="form-control" placeholder=<?= hs(trans('payment.country')) ?>>
                     </div>
-                    <h3>Payment Information</h3>
+                    <h3><?= hs(trans('payment.paymentTitle')) ?></h3>
                     <hr>
                     <!-- This is the actual credit card field -->
                     <div id="card-container"></div>
-                    <div class="text-end"><h5>Total Due: $ <?= $balance ?>.00</h5></div>
-                    <button id="card-button" type="button" class="btn btn-primary">Pay now</button>
+                    <div class="text-end"><h5><?= hs(trans('payment.totalDue')) ?>: $ <?= $balance ?></h5></div>
+                    <button id="card-button" type="button" class="btn btn-primary"><?= hs(trans('payment.payNow')) ?></button>
                 </form>
             </div>
         </div>

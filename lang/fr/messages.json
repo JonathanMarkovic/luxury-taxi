@@ -41,6 +41,21 @@
     "avgPrice": "Prix moyen",
     "carsButton": "Voir toutes les voitures"
 },
+"reservations": {
+  "guestHeroTitle": "Trouvez votre réservation",
+  "guestHeroDesc": "Entrez vos informations de réservation ci-dessous pour retrouver et gérer rapidement votre réservation.",
+
+  "emailPlaceholder": "Adresse courriel",
+  "confirmationPlaceholder": "Numéro de confirmation",
+  "search": "Rechercher",
+
+  "customerHeroTitle": "Voir les réservations",
+  "customerHeroDesc": "Gérez facilement et efficacement toutes vos réservations.",
+
+  "modify": "Modifier",
+  "save": "Enregistrer"
+}
+,
 "cars": {
     "title": "Trouvez la voiture parfaite",
     "description": "Explorez notre collection de véhicules haut de gamme conçus pour répondre à tous vos besoins de déplacement. Que vous vous rendiez à l'aéroport, à un événement d'affaires ou à une soirée, nos voitures allient performance, élégance et luxe pour offrir le trajet parfait à chaque fois."
@@ -106,7 +121,30 @@
   "confirm": "Confirmer le nouveau mot de passe",
   "back": "Retour",
   "reset": "Réinitialiser le mot de passe"
+},
+"payment": {
+  "contactTitle": "Informations de contact",
+  "billingTitle": "Adresse de facturation",
+  "paymentTitle": "Informations de paiement",
+
+  "email": "Courriel",
+  "phone": "Téléphone",
+  "firstName": "Prénom",
+  "lastName": "Nom de famille",
+  "address1": "Adresse",
+  "address2": "Appartement, suite, etc. (optionnel)",
+  "city": "Ville",
+  "province": "Province",
+  "country": "Code du pays (ex : CA)",
+
+  "totalDue": "Total dû",
+  "payNow": "Payer maintenant",
+
+  "success": "Paiement réussi",
+  "failure": "Paiement échoué",
+  "missingCredentials": "Identifiants de paiement manquants"
 }
+
 
 
 
