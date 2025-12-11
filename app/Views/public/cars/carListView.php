@@ -10,8 +10,8 @@ $cars = $data['cars'];
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-content">
-        <h1>Find The Perfect Car</h1>
-        <p>Explore our collection of premium vehicles designed to meet every travel need. Whether you're heading to the airport, a corporate event, or a night out, our cars combine performance, elegance, and luxury to deliver the perfect ride every time.</p>
+        <h1 >Find The Perfect Car</h1>
+        <p>Explore our collection of premium vehicles designed to meet every travel need, whether you're heading to the airport, a corporate event, or a night out.</p>
     </div>
 </section>
 
