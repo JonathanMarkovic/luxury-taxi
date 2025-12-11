@@ -115,6 +115,7 @@ class ReservationModel extends BaseModel
             JOIN users u ON u.user_id = r.user_id
             LEFT JOIN reservation_cars rc ON r.reservation_id = rc.reservation_id
             LEFT JOIN cars c ON c.cars_id = rc.cars_id
+            order BY r.created_at DESC
         SQL;
         $reservations = $this->selectAll($sql);
         return $reservations;

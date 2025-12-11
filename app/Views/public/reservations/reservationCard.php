@@ -34,6 +34,7 @@ $cars = $data['cars'] ?? [];
             <p class="mb-2"><strong style="color: #888;">Name:</strong> <?= $reservation['first_name'] ?> <?= $reservation['last_name'] ?></p>
             <p class="mb-2"><strong style="color: #888;">Email:</strong> <?= $reservation['email'] ?></p>
             <p class="mb-2"><strong style="color: #888;">Phone:</strong> <?= $reservation['phone'] ?></p>
+            <p class="mb-2"><strong style="color: #888;">Reservation ID:</strong> <?= $reservation['reservation_id'] ?></p>
             <p class="mb-0">
                 <strong style="color: #888;">Status:</strong>
                 <span class="status-text status-<?= $reservation['reservation_status'] ?>">

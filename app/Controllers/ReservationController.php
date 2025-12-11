@@ -18,6 +18,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
+
 class ReservationController extends BaseController
 {
     public function __construct(Container $container, private ReservationModel $reservation_model, private UserModel $user_model, private PaymentModel $payment_model, private CarModel $car_model)
@@ -57,6 +58,8 @@ class ReservationController extends BaseController
      * @param array $args
      * @return Response
      */
+
+    //mkaes a new reservtion from admin side
     public function create(Request $request, Response $response, array $args): Response
     {
         $cars = $this->car_model->fetchCars();
@@ -108,11 +111,7 @@ class ReservationController extends BaseController
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
         $subject = "Reservation Created";
-        $message = "Solaf Performance has received your reservation request. You will get a response soon";
-        // $headers = "From: " . OWNER_EMAIL . "\r\n" .
-        //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
-        //     "X-Mailer: PHP/" . phpversion();
-
+        $message = "Solaf Performance has received your reservation request with reservation number: $reservation_id. You will get a response withing 24h.";
         sendMail($to, $subject, $message);
         // dd(SessionManager::get('user_role'));
         if (SessionManager::get('user_role') === 'admin') {
@@ -173,22 +172,12 @@ class ReservationController extends BaseController
         } else {
             return $this->redirect($request, $response, 'reservations.update');
         }
-
-        // Create and redirect
-        // try {
-
-        // } catch (\Throwable $th) {
-        //     $errors[] = "Something went wrong";
-        // }
-
-
-
         FlashMessage::success("Reservation updated: You will get an email with your reservation details");
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
         $subject = "Reservation Created";
-        $message = "Solaf Performance has received your reservation request. You will get a response soon";
+        $message = "Solaf Performance has received the modifications of your request with reservation number: $reservation_id . You will get a response soon";
 
         sendMail($to, $subject, $message);
 
@@ -343,7 +332,7 @@ class ReservationController extends BaseController
         $reservation = $this->reservation_model->fetchReservationById($reservation_id);
         //$payment = $this->payment_model->fetchPaymentByID($reservation_id);
 
-        if ($reservation['reservation_status'] == 'approved' || $reservation['reservation_status'] == 'refunded') {
+        if ($reservation['reservation_status'] == 'cancelled' || $reservation['reservation_status'] == 'refunded') {
             FlashMessage::warning("The Reservation is either already confirmed or refunded");
             return false;
         }
@@ -352,6 +341,12 @@ class ReservationController extends BaseController
         if ($this->payment_model->ifPaymentExists($reservation_id) == true && $reservation['reservation_status'] == 'pending') {
             $this->payment_model->updateTotalAmount($reservation_id, $price);
             $this->reservation_model->approveReservation($reservation_id);
+            //send an email about price change
+            $to = $reservation['email'];
+            $subject = "Reservation Approval";
+            $message = "Your reservation with Reservation Number $reservation_id has been approved. The current price is $price.";
+            sendMail($to, $subject, $message);
+
             FlashMessage::success("Reservation Approved, price changed to $price");
             return true;
         }
@@ -360,6 +355,26 @@ class ReservationController extends BaseController
             // normal approval flow, create new payment
             $this->reservation_model->approveReservation($reservation_id);
             $this->payment_model->createPayment($reservation_id, $price);
+
+            $to = $reservation['email'];
+            $subject = "Reservation Approval";
+            $message = "Your reservation with Reservation Number $reservation_id has been approved. The current price is $price.";
+            sendMail($to, $subject, $message);
+
+            FlashMessage::success("Reservation Approved");
+            return true;
+        }
+        //if reservation is approved but the admin wants to change the price
+        //TODO: bug where it sends email but doesnt set status to approved
+        if ($this->payment_model->ifPaymentExists($reservation_id) == true && $reservation['reservation_status'] == 'approved') {
+            $this->payment_model->updateTotalAmount($reservation_id, $price);
+            $this->reservation_model->updateReservationStatus($reservation_id, 'approved');
+
+            $to = $reservation['email'];
+            $subject = "Reservation Approval";
+            $message = "Your reservation with Reservation Number $reservation_id has been updated. The current price is $price.";
+            sendMail($to, $subject, $message);
+
             FlashMessage::success("Reservation Approved");
             return true;
         }
@@ -376,6 +391,10 @@ class ReservationController extends BaseController
             return false;
         }
         $this->reservation_model->denyReservation($reservation_id);
+        $to = $reservation['email'];
+        $subject = "Reservation Denied";
+        $message = "Your reservation with Reservation Number $reservation_id has been denied due to our unavailability. We will let you know if a slot opens up.";
+        sendMail($to, $subject, $message);
 
         FlashMessage::success("Reservation Denied");
         return true;
@@ -391,15 +410,28 @@ class ReservationController extends BaseController
             $this->reservation_model->updateReservationStatus($reservation_id, 'refunded');
             $this->payment_model->updatePaymentStatus($reservation_id, 'refunded');
 
+            $to = $reservation['email'];
+            $subject = "Reservation Refund";
+            $message = "Your reservation with Reservation Number $reservation_id has been refunded. You should receive the amount in your account within 5-7 business days.";
+            sendMail($to, $subject, $message);
+
             FlashMessage::success("Payment Refunded");
             return true;
         }
+
+        //if the reservation will happen but we need to refund
         if ($payment['total_paid'] > $payment['total_amount'] && $reservation['reservation_status'] == 'pending') {
             $this->payment_model->refundPayment($reservation_id);
             $this->reservation_model->approveReservation($reservation_id);
             $this->payment_model->updateTotalPaid($reservation_id, $payment['total_amount']);
             FlashMessage::success("Payment Refunded");
             //TODO: send email saying it will be refunded
+            $price = $payment['total_amount'];
+            $pricePaid = $payment['total_paid'];
+            $to = $reservation['email'];
+            $subject = "Reservation Refund";
+            $message = "Your reservation with Reservation Number $reservation_id has been partially refunded. You should receive the amount in your account within 5-7 business days. Please note that the refunded amount is the difference between what was paid($pricePaid) and the total amount due($price).";
+            sendMail($to, $subject, $message);
             return true;
         } else {
             FlashMessage::warning("Cannot refund: Customer hasnt paid yet or reservation not cancelled");
@@ -418,24 +450,6 @@ class ReservationController extends BaseController
             $success = $this->approveReservation($reservationId, $post);
 
             if ($success) {
-                // Send email
-                $reservation = $this->reservation_model->fetchReservationById($reservationId);
-                $start_time = $reservation['start_time'];
-                $to = $reservation['email'];
-                $subject = "Reservation Confirmed";
-                $message = "Hello your reservation at $start_time has been approved by Solaf Performance";
-                // $headers = "From: " . OWNER_EMAIL . "\r\n" .
-                //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
-                //     "X-Mailer: PHP/" . phpversion();
-
-                // if (mail($to, $subject, $message, $headers)) {
-                //     echo 'email sent';
-                // } else {
-                //     echo 'email not sent';
-                // }
-
-                sendMail($to, $subject, $message);
-
                 // Redirect to index on success
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
             } else {
@@ -449,23 +463,6 @@ class ReservationController extends BaseController
             $success = $this->denyReservation($reservationId);
 
             if ($success) {
-                // Send email
-                $reservation = $this->reservation_model->fetchReservationById($reservationId);
-                $start_time = $reservation['start_time'];
-                $to = $reservation['email'];
-                $subject = "Reservation Denied";
-                $message = "Hello your reservation at $start_time has been denied by Solaf Performance";
-                // $headers = "From: " . OWNER_EMAIL . "\r\n" .
-                //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
-                //     "X-Mailer: PHP/" . phpversion();
-
-                // if (mail($to, $subject, $message, $headers)) {
-                //     echo 'email sent';
-                // } else {
-                //     echo 'email not sent';
-                // }
-
-                sendMail($to, $subject, $message);
 
                 // Redirect to index on success
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
@@ -479,23 +476,6 @@ class ReservationController extends BaseController
             $success = $this->refundReservation($reservationId, $post);
 
             if ($success) {
-                // Send email
-                $reservation = $this->reservation_model->fetchReservationById($reservationId);
-                $start_time = $reservation['start_time'];
-                $to = $reservation['email'];
-                $subject = "Reservation Refunded";
-                $message = "Hello your reservation at $start_time has been refunded by Solaf Performance";
-                // $headers = "From: " . OWNER_EMAIL . "\r\n" .
-                //     "Reply-to: " . OWNER_EMAIL . "\r\n" .
-                //     "X-Mailer: PHP/" . phpversion();
-
-                // if (mail($to, $subject, $message, $headers)) {
-                //     echo 'email sent';
-                // } else {
-                //     echo 'email not sent';
-                // }
-
-                sendMail($to, $subject, $message);
 
                 // Redirect to index on success
                 return $response->withHeader("Location", APP_ADMIN_URL . "/reservations")->withStatus(302);
@@ -648,6 +628,13 @@ class ReservationController extends BaseController
         if (is_numeric($reservation_id)) {
             $this->reservation_model->cancelReservation($reservation_id);
             FlashMessage::error("Successfully cancelled reservation!");
+
+            $updatedReservation = $this->reservation_model->fetchReservationById($reservation_id);
+
+            $to = $updatedReservation['email'];
+            $subject = "Reservation Cancelled";
+            $message = "Solaf Performance has been notified that your reservation has been cancelled. If you have already paid for your reservation, we will review and refund you. If you do not receive an email within 5 days, contact us!";
+            sendMail($to, $subject, $message);
         }
 
         return $this->redirect($request, $response, 'customer.reservations');
@@ -687,12 +674,16 @@ class ReservationController extends BaseController
             ];
 
             $this->reservation_model->updateCustomerReservation($reservation_id, $reservationData);
-
-
             FlashMessage::success("Successfully updated reservation!");
 
             // fetch the nw updated info
             $updatedReservation = $this->reservation_model->fetchReservationById($reservation_id);
+
+
+            $to = $updatedReservation['email'];
+            $subject = "Reservation Submitted";
+            $message = "Solaf Performance has received your reservation modification request with reservation number: $reservation_id. We will get back to you soon.";
+            sendMail($to, $subject, $message);
 
 
             //check if the user is logged in or a guest
@@ -761,9 +752,8 @@ class ReservationController extends BaseController
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
-        $subject = "Reservation Created";
-        $message = "Solaf Performance has received your reservation request. You will get a response soon.";
-
+        $subject = "Reservation Denied";
+        $message = "Solaf Performance has received your reservation request with reservation number: $reservation_id. You will get a response withing 24h.";
         sendMail($to, $subject, $message);
 
         // dd(SessionManager::get('user_role'));
