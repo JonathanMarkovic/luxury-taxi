@@ -108,7 +108,9 @@ $reservation_id = $reservation['reservation_id'];
                     <div class="static-reservation-banner">
                         Price
                         <br>
-                        <?= $reservation['total_amount'] == null ? "not set" : "$ " . $reservation['total_amount'] ?>
+                        <?php // dd($reservation);
+                        ?>
+                        <?= $reservation['price'] == null ? "not set" : "$ " . $reservation['price'] ?>
                     </div>
                     <!-- Payment -->
                     <div class="static-reservation-banner">
