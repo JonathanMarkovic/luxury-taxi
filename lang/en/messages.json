@@ -52,6 +52,48 @@
         "modify": "Modify",
         "save": "Save"
     },
+    "reservationCard": {
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "id": "Reservation number",
+        "reservation_status": "Reservation Status",
+        "status": {
+            "pending": "Pending",
+            "approved": "Approved",
+            "cancelled": "Cancelled",
+            "completed": "Completed",
+            "denied": "Denied"
+        },
+        "reservation_details": "Reservation Details",
+        "pickup": "Pickup",
+        "dropoff": "Drop-off",
+        "start_time": "Start Time",
+        "end_time": "End Time",
+        "reservation_type": "Reservation Type",
+        "hourly": "Hourly",
+        "trip": "Trip",
+        "vehicle": "Vehicle",
+        "selectVehicle": "Select a Vehicle",
+        "price": "Price",
+        "not_set": "Not set",
+        "payment_status": "Payment Status",
+        "pending_payment": "Pending",
+        "payment_status_values": {
+            "pending": "Pending",
+            "paid": "Paid",
+            "refunded": "Refunded"
+        },
+        "pay": "Pay",
+        "cancel_reservation": "Cancel Reservation",
+        "modify_reservation": "Modify Reservation",
+        "confirm_cancellation": "Confirm Cancellation",
+        "cancellation_warning": "Are you sure you want to cancel this reservation?",
+        "cancellation_note": "This cannot be undone.",
+        "no": "No",
+        "yes": "Yes"
+    },
     "cars": {
         "title": "Find The Perfect Car",
         "description": "Explore our collection of premium vehicles designed to meet every travel need. Whether you're heading to the airport, a corporate event, or a night out, our cars combine performance, elegance, and luxury to deliver the perfect ride every time."
@@ -135,5 +177,11 @@
         "success": "Payment Successful",
         "failure": "Payment Failed",
         "missingCredentials": "Missing payment credentials"
+    },
+    "flash": {
+        "cancelled": "Reservation Successfully Cancelled",
+        "create": "Reservation added: You will get an email with your reservation details. You can monitor the status of your booking in the find reservations tab using your email and reservation number.",
+        "update": "Successfully updated reservation!",
+        "update_error": "Updating reservation failed. Please try again."
     }
 }

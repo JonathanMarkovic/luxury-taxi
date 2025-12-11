@@ -54,8 +54,53 @@
 
   "modify": "Modifier",
   "save": "Enregistrer"
-}
-,
+},
+
+  "reservationCard": {
+    "first_name": "Prénom",
+    "last_name": "Nom de famille",
+    "email": "Email",
+    "phone": "Téléphone",
+    "id": "Numéro de réservation",
+    "reservation_status": "Statut de la réservation",
+    "status": {
+      "pending": "En attente",
+      "approved": "Approuvée",
+      "cancelled": "Annulée",
+      "completed": "Terminée",
+      "denied": "Refusée"
+    },
+    "reservation_details": "Détails de la réservation",
+    "pickup": "Lieu de prise en charge",
+    "dropoff": "Lieu de dépôt",
+    "start_time": "Heure de début",
+    "end_time": "Heure de fin",
+    "reservation_type": "Type de réservation",
+    "hourly": "À l'heure",
+    "trip": "Trajet",
+    "vehicle": "Véhicule",
+    "selectVehicle": "Sélectionnez un véhicule",
+    "price": "Prix",
+    "not_set": "Non défini",
+    "payment_status": "Statut du paiement",
+
+    "payment_status_values": {
+      "pending": "En attente",
+      "paid": "Payé",
+      "refunded": "Remboursé"
+    },
+    "pending_payment": "En attente",
+    "pay": "Payer",
+    "cancel_reservation": "Annuler la réservation",
+    "modify_reservation": "Modifier la réservation",
+    "confirm_cancellation": "Confirmer l'annulation",
+    "cancellation_warning": "Êtes-vous sûr de vouloir annuler cette réservation ?",
+    "cancellation_note": "Cela ne peut pas être annulé.",
+    "no": "Non",
+    "yes": "Oui"
+
+},
+
 "cars": {
     "title": "Trouvez la voiture parfaite",
     "description": "Explorez notre collection de véhicules haut de gamme conçus pour répondre à tous vos besoins de déplacement. Que vous vous rendiez à l'aéroport, à un événement d'affaires ou à une soirée, nos voitures allient performance, élégance et luxe pour offrir le trajet parfait à chaque fois."
@@ -143,8 +188,15 @@
   "success": "Paiement réussi",
   "failure": "Paiement échoué",
   "missingCredentials": "Identifiants de paiement manquants"
-}
+},
+ "flash":{
+        "cancelled": "Réservation annulée avec succès",
+        "create": "Réservation ajoutée : vous recevrez un e-mail contenant les détails de votre réservation. Vous pouvez suivre l'état de votre réservation dans l'onglet « Trouver des réservations » en utilisant votre adresse e-mail et votre numéro de réservation.",
 
+"update": "Réservation mise à jour avec succès !",
+
+"update_error": "La mise à jour de la réservation a échoué. Veuillez réessayer."
+    }
 
 
 

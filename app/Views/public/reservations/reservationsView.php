@@ -79,35 +79,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
     </div>
 <?php } ?>
 
-<script>
-    function toggleEdit(button) {
-        const box = button.closest('.reservationBox');
-        const fieldset = box.querySelector('fieldset');
-        // const form = document.getElementById('reservationDetails');
-        const form = box.querySelector('form');
 
-        let mode = button.getAttribute("data-mode");
-
-        if (mode === "modify") {
-            // Switch to edit mode with Save button
-            fieldset.disabled = false;
-            button.innerText = <?= hs(trans('reservations.save')) ?>;
-            button.style.background = "#1c4014";
-            button.setAttribute("data-mode", "save");
-
-        } else {
-            // Submit form if there are changes and switch back to Modify button
-            form.submit();
-
-            // After form submits, page reloads so this won't run.
-            // But in case you want it without reload:
-            fieldset.disabled = true;
-            button.innerText = <?= hs(trans('reservations.modify')) ?>;
-            button.style.background = "#555";
-            button.setAttribute("data-mode", "modify");
-        }
-    }
-</script>
 
 
 

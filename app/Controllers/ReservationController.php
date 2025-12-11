@@ -628,7 +628,7 @@ class ReservationController extends BaseController
 
         if (is_numeric($reservation_id)) {
             $this->reservation_model->cancelReservation($reservation_id);
-            FlashMessage::error("Successfully cancelled reservation!");
+            FlashMessage::error(hs(trans('flash.cancelled')));
 
             $updatedReservation = $this->reservation_model->fetchReservationById($reservation_id);
 
@@ -676,7 +676,7 @@ class ReservationController extends BaseController
 
             $this->reservation_model->updateCustomerReservation($reservation_id, $reservationData);
 
-            FlashMessage::success("Successfully updated reservation!");
+            FlashMessage::success(hs(trans('flash.update')));
 
             // reset modify_mode after saving
             SessionManager::set('modify_mode', false);
@@ -685,7 +685,7 @@ class ReservationController extends BaseController
             return $this->redirect($request, $response, 'customer.reservations');
         } catch (\Exception $e) {
             // Display error message using FlashMessage::error()
-            FlashMessage::error("Updating reservation failed. Please try again." . $e->getMessage());
+            FlashMessage::error(hs(trans('flash.update_error')) . $e->getMessage());
 
             error_log($e->getTraceAsString());
 
@@ -724,7 +724,7 @@ class ReservationController extends BaseController
 
             //? Add car to reservation
             $this->reservation_model->addCarToReservation($data['cars_id'], $reservation_id);
-            FlashMessage::success("Reservation added: You will get an email with your reservation details. You can monitor the status of your booking in the find reservations tab using your email and reservation number: $reservation_id");
+            FlashMessage::success(hs(trans('flash.create')));
         } else {
             return $this->redirect($request, $response, 'home.index');
         }
