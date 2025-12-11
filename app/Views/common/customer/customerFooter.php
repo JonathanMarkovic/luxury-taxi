@@ -7,11 +7,10 @@
         </div>
         <div class="footer-section">
             <h3>Helpful Links</h3>
-            <a href="#">Make Reservation</a>
-            <a href="#">Information</a>
-            <a href="#">Our Cars</a>
-            <a href="#">Find Your Reservation</a>
-            <a href="#">FAQ</a>
+            <a href="<?= APP_BASE_URL ?>/home">Make Reservation</a>
+            <a href="<?= APP_USER_URL ?>/cars">Our Cars</a>
+            <a href="<?= APP_USER_URL ?>/reservations">Find Your Reservation</a>
+            <a href="<?= APP_USER_URL ?>/faqs">FAQ</a>
         </div>
         <div class="footer-section">
             <h3>Contact Us</h3>

@@ -10,7 +10,7 @@ $reservation_id = $reservation['reservation_id'];
 ?>
 
 <div class="reservationBox p-4"
-    style="background:#111; border:1px solid #333; border-radius:10px; color:white;">
+    style="background:#2a2a2a; border:1px solid #333; border-radius:10px; color:white;">
 
     <div class="row">
         <!-- Customer Details -->
@@ -43,7 +43,7 @@ $reservation_id = $reservation['reservation_id'];
         <!-- Reservation Details & Edit Form -->
         <div class="col-md-5">
             <form action="<?= APP_USER_URL ?>/reservations/edit/<?= $reservation_id ?>" method="post" id="reservationDetails">
-                <fieldset id="fieldset_<?= $reservation_id ?>" <?= SessionManager::get('modify_mode') == false ? " disabled" : "" ?>>
+                <fieldset id="fieldset_<?= $reservation_id ?>" disabled>
                     <!-- Pickup input -->
                     <div class="form-floating">
                         <input type="text" class="form-control" id="pickup" name="pickup" value="<?= $reservation['pickup'] ?>" required>
@@ -102,7 +102,6 @@ $reservation_id = $reservation['reservation_id'];
                             <label for="cars_id" class="floating-label">Vehicle</label>
                         </div>
                     </div>
-
 
                     <!-- Price -->
                     <div class="static-reservation-banner">
