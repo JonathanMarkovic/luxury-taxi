@@ -81,6 +81,24 @@ use App\Helpers\SessionManager;
                         <?php } ?>
                     </ul>
                 </div>
+                <div>
+                    <div class="language-switcher">
+                        <?php
+                        // Get current locale from global translator
+                        global $translator;
+                        $currentLocale = $translator->getLocale();
+                        $availableLocales = $translator->getAvailableLocales();
+                        ?>
+
+                        <?php foreach ($availableLocales as $locale): ?>
+                            <?php if ($locale !== $currentLocale): ?>
+                                <a href="?lang=<?= hs($locale) ?>" class="lang-link">
+                                    <?= $locale === 'en' ? 'English' : 'Français' ?>
+                                </a>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

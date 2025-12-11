@@ -21,8 +21,8 @@ FlashMessage::render();
         <div class="card-body">
             <form method="POST" action="<?= APP_USER_URL ?>/changePassword">
                 <!-- new password -->
-                <div class="mb-3-1">
-                    <label class="field-name">New Password</label>
+                <div class="mb-3-1" style="padding-bottom: 20px;">
+                    <label class="field-name" style="color: black; font-weight: bold;  padding-bottom: 8px;">New Password</label>
                     <input
                         type="password"
                         class="form-control"
@@ -32,8 +32,8 @@ FlashMessage::render();
 
                 </div>
                 <!-- confirm new password -->
-                <div class="mb-3-2">
-                    <label class="field-name">Confirm New Password</label>
+                <div class="mb-3-2" style="padding-top: 20px;">
+                    <label class="field-name" style="color: black;font-weight: bold;  padding-bottom: 8px;">Confirm New Password</label>
                     <input
                         type="password"
                         class="form-control"
@@ -42,8 +42,11 @@ FlashMessage::render();
                         required>
 
                 </div>
+                <div class="mt-3 " style="padding-bottom: 80px; text-align: right;">
+                <a class="authentication-link" href="<?= APP_BASE_URL ?>/login" >Go Back</a>
+            </div>
 
-                <div class="d-grid gap-2">
+                <div class="d-grid gap-2"  style="place-items: center;">
                     <button type="submit" class="authentication-btn">
                         Reset Password
                     </button>
