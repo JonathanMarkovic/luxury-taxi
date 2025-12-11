@@ -73,6 +73,7 @@ footer {
     height: 24vh;
     display: grid;
     place-items: center;
+    margin-bottom: 30px;
 }
 
 .hero-content {
@@ -699,4 +700,98 @@ footer {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+}
+
+.find-reservation-input {
+    width: 400px;
+    padding: 6px 20px;
+    border-radius: 40px;
+    border: 1px solid white;
+}
+
+.find-reservation-input:focus {
+    outline: none;
+}
+
+.hero-and-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.static-reservation-banner {
+    background-color: var(--dark-bg);
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.custom-floating-select:focus + .floating-label,
+.custom-floating-select:not([value=""]) + .floating-label {
+    transform: translateY(-1.2rem);
+    font-size: 0.8rem;
+    color: rgb(85, 85, 85);
+}
+
+.custom-floating-select {
+    height: 55px;
+    line-height: 45px;
+    padding-left: 0.75rem;
+    padding-top: 10px;
+    padding-bottom: 0;
+    box-sizing: border-box;
+}
+
+
+.floating-label {
+    position: absolute;
+    top: 1rem;
+    left: 0.75rem;
+    transition: 0.2s ease all;
+    pointer-events: none;
+    color: #ccc;
+    background: transparent;
+    margin: 2px;
+    padding: 6px;
+}
+
+.pending-reservation-banner {
+    background-color: var(--primary-gold);
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    width: fit-content;
+}
+
+.approved-reservation-banner {
+    background-color: #1c4014;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    width: fit-content;
+}
+
+.cancelled-reservation-banner {
+    background-color: #6c757d;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    width: fit-content;
+}
+
+.completed-reservation-banner {
+    background-color: #294087;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    width: fit-content;
+}
+
+.denied-reservation-banner {
+    background-color: #471C1C;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    width: fit-content;
 }

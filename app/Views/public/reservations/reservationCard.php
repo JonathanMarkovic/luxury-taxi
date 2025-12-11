@@ -10,7 +10,7 @@ $reservation_id = $reservation['reservation_id'];
 ?>
 
 <div class="reservationBox p-4"
-    style="background:#111; border:1px solid #333; border-radius:10px; color:white;">
+    style="background:#2a2a2a; border:1px solid #333; border-radius:10px; color:white;">
 
     <div class="row">
         <!-- Customer Details -->
@@ -102,7 +102,6 @@ $reservation_id = $reservation['reservation_id'];
                             <label for="cars_id" class="floating-label">Vehicle</label>
                         </div>
                     </div>
-
 
                     <!-- Price -->
                     <div class="static-reservation-banner">
