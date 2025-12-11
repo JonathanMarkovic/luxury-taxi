@@ -15,3 +15,12 @@ https://frostybee.github.io/web-dev/php/aa/lab-security-part1-registration/
 https://frostybee.github.io/web-dev/php/aa/lab-security-part2-authentication/
 https://frostybee.github.io/web-dev/php/aa/2fa-explanation/
 https://frostybee.github.io/web-dev/php/aa/lab-2fa/
+
+
+tutorial for google maps API 
+https://developers.google.com/maps/billing-and-pricing/pricing
+https://www.youtube.com/watch?v=rSSnUXdff6g&t=1056s
+https://www.youtube.com/watch?v=xcGp3wrF07Y&t=94s
+
+tutorial for calendar api
+https://www.youtube.com/watch?v=BCgu3OZc2gY&list=LL&index=1
