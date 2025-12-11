@@ -24,6 +24,7 @@ $is_customer = ($is_auth === true && $user_role !== 'guest');
 // dd(SessionManager::get('user_role'));
 if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_role') === null) {
 ?>
+
     <!-- Guest hero section -->
     <div class="hero-and-form">
         <section class="hero-section">
@@ -31,7 +32,10 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
                 <h1>Find your Reservation</h1>
                 <p>Enter your booking details below to quickly find and manage your reservation.</p>
             </div>
+
         </section>
+         <?= FlashMessage::render() ?>
+         <br>
         <div class="page-content">
             <form action="reservations" method="post" class="d-flex flex-column align-items-center gap-3">
                 <div class="mb-3">
@@ -59,7 +63,7 @@ if (SessionManager::get('user_role') === 'guest' || SessionManager::get('user_ro
 <!-- Reservation list (shared for guest and customer) -->
 <?php if (!empty($reservations)) { ?>
     <div class="page-content">
-        <?= FlashMessage::render() ?>
+
         <div class="container my-5">
             <?php foreach ($reservations as $reservation): ?>
                 <?php

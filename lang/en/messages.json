@@ -5,7 +5,9 @@
     "cars": "Our Cars",
     "contact": "Contact Us",
     "login": "Login",
-    "sign up": "Sign Up"
+    "signup": "Sign Up",
+    "changePass": "Change Password",
+    "logout": "Logout"
   },
   "home": {
     "description": "We combine luxury, reliability, and professionalism to deliver an exceptional travel experience. From airport transfers and regular pickups to corporate travel, special events, and long-distance journeys, our premium vehicles and expert chauffeurs ensure you arrive relaxed, refreshed, and on time. Every ride is crafted with comfort and elegance in mind — where sophistication meets convenience.",

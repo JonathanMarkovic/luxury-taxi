@@ -39,19 +39,19 @@ use App\Helpers\SessionManager;
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link <?= $current_page === 'home' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/home">Home</a>
+                        <a class="nav-link <?= $current_page === 'home' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/home"><?= hs(trans('nav.home')) ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $current_page === 'find-reservation' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/reservations">Find Reservation</a>
+                        <a class="nav-link <?= $current_page === 'find-reservation' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/reservations"><?= hs(trans('nav.reservation')) ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $current_page === 'cars' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/cars">Our Cars</a>
+                        <a class="nav-link <?= $current_page === 'cars' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/cars"><?= hs(trans('nav.cars')) ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= $current_page === 'faq' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/faqs">FAQ</a>
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="#footer-section">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#footer-section"><?= hs(trans('nav.contact')) ?></a></li>
                 </ul>
                 <div class="d-flex gap-3">
                     <ul class="navbar-nav mx-auto">
@@ -66,17 +66,17 @@ use App\Helpers\SessionManager;
                         // dd(SessionManager::get('user'));
                         if (!SessionManager::get('is_authenticated')) { ?>
                             <li>
-                                <a class="nav-link <?= $current_page === 'login' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/login">Login</a>
+                                <a class="nav-link <?= $current_page === 'login' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/login"><?= hs(trans('nav.login')) ?></a>
                             </li>
                             <li>
-                                <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register">Sign Up</a>
+                                <a class="nav-link <?= $current_page === 'register' ? 'active' : '' ?>" href="<?= APP_BASE_URL ?>/register"><?= hs(trans('nav.signup')) ?></a>
                             </li>
                         <?php } else { ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $current_page === 'change-password' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/changePassword">Change Password</a>
+                                <a class="nav-link <?= $current_page === 'change-password' ? 'active' : '' ?>" href="<?= APP_USER_URL ?>/changePassword"><?= hs(trans('nav.changePass')) ?></a>
                             </li>
                             <li>
-                                <a class="nav-link" href="<?= APP_BASE_URL ?>/logout">Logout</a>
+                                <a class="nav-link" href="<?= APP_BASE_URL ?>/logout"><?= hs(trans('nav.logout')) ?></a>
                             </li>
                         <?php } ?>
                     </ul>

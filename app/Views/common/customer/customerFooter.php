@@ -3,17 +3,17 @@
     <div class="footer-content">
         <div class="footer-section">
             <h3>Solaf Performance</h3>
-            <p>Luxurious & reliable transport for every journey.</p>
+            <p><?= hs(trans('footer.description')) ?></p>
         </div>
         <div class="footer-section">
-            <h3>Helpful Links</h3>
-            <a href="<?= APP_BASE_URL ?>/home">Make Reservation</a>
-            <a href="<?= APP_USER_URL ?>/cars">Our Cars</a>
-            <a href="<?= APP_USER_URL ?>/reservations">Find Your Reservation</a>
+            <h3><?= hs(trans('footer.HelpfulLinks')) ?></h3>
+            <a href="<?= APP_BASE_URL ?>/home"><?= hs(trans('nav.home')) ?></a>
+            <a href="<?= APP_USER_URL ?>/cars"><?= hs(trans('nav.cars')) ?></a>
+            <a href="<?= APP_USER_URL ?>/reservations"><?= hs(trans('nav.reservation')) ?></a>
             <a href="<?= APP_USER_URL ?>/faqs">FAQ</a>
         </div>
         <div class="footer-section">
-            <h3>Contact Us</h3>
+            <h3><?= hs(trans('nav.contact')) ?></h3>
             <p><i class="bi bi-telephone"></i> +1 514 967 7575</p>
             <p><i class="bi bi-envelope"></i> solafperformance@gmail.com</p>
             <div class="social-icons">

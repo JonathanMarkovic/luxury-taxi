@@ -1,4 +1,14 @@
 {
+    "nav": {
+    "home": "Accueil",
+    "reservation": "Trouver une réservation",
+    "cars": "Nos voitures",
+    "contact": "Contacter Nous",
+    "login": "Connexion",
+    "signup": "S'inscrire",
+    "changePass": "Changer le mot de passe",
+    "logout": "Deconnexion"
+},
 "home": {
     "description": "Nous combinons luxe, fiabilité et professionnalisme pour offrir une expérience de voyage exceptionnelle. Des transferts aéroportuaires et ramassages réguliers aux voyages d'affaires, événements spéciaux et trajets longue distance, nos véhicules haut de gamme et chauffeurs experts vous assurent d'arriver détendu, rafraîchi et à l'heure. Chaque trajet est conçu avec confort et élégance à l'esprit — où la sophistication rencontre la commodité.",
     "trip": "Trajet",
@@ -30,5 +40,9 @@
     "capacity": "Capacité",
     "avgPrice": "Prix moyen",
     "carsButton": "Voir toutes les voitures"
+},
+"footer": {
+    "description": "Transport luxueux et fiable pour chaque voyage.",
+    "HelpfulLinks": "Liens utiles"
 }
 }
