@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\SessionManager;
+
 ?>
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
@@ -17,10 +20,10 @@
 
     <!-- calendar important-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
     <link
         rel="canonical"
         href="https://getbootstrap.com/docs/5.3/examples/dashboard/" />
@@ -32,7 +35,7 @@
 -->
     <meta name="theme-color" content="#712cf9" />
     <link href="<?= APP_ASSETS_DIR_URL ?>/css/dashboard.css" rel="stylesheet" />
-     <style>
+    <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -328,98 +331,87 @@
                     aria-labelledby="sidebarMenuLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="sidebarMenuLabel">
-                             Solaf Performance
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                data-bs-target="#sidebarMenu"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div
-              class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto"
-            >
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2"
-                    aria-current="page"
-                    href="<?= APP_ADMIN_URL?>/dashboard"
-                  >
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#house-fill"></use>
-                    </svg>
-                    Dashboard Calendar
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_ADMIN_URL?>/reservations">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#file-earmark"></use>
-                    </svg>
-                    Reservations
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_ADMIN_URL?>/cars">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#cart"></use>
-                    </svg>
-                    Cars
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_ADMIN_URL?>/faq">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#people"></use>
-                    </svg>
-                    FAQ
-                  </a>
-                </li>
+                            Solaf Performance
+                        </h5>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="offcanvas"
+                            data-bs-target="#sidebarMenu"
+                            aria-label="Close"></button>
+                    </div>
+                    <div
+                        class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link d-flex align-items-center gap-2"
+                                    aria-current="page"
+                                    href="<?= APP_ADMIN_URL ?>/dashboard">
+                                    <svg class="bi" aria-hidden="true">
+                                        <use xlink:href="#house-fill"></use>
+                                    </svg>
+                                    Dashboard Calendar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_ADMIN_URL ?>/reservations">
+                                    <svg class="bi" aria-hidden="true">
+                                        <use xlink:href="#file-earmark"></use>
+                                    </svg>
+                                    Reservations
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_ADMIN_URL ?>/cars">
+                                    <svg class="bi" aria-hidden="true">
+                                        <use xlink:href="#cart"></use>
+                                    </svg>
+                                    Cars
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_ADMIN_URL ?>/faq">
+                                    <svg class="bi" aria-hidden="true">
+                                        <use xlink:href="#people"></use>
+                                    </svg>
+                                    FAQ
+                                </a>
+                            </li>
 
-              </ul>
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Saved reports</span>
-                <a
-                  class="link-secondary"
-                  href="#"
-                  aria-label="Add a new report"
-                >
-                </a>
-              </h6>
-              <ul class="nav flex-column mb-auto">
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#file-earmark-text"></use>
-                    </svg>
-                    Current month
-                  </a>
-                </li>
-              </ul>
-              <hr class="my-3" />
-              <ul class="nav flex-column mb-auto">
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#gear-wide-connected"></use>
-                    </svg>
-                    Settings
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_BASE_URL ?>/logout">
-                    <svg class="bi" aria-hidden="true">
-                      <use xlink:href="#door-closed"></use>
-                    </svg>
-                    Sign out
-                  </a>
-                </li>
-              </ul>
+                        </ul>
+                        <h6
+                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+                            <a
+                                class="link-secondary"
+                                href="#"
+                                aria-label="Add a new report">
+                            </a>
+                        </h6>
+                        <hr class="my-3" />
+                        <ul class="nav flex-column mb-auto">
+                            <?php
+                            if (SessionManager::get('user_role') === 'admin') { ?>
+                                <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_BASE_URL ?>/home">
+                                        <svg class="bi" aria-hidden="true">
+                                            <use xlink:href="#file-earmark-text"></use>
+                                        </svg>
+                                        Customer Side
+                                    </a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center gap-2" href="<?= APP_BASE_URL ?>/logout">
+                                    <svg class="bi" aria-hidden="true">
+                                        <use xlink:href="#door-closed"></use>
+                                    </svg>
+                                    Sign out
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>

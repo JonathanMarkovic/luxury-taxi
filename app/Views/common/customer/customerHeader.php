@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\SessionManager;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,10 +54,14 @@
                 </ul>
                 <div class="d-flex gap-3">
                     <ul class="navbar-nav mx-auto">
+                        <!-- If Admin, link to go back to admin panel -->
+                        <?php if (SessionManager::get('user_role') === 'admin'): ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= APP_ADMIN_URL ?>/dashboard">Admin Panel</a>
+                            </li>
+                        <?php endif; ?>
+
                         <?php
-
-                        use App\Helpers\SessionManager;
-
                         // dd(SessionManager::get('user'));
                         if (!SessionManager::get('is_authenticated')) { ?>
                             <li>
