@@ -149,7 +149,20 @@
         "text": "Verification Code",
         "trust": "Trust this device for 30 days",
         "verify": "Verify",
-        "cancel": "Cancel and Logout"
+        "cancel": "Cancel and Logout",
+        "qrtitle": "Enable Two-Factor Authentication",
+        "instruction": "Setup Instructions",
+        "instr1": "Install Google Authenticator or Authy on your smartphone",
+        "instr2": "Scan the QR code below with the app",
+        "instr3": "Enter the 6-digit code from the app to verify",
+        "alt": "QR Code for 2FA Setup",
+        "cantScan": "Can't scan?",
+        "manual": "Enter this code manually",
+        "code": "Verification Code",
+        "verifPlaceholder": "Enter 6-digit code",
+        "verifyButton" : "Verify and Enable 2FA",
+        "cancelbtn": "Cancel"
+
     },
     "reset": {
         "title": "Reset Password",

@@ -1,48 +1,61 @@
-<?php require __DIR__ . '/../common/header.php'; ?>
+<?php
 
-<div class="container" style="max-width: 500px; margin: 50px auto;">
-    <h1>Enable Two-Factor Authentication</h1>
+use App\Helpers\ViewHelper;
 
-    <?php if (isset($error)): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
+$page_title = 'Login';
+ViewHelper::loadCustomerLogin($page_title, 'login');
+?>
+<div class="login-container">
+    <div class="card">
+        <div class="card-header">
+            <h3><?= hs(trans('2fa.qrtitle')) ?>
+            </h3>
 
-    <div class="setup-steps">
-        <h3>Setup Instructions:</h3>
-        <ol>
-            <li>Install Google Authenticator or Authy on your smartphone</li>
-            <li>Scan the QR code below with the app</li>
-            <li>Enter the 6-digit code from the app to verify</li>
-        </ol>
-    </div>
+        </div>
+        <?php if (isset($error)): ?>
+            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
 
-    <div class="qr-code" style="text-align: center; margin: 20px 0; background: white; padding: 20px;">
-        <!-- QR code displays as an image using data URI -->
-        <img src="<?= $qrCodeDataUri ?? '' ?>" alt="QR Code for 2FA Setup">
-    </div>
-
-    <div class="manual-entry" style="background: #f5f5f5; padding: 15px; margin: 20px 0;">
-        <p><strong>Can't scan?</strong> Enter this code manually:</p>
-        <code style="font-size: 1.2em; letter-spacing: 2px;"><?= htmlspecialchars($secret ?? '') ?></code>
-    </div>
-
-    <form method="POST" action="<?= '/' . APP_ROOT_DIR_NAME . '/2fa/verify-and-enable' ?>">
-        <div class="form-group">
-            <label for="code">Verification Code:</label>
-            <input type="text"
-                id="code"
-                name="code"
-                pattern="[0-9]{6}"
-                maxlength="6"
-                required
-                autofocus
-                placeholder="Enter 6-digit code"
-                style="font-size: 1.5em; letter-spacing: 5px; text-align: center;">
+        <div class="setup-steps">
+            <h3><?= hs(trans('2fa.instruction')) ?>:</h3>
+                <ol>
+                    <li><?= hs(trans('2fa.instr1')) ?></li>
+                    <li><?= hs(trans('2fa.instr2')) ?></li>
+                    <li><?= hs(trans('2fa.instr3')) ?></li>
+                </ol>
         </div>
 
-        <button type="submit" class="btn btn-primary">Verify and Enable 2FA</button>
-        <a href="<?= '/' . APP_ROOT_DIR_NAME . '/' ?>" class="btn btn-secondary">Cancel</a>
-    </form>
+        <div class="qr-code" style="text-align: center; margin: 20px 0; background: white; padding: 20px;">
+            <!-- QR code displays as an image using data URI -->
+            <img src="<?= $qrCodeDataUri ?? '' ?>" alt=<?= hs(trans('2fa.alt')) ?>>
+        </div>
+
+        <div class="manual-entry" style="background: #f5f5f5; padding: 15px; margin: 20px 0;">
+            <p><strong><?= hs(trans('2fa.cantScan')) ?> </strong><?= hs(trans('2fa.manual')) ?>:</p>
+            <code style="font-size: 1.2em; letter-spacing: 2px;"><?= htmlspecialchars($secret ?? '') ?></code>
+        </div>
+
+        <form method="POST" action="<?= '/' . APP_ROOT_DIR_NAME . '/2fa/verify-and-enable' ?>">
+            <div class="form-group">
+                <label for="code"><?= hs(trans('2fa.code')) ?>:</label>
+                <input type="text"
+                    id="code"
+                    name="code"
+                    pattern="[0-9]{6}"
+                    maxlength="6"
+                    required
+                    autofocus
+                    placeholder=<?= hs(trans('2fa.verifPlaceholder')) ?>
+                    style="font-size: 1.5em; letter-spacing: 5px; text-align: center;">
+            </div>
+
+            <div  class="mt-3 text-center">
+            <button type="submit" class="btn btn-primary"><?= hs(trans('2fa.verifyButton')) ?></button>
+            <a href="<?= '/' . APP_ROOT_DIR_NAME . '/' ?>" class="btn btn-secondary"><?= hs(trans('2fa.cancelbtn')) ?></a>
+            </div>
+        </form>
+        <br><br>
+    </div>
 </div>
 
 <style>

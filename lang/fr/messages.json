@@ -157,7 +157,19 @@
   "text": "Code de vérification",
   "trust": "Faire confiance à cet appareil pendant 30 jours",
   "verify": "Vérifier",
-  "cancel": "Annuler et se déconnecter"
+  "cancel": "Annuler et se déconnecter",
+  "qrtitle": "Activer l’authentification à deux facteurs",
+  "instruction": "Instructions d'installation",
+  "instr1": "Installez Google Authenticator ou Authy sur votre smartphone",
+  "instr2": "Scannez le code QR ci-dessous avec l'application",
+  "instr3": "Entrez le code à 6 chiffres provenant de l'application pour vérifier",
+  "alt": "Code QR pour la configuration de la 2FA",
+  "cantScan": "Vous ne pouvez pas scanner ?",
+  "manual": "Saisissez ce code manuellement",
+  "code": "Code de vérification",
+  "verifPlaceholder": "Entrez le code à 6 chiffres",
+  "verifyButton": "Vérifier et activer la 2FA",
+  "cancelbtn": "Annuler"
 },
 "reset": {
   "title": "Réinitialiser le mot de passe",
