@@ -84,7 +84,7 @@ footer {
 }
 
 .hero-content h1 {
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 1.5rem;
     font-weight: bold;
 }
@@ -104,28 +104,23 @@ footer {
 .car-card {
     background-color: var(--card-bg);
     border: 1px solid #444;
-    height: 100%;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 2rem;
     /* transition: 0.2s ease-in-out; */
 }
 
-/* .car-card:hover {
-    /* border-color: var(--primary-gold); */
-/* box-shadow: 1px 1px 15px var(--primary-gold);
-} */
 
 .car-carousel {
     position: relative;
-    height: 300px; /* adds a space for carousel index */
+    height: 100%;
+    width: 100%;
     background-color: #1a1a1a;
 }
 
 /* Cars section */
 .col {
-    height: 90vh;
-    padding: 40px;
+    padding: 60px;
 }
 
 .carsWrap {
@@ -139,18 +134,7 @@ footer {
     justify-content: center;
 }
 .car-detail-item {
-    font-size: 1.9rem;
     padding-bottom: 20px;
-}
-.carBox {
-    width: 250px;
-    height: 260px;
-    background-color: #eee;
-    color: #000;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .all-cars-link {
@@ -197,7 +181,7 @@ footer {
     margin: 20px 0;
 }
 .car-title {
-    font-size: 2.3rem;
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 1rem;
     color: white;
@@ -205,14 +189,10 @@ footer {
     padding-top: 5px;
 }
 
-.car-carousel {
-    height: 600px;
-    width: 100%;
-}
 
 .car-carousel .carousel-inner,
 .car-carousel .carousel-item {
-    height: 600px;
+    height: 100%;
     width: 100%;
 }
 
@@ -299,19 +279,7 @@ footer {
     background-color: #fff;
 }
 
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2rem;
-    }
 
-    .car-details {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
-}
 
 /* FAQ Page */
 
@@ -338,12 +306,13 @@ footer {
 /* Accordion Container */
 .page-content {
     background-color: #1a1a1a;
-    padding: 2rem;
-    margin: 0px 50px;
+    padding: 1rem;
 }
 
 .accordion {
-    background-color: transparent;
+    background-color: #111;
+    padding: 5%;
+    margin: 10%;
 }
 
 /* Accordion Items */
@@ -489,16 +458,16 @@ footer {
     padding: 70px 0;
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start; 
-    padding-left: 60px; 
+    align-items: flex-start;
+    padding-left: 60px;
 }
 
 .bookingWrap {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 8px;
-    margin-left: 0 !important; 
-    margin-right:0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     margin-top: 20px;
 }
 .bookingTabs {
@@ -560,7 +529,6 @@ footer {
     background-color: var(--card-bg);
 }
 
-
 .reserveBtn:hover {
     background-color: var(--primary-gold);
     color: var(--card-bg);
@@ -609,7 +577,8 @@ footer {
 }
 
 .stepsSection {
-    padding: 30px;
+    padding: 90px;
+    margin: 70px;
     background-color: #111;
 }
 
@@ -631,6 +600,13 @@ footer {
     color: #a6814c;
 }
 
+/* Payments page */
+.payment-form-container {
+    max-width: 900px;
+    background-color: var(--card-bg);
+    padding: 50px;
+    border-radius: 8px;
+}
 
 /* .custom-floating-select:focus + .floating-label,
 .custom-floating-select:not(:placeholder-shown) + .floating-label,
@@ -640,5 +616,87 @@ footer {
     color: rgb(85, 85, 85);
 } */
 
+.about {
+    background: #111;
+    padding: 80px 0;
+    color: white;
+    overflow: hidden;
+
+}
+
+.about-grid {
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 30px;
+    position: relative;
+}
+
+.about-img-1 {
+    grid-column: 1;
+    grid-row: 1;
+    height: 450px;
+    background: url("header.jpg") center/cover no-repeat;
+    border-radius: 8px;
+    position: relative;
 
 
+}
+
+.about-title-box {
+    background: #c49a6c;
+    padding: 30px 40px;
+    width: fit-content;
+    position: absolute;
+    top: 20px;
+    left: 40%;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.about-title-box h1 {
+    font-size: 36px;
+    line-height: 1.3;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+}
+
+.about-text {
+    grid-column: 1;
+    grid-row: 2;
+    max-width: 100%;
+    padding-right: 30px;
+
+}
+
+.about-text h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.about-text p {
+    line-height: 1.7;
+    font-size: 16px;
+    color: #ddd;
+}
+
+.about-img-2 {
+    grid-column: 2;
+    grid-row: 2;
+    height: 650px;
+    background: url("car20.jpg") center/cover no-repeat;
+    border-radius: 8px;
+    margin-top: -30%;
+
+}
+
+/* Payment styling */
+.payment-form-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}

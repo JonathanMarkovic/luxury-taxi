@@ -22,39 +22,60 @@ ViewHelper::loadCustomerHeader($page_title);
     <div id=card>
 
     </div>
-    <form id="payment-form">
-        <!-- //TODO style this form better -->
-        <label for="first_name">First Name</label>
-        <input type="text" id="first_name" name="first_name" required>
-
-        <label for="last_name">Last Name</label>
-        <input type="text" id="last_name" name="last_name" required>
-
-        <label for="email">Email</label>
-        <input type="text" id="email" name="email" required>
-
-        <label for="phone">Phone</label>
-        <input type="text" id="phone" name="phone" required>
-
-        <label for="address_line_1">Address Line 1</label>
-        <input type="text" id="address_line_1" name="address_line_1" required>
-
-        <label for="address_line_2">Address Line 2</label>
-        <input type="text" name="address_line_2" id="address_line_2">
-
-        <label for="city">City</label>
-        <input type="text" id="city" name="city">
-
-        <label for="province">Province</label>
-        <input type="text" id="province" name="province">
-
-        <label for="country_code">Country Code (ex: CA)</label>
-        <input type="text" id="country_code" name="country_code">
-
-        <!-- This is the actual credit card field -->
-        <div id="card-container"></div>
-        <button id="card-button" type="button">Pay </button>
-    </form>
+    <div class="page-content">
+        <div class="payment-form-content">
+            <div class="payment-form-container">
+                <form id="payment-form" class="row g-4">
+                    <h3>Contact Information</h3>
+                    <hr>
+                    <!-- Email input -->
+                    <div class="col-md-6">
+                        <input type="text" id="email" name="email" class="form-control" placeholder="Email" required>
+                    </div>
+                    <!-- Phone input -->
+                    <div class="col-md-6">
+                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone" required>
+                    </div>
+                    <h3>Shipping Address</h3>
+                    <hr>
+                    <!-- First name input -->
+                    <div class="col-md-6">
+                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First name" required>
+                    </div>
+                    <!-- Last name input -->
+                    <div class="col-md-6">
+                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last name" required>
+                    </div>
+                    <!-- Address line 1 input -->
+                    <div class="col-md-12">
+                        <input type="text" id="address_line_1" name="address_line_1" class="form-control" placeholder="Address" required>
+                    </div>
+                    <!-- Address line 2 input -->
+                    <div class="col-md-12">
+                        <input type="text" name="address_line_2" class="form-control" id="address_line_2" placeholder="Apartment, suite, etc. (optional)">
+                    </div>
+                    <!-- City input -->
+                    <div class="col-md-4">
+                        <input type="text" id="city" name="city" class="form-control" placeholder="City" required>
+                    </div>
+                    <!-- Province input -->
+                    <div class="col-md-4">
+                        <input type="text" id="province" name="province" class="form-control" placeholder="Province">
+                    </div>
+                    <!-- Country code input -->
+                    <div class="col-md-4">
+                        <input type="text" id="country_code" name="country_code" class="form-control" placeholder="Country Code (ex: CA)">
+                    </div>
+                    <h3>Payment Information</h3>
+                    <hr>
+                    <!-- This is the actual credit card field -->
+                    <div id="card-container"></div>
+                    <div class="text-end"><h5>Total Due: $ <?= $balance ?>.00</h5></div>
+                    <button id="card-button" type="button" class="btn btn-primary">Pay now</button>
+                </form>
+            </div>
+        </div>
+    </div>
     <div id="payment-status-container"></div>
 </div>
 <script>

@@ -10,8 +10,8 @@ $cars = $data['cars'];
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-content">
-        <h1>Find The Perfect Car</h1>
-        <p>Explore our collection of premium vehicles designed to meet every travel need. Whether you're heading to the airport, a corporate event, or a night out, our cars combine performance, elegance, and luxury to deliver the perfect ride every time.</p>
+        <h1 >Find The Perfect Car</h1>
+        <p>Explore our collection of premium vehicles designed to meet every travel need, whether you're heading to the airport, a corporate event, or a night out.</p>
     </div>
 </section>
 
@@ -22,7 +22,7 @@ $cars = $data['cars'];
                 <div class="car-card">
                     <!-- Carousel -->
                     <?php if (!empty($car['images'])): ?>
-                        <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" style="height: 600px; ">
+                        <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" >
                             <div class="carousel-indicators" style="object-fit:cover">
                                 <?php foreach ($car['images'] as $index => $image): ?>
                                     <button type="button"
@@ -54,7 +54,7 @@ $cars = $data['cars'];
                             </button>
                         </div>
                     <?php else: ?>
-                        <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 600px;">
+                        <div class="bg-secondary d-flex align-items-center justify-content-center" >
                             <span class="text-white">No Image Available</span>
                         </div>
                     <?php endif; ?>
