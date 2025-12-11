@@ -43,7 +43,7 @@ $reservation_id = $reservation['reservation_id'];
         <!-- Reservation Details & Edit Form -->
         <div class="col-md-5">
             <form action="<?= APP_USER_URL ?>/reservations/edit/<?= $reservation_id ?>" method="post" id="reservationDetails">
-                <fieldset id="fieldset_<?= $reservation_id ?>" <?= SessionManager::get('modify_mode') == false ? " disabled" : "" ?>>
+                <fieldset id="fieldset_<?= $reservation_id ?>" disabled>
                     <!-- Pickup input -->
                     <div class="form-floating">
                         <input type="text" class="form-control" id="pickup" name="pickup" value="<?= $reservation['pickup'] ?>" required>
