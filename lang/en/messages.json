@@ -54,6 +54,16 @@
   "faq": {
     "title": "Find Answers About Our Services",
     "description": "Excellence is part of our transparency. Learn more about how we drive you in style.",
+    "q1":"How do you calculate pricing?",
+    "a1": "The price is calculated based on the distance or the time it will be reserved. The average pricing is included with the car description",
+    "q2": "How does refunding work?",
+    "a2": "For clients who have paid online, you will have an option to cancel your reservation. We will be notified about it and will later refund your pain amount",
+    "q3": "How are the taxes paid?",
+    "a3": "The taxes are not included in the given price. They will be added later during the payment",
+    "q4": "For how long can i reserve a car?",
+    "a4": "We allow clients to reserve cars up to months! You can contact us if you need additional information about a specific event.",
+    "q5": "What type of reservations can I book?",
+    "a5": "We can provide hourly reservations, as well as events and trips. it includes events such as wedding, funeral, school pickups and more.",
     "Qdesc": "Send us a message if you need any additional information, and we'll get back to you as soon as possible!",
     "submit": "Submit",
     "email": "Email"
@@ -67,9 +77,12 @@
   "login": {
     "welcome": "Welcome Back!",
     "welcomeDesc": "Enter your credentials to access your information",
+    "email":"Email",
     "password": "Password",
     "login": "Login",
-    "register": "Don't have an account? Register here"
+    "forgot": "Forgot password?",
+    "noAcc": "Don't have an account?",
+    "register": "Register here"
   },
   "register":{
     "create": "Create An Account",
@@ -80,6 +93,29 @@
     "phone": "Phone Number",
     "pass": "Confirm Password",
     "register": "Register",
-    "login": "Already have an account? Login here"
-  }
+    "acc": "Already have an account?",
+    "registerLink": "Login here",
+    "reset": "Reset Password",
+    "minimum": "* Minimum 8 characters and 1 number."
+
+  },
+
+  "2fa": {
+    "title":"Two-Factor Verification",
+    "desc":"Enter the 6-digit code from your authenticator app.",
+    "text":"Verification Code",
+    "trust":"Trust this device for 30 days",
+    "verify":"Verify",
+    "cancel":"Cancel and Logout"
+  },
+  "reset":{
+    "title":"Reset Password",
+    "desc":"Enter your new password below to reset your account",
+    "new":"New Password",
+    "confirm":"Confirm New Password",
+    "back":"Go back",
+    "reset":"Reset Password"
+}
+
+
 }

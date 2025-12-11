@@ -1,16 +1,27 @@
-<?php require __DIR__ . '/../common/header.php'; ?>
+<?php
 
-<div class="container" style="max-width: 400px; margin: 100px auto;">
-    <h1>Two-Factor Verification</h1>
-    <p>Enter the 6-digit code from your authenticator app.</p>
+use App\Helpers\ViewHelper;
 
-    <?php if (isset($error)): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
+$page_title = 'Login';
+ViewHelper::loadCustomerLogin($page_title, 'login');
+?>
 
-    <form method="POST" action="<?= '/' . APP_ROOT_DIR_NAME . '/2fa/verify' ?>">
+<div class="login-container">
+    <div class="card">
+        <div class="card-header">
+            <h3 class=""><?= hs(trans('2fa.title')) ?></h3>
+            <p class="" style="color:black;font-weight:light; font-size:18px; padding-top:20px"><?= hs(trans('2fa.desc')) ?></p>
+        </div>
+        <div class="card-body">
+            <?= App\Helpers\FlashMessage::render() ?>
+
+            <?php if (isset($error)): ?>
+                <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+
+           <form method="POST" action="<?= '/' . APP_ROOT_DIR_NAME . '/2fa/verify' ?>">
         <div class="form-group">
-            <label for="code">Verification Code:</label>
+            <label for="code"><?= hs(trans('2fa.text')) ?>:</label>
             <input type="text"
                 id="code"
                 name="code"
@@ -26,19 +37,25 @@
         <div class="form-group">
             <label>
                 <input type="checkbox" name="trust_device" value="1">
-                Trust this device for 30 days
+                <?= hs(trans('2fa.trust')) ?>
             </label>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Verify</button>
+        <button type="submit" class="btn btn-primary" style="width: 100%;"><?= hs(trans('2fa.verify')) ?></button>
     </form>
 
     <div style="margin-top: 20px; text-align: center;">
         <form method="GET" action="<?= '/' . APP_ROOT_DIR_NAME . '/logout' ?>">
-            <button type="submit" class="btn-link">Cancel and Logout</button>
+            <button type="submit" class="btn-link"><?= hs(trans('2fa.cancel')) ?></button>
         </form>
     </div>
+
+
+        </div>
+    </div>
+
 </div>
+
 
 <style>
     .form-group {
@@ -72,7 +89,6 @@
     .btn-link {
         background: none;
         border: none;
-        color: #007bff;
         cursor: pointer;
         text-decoration: underline;
     }

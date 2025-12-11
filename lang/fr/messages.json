@@ -41,8 +41,74 @@
     "avgPrice": "Prix moyen",
     "carsButton": "Voir toutes les voitures"
 },
+"cars": {
+    "title": "Trouvez la voiture parfaite",
+    "description": "Explorez notre collection de véhicules haut de gamme conçus pour répondre à tous vos besoins de déplacement. Que vous vous rendiez à l'aéroport, à un événement d'affaires ou à une soirée, nos voitures allient performance, élégance et luxe pour offrir le trajet parfait à chaque fois."
+},
+"faq": {
+    "title": "Trouvez des réponses sur nos services",
+    "description": "L'excellence fait partie de notre transparence. Découvrez comment nous vous conduisons avec style.",
+    "q1": "Comment calculez-vous les prix?",
+    "a1": "Le prix est calculé en fonction de la distance ou du temps de réservation. Le tarif moyen est inclus dans la description de la voiture.",
+    "q2": "Comment fonctionne le remboursement?",
+    "a2": "Pour les clients qui ont payé en ligne, vous aurez une option pour annuler votre réservation. Nous serons notifiés et nous rembourserons ensuite le montant payé.",
+    "q3": "Comment les taxes sont-elles payées?",
+    "a3": "Les taxes ne sont pas incluses dans le prix indiqué. Elles seront ajoutées plus tard lors du paiement.",
+    "q4": "Pour combien de temps puis-je réserver une voiture?",
+    "a4": "Nous permettons aux clients de réserver des voitures jusqu'à plusieurs mois! Vous pouvez nous contacter si vous avez besoin d'informations supplémentaires concernant un événement spécifique.",
+    "q5": "Quels types de réservations puis-je effectuer?",
+    "a5": "Nous pouvons fournir des réservations à l'heure, ainsi que pour des événements et des trajets. Cela inclut des événements tels que mariages, funérailles, ramassage scolaire et plus encore.",
+    "Qdesc": "Envoyez-nous un message si vous avez besoin d'informations supplémentaires, et nous vous répondrons dès que possible!",
+    "submit": "Soumettre",
+    "email": "Courriel"
+},
 "footer": {
     "description": "Transport luxueux et fiable pour chaque voyage.",
     "HelpfulLinks": "Liens utiles"
+},
+"login": {
+  "welcome": "Bon retour !",
+  "welcomeDesc": "Entrez vos identifiants pour accéder à vos informations",
+  "email": "Courriel",
+  "password": "Mot de passe",
+  "login": "Connexion",
+  "forgot": "Mot de passe oublié ?",
+  "noAcc": "Vous n'avez pas de compte ?",
+  "register": "Inscrivez-vous ici"
 }
+,
+"register": {
+  "create": "Créer un compte",
+  "desc": "Vous pouvez consulter vos réservations plus facilement !",
+  "firstN": "Prénom",
+  "lastN": "Nom de famille",
+  "email": "Courriel",
+  "phone": "Numéro de téléphone",
+  "pass": "Confirmer le mot de passe",
+  "register": "S'inscrire",
+  "acc": "Vous avez déjà un compte ?",
+  "registerLink": "Connectez-vous ici",
+  "reset": "Réinitialiser le mot de passe",
+  "minimum": "* Minimum de 8 caractères et 1 chiffre."
+},
+"2fa": {
+  "title": "Vérification en deux étapes",
+  "desc": "Entrez le code à 6 chiffres de votre application d’authentification.",
+  "text": "Code de vérification",
+  "trust": "Faire confiance à cet appareil pendant 30 jours",
+  "verify": "Vérifier",
+  "cancel": "Annuler et se déconnecter"
+},
+"reset": {
+  "title": "Réinitialiser le mot de passe",
+  "desc": "Entrez votre nouveau mot de passe ci-dessous pour réinitialiser votre compte",
+  "new": "Nouveau mot de passe",
+  "confirm": "Confirmer le nouveau mot de passe",
+  "back": "Retour",
+  "reset": "Réinitialiser le mot de passe"
+}
+
+
+
+
 }

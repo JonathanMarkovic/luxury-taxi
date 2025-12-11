@@ -10,8 +10,8 @@ $cars = $data['cars'];
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="hero-content">
-        <h1 >Find The Perfect Car</h1>
-        <p>Explore our collection of premium vehicles designed to meet every travel need, whether you're heading to the airport, a corporate event, or a night out.</p>
+        <h1 style="font-size:20px"><?= hs(trans('cars.title')) ?></h1>
+        <p  style="font-size:16px"><?= hs(trans('cars.description')) ?></p>
     </div>
 </section>
 
@@ -66,19 +66,19 @@ $cars = $data['cars'];
                         <hr class="custom-line">
 
                         <div class="car-detail-item">
-                            <span class="car-detail-label">Model:</span>
+                            <span class="car-detail-label"><?= hs(trans('home.model')) ?>:</span>
                             <span class="car-detail-value"><?= htmlspecialchars($car['model']) ?></span>
                         </div>
                         <div class="car-detail-item">
-                            <span class="car-detail-label">Year:</span>
+                            <span class="car-detail-label"><?= hs(trans('home.year')) ?>:</span>
                             <span class="car-detail-value"><?= htmlspecialchars($car['year'])?></span>
                         </div>
                         <div class="car-detail-item">
-                            <span class="car-detail-label">Capacity:</span>
+                            <span class="car-detail-label"><?= hs(trans('home.capacity')) ?>:</span>
                             <span class="car-detail-value"><?= htmlspecialchars($car['capacity']) ?></span>
                         </div>
                         <div class="car-detail-item">
-                            <span class="car-detail-label">Average Price:</span>
+                            <span class="car-detail-label"><?= hs(trans('home.avgPrice')) ?>:</span>
                             <span class="car-detail-value">$ <?= htmlspecialchars($car['approx_price'])?> / hour</span>
                         </div>
                         </p>
