@@ -489,16 +489,16 @@ footer {
     padding: 70px 0;
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start; 
-    padding-left: 60px; 
+    align-items: flex-start;
+    padding-left: 60px;
 }
 
 .bookingWrap {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 8px;
-    margin-left: 0 !important; 
-    margin-right:0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     margin-top: 20px;
 }
 .bookingTabs {
@@ -559,7 +559,6 @@ footer {
     transition: 0.5s ease-in-out;
     background-color: var(--card-bg);
 }
-
 
 .reserveBtn:hover {
     background-color: var(--primary-gold);
@@ -631,14 +630,16 @@ footer {
     color: #a6814c;
 }
 
+/* Payments page */
+.payment-form-container {
+    max-width: 900px;
+    background-color: var(--card-bg);
+    padding: 50px;
+    border-radius: 8px;
+}
 
-/* .custom-floating-select:focus + .floating-label,
-.custom-floating-select:not(:placeholder-shown) + .floating-label,
-.custom-floating-select option:checked + .floating-label {
-    transform: translateY(-1.2rem);
-    font-size: 0.8rem;
-    color: rgb(85, 85, 85);
-} */
-
-
-
+.payment-form-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
