@@ -111,7 +111,6 @@ footer {
     /* transition: 0.2s ease-in-out; */
 }
 
-
 .car-carousel {
     position: relative;
     height: 100%;
@@ -189,7 +188,6 @@ footer {
     text-align: center;
     padding-top: 5px;
 }
-
 
 .car-carousel .carousel-inner,
 .car-carousel .carousel-item {
@@ -279,8 +277,6 @@ footer {
 .social-icons a:hover {
     background-color: #fff;
 }
-
-
 
 /* FAQ Page */
 
@@ -607,6 +603,15 @@ footer {
     border-radius: 8px;
 }
 
+.payment-status {
+    visibility: hidden;
+    padding: 15px 20px;
+    border-radius: 8px;
+    font-size: 30px;
+    text-align: center;
+    background-color: rgb(252, 82, 82);
+}
+
 /* .custom-floating-select:focus + .floating-label,
 .custom-floating-select:not(:placeholder-shown) + .floating-label,
 .custom-floating-select option:checked + .floating-label {
@@ -620,7 +625,6 @@ footer {
     padding: 80px 0;
     color: white;
     overflow: hidden;
-
 }
 
 .about-grid {
@@ -640,8 +644,6 @@ footer {
     background: url("header.jpg") center/cover no-repeat;
     border-radius: 8px;
     position: relative;
-
-
 }
 
 .about-title-box {
@@ -668,7 +670,6 @@ footer {
     grid-row: 2;
     max-width: 100%;
     padding-right: 30px;
-
 }
 
 .about-text h2 {
@@ -690,7 +691,6 @@ footer {
     background: url("car20.jpg") center/cover no-repeat;
     border-radius: 8px;
     margin-top: -30%;
-
 }
 
 .language-switcher {
@@ -701,9 +701,9 @@ footer {
     display: inline-block;
     width: 120px;
     padding: 10px;
-    background-color:transparent;
+    background-color: transparent;
     text-decoration: none;
-    color: white ;
+    color: white;
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -721,9 +721,9 @@ footer {
     display: inline-block;
     width: 120px;
     padding: 10px;
-    background-color:transparent;
+    background-color: transparent;
     text-decoration: none;
-    color: white ;
+    color: white;
     text-align: center;
     transition: all 0.3s ease;
 }
@@ -781,7 +781,6 @@ footer {
     box-sizing: border-box;
 }
 
-
 .floating-label {
     position: absolute;
     top: 1rem;
@@ -811,7 +810,7 @@ footer {
 }
 
 .cancelled-reservation-banner {
-    background-color: #471C1C;
+    background-color: #471c1c;
 
     padding: 6px 12px;
     border-radius: 6px;

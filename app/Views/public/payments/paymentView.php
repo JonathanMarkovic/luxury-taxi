@@ -23,6 +23,7 @@ ViewHelper::loadCustomerHeader($page_title);
 
     </div>
     <div class="page-content">
+        <div id="payment-status-container" class="payment-status"></div>
         <div class="payment-form-content">
             <div class="payment-form-container">
                 <form id="payment-form" class="row g-4">
@@ -70,13 +71,15 @@ ViewHelper::loadCustomerHeader($page_title);
                     <hr>
                     <!-- This is the actual credit card field -->
                     <div id="card-container"></div>
-                    <div class="text-end"><h5><?= hs(trans('payment.totalDue')) ?>: $ <?= $balance ?></h5></div>
+                    <div class="text-end">
+                        <h5><?= hs(trans('payment.totalDue')) ?>: $ <?= $balance ?></h5>
+                    </div>
                     <button id="card-button" type="button" class="btn btn-primary"><?= hs(trans('payment.payNow')) ?></button>
                 </form>
             </div>
         </div>
     </div>
-    <div id="payment-status-container"></div>
+
 </div>
 <script>
     //* These should be moved to a consts or env for production
@@ -189,10 +192,11 @@ ViewHelper::loadCustomerHeader($page_title);
     }
 
     // status is either SUCCESS or FAILURE;
-    function displayPaymentResults(status) {
+    function displayPaymentResults(status, message) {
         const statusContainer = document.getElementById(
             'payment-status-container'
         );
+        statusContainer.textContent = message;
         if (status === 'SUCCESS') {
             statusContainer.classList.remove('is-failure');
             statusContainer.classList.add('is-success');
@@ -245,16 +249,16 @@ ViewHelper::loadCustomerHeader($page_title);
 
                 //
                 if (!paymentResults.payment || paymentResults.payment.status !== 'COMPLETED') {
-                    displayPaymentResults('FAILURE');
+                    displayPaymentResults('FAILURE', 'Failed to process payment');
                     cardButton.disabled = false;
                     return;
                 }
 
-                displayPaymentResults('SUCCESS');
+                displayPaymentResults('SUCCESS', 'Payment has been processed');
                 window.location.href = paymentResults.redirect_to;
             } catch (e) {
                 cardButton.disabled = false;
-                displayPaymentResults('FAILURE');
+                displayPaymentResults('FAILURE', 'Failed to process payment');
                 console.error(e.message);
             }
         }

@@ -153,6 +153,9 @@ class PaymentController extends BaseController
                 $this->payment_model->payPayment($reservation_id);
             } else {
                 FlashMessage::error('Payment Failed');
+                $payload['redirect_to'] = RouteContext::fromRequest($request)
+                    ->getRouteParser()
+                    ->urlFor('user.payment');
             }
 
             // header('Content-Type: application/json');
