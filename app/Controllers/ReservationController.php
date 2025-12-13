@@ -112,7 +112,11 @@ class ReservationController extends BaseController
         $to = $data['email'];
         $subject = "Reservation Created";
         $message = "Solaf Performance has received your reservation request with reservation number: $reservation_id. You will get a response withing 24h.";
-        sendMail($to, $subject, $message);
+        try {
+            sendMail($to, $subject, $message);
+        } catch (Exception $e) {
+            FlashMessage::error("Error sending email");
+        }
         // dd(SessionManager::get('user_role'));
         if (SessionManager::get('user_role') === 'admin') {
             return $this->redirect($request, $response, 'reservations.index');
@@ -179,7 +183,11 @@ class ReservationController extends BaseController
         $subject = "Reservation Created";
         $message = "Solaf Performance has received the modifications of your request with reservation number: $reservation_id . You will get a response soon";
 
-        sendMail($to, $subject, $message);
+        try {
+            sendMail($to, $subject, $message);
+        } catch (Exception $e) {
+            FlashMessage::error("Error sending email");
+        }
 
         FlashMessage::success("Reservation Added Successfully");
 
@@ -293,7 +301,11 @@ class ReservationController extends BaseController
         $subject = "Reservation Cancelled";
         $message = "Hello your reservation at $start_time has been Cancelled";
 
-        sendMail($to, $subject, $message);
+        try {
+            sendMail($to, $subject, $message);
+        } catch (Exception $e) {
+            FlashMessage::error("Error sending email");
+        }
 
         return $this->index($request, $response, $args);
     }
@@ -345,7 +357,12 @@ class ReservationController extends BaseController
             $to = $reservation['email'];
             $subject = "Reservation Approval";
             $message = "Your reservation with Reservation Number $reservation_id has been approved. The current price is $price.";
-            sendMail($to, $subject, $message);
+
+            try {
+                sendMail($to, $subject, $message);
+            } catch (Exception $e) {
+                FlashMessage::error("Error sending email");
+            }
 
             FlashMessage::success("Reservation Approved, price changed to $price");
             return true;
@@ -359,7 +376,11 @@ class ReservationController extends BaseController
             $to = $reservation['email'];
             $subject = "Reservation Approval";
             $message = "Your reservation with Reservation Number $reservation_id has been approved. The current price is $price.";
-            sendMail($to, $subject, $message);
+            try {
+                sendMail($to, $subject, $message);
+            } catch (Exception $e) {
+                FlashMessage::error("Error sending email");
+            }
 
             FlashMessage::success("Reservation Approved");
             return true;
@@ -373,7 +394,11 @@ class ReservationController extends BaseController
             $to = $reservation['email'];
             $subject = "Reservation Approval";
             $message = "Your reservation with Reservation Number $reservation_id has been updated. The current price is $price.";
-            sendMail($to, $subject, $message);
+            try {
+                sendMail($to, $subject, $message);
+            } catch (Exception $e) {
+                FlashMessage::error("Error sending email");
+            }
 
             FlashMessage::success("Reservation Approved");
             return true;
@@ -394,7 +419,11 @@ class ReservationController extends BaseController
         $to = $reservation['email'];
         $subject = "Reservation Denied";
         $message = "Your reservation with Reservation Number $reservation_id has been denied due to our unavailability. We will let you know if a slot opens up.";
-        sendMail($to, $subject, $message);
+        try {
+            sendMail($to, $subject, $message);
+        } catch (Exception $e) {
+            FlashMessage::error("Error sending email");
+        }
 
         FlashMessage::success("Reservation Denied");
         return true;
@@ -413,7 +442,11 @@ class ReservationController extends BaseController
             $to = $reservation['email'];
             $subject = "Reservation Refund";
             $message = "Your reservation with Reservation Number $reservation_id has been refunded. You should receive the amount in your account within 5-7 business days.";
-            sendMail($to, $subject, $message);
+            try {
+                sendMail($to, $subject, $message);
+            } catch (Exception $e) {
+                FlashMessage::error("Error sending email");
+            }
 
             FlashMessage::success("Payment Refunded");
             return true;
@@ -431,7 +464,11 @@ class ReservationController extends BaseController
             $to = $reservation['email'];
             $subject = "Reservation Refund";
             $message = "Your reservation with Reservation Number $reservation_id has been partially refunded. You should receive the amount in your account within 5-7 business days. Please note that the refunded amount is the difference between what was paid($pricePaid) and the total amount due($price).";
-            sendMail($to, $subject, $message);
+            try {
+                sendMail($to, $subject, $message);
+            } catch (Exception $e) {
+                FlashMessage::error("Error sending email");
+            }
             return true;
         } else {
             FlashMessage::warning("Cannot refund: Customer hasnt paid yet or reservation not cancelled");
@@ -635,7 +672,11 @@ class ReservationController extends BaseController
             $to = $updatedReservation['email'];
             $subject = "Reservation Cancelled";
             $message = "Solaf Performance has been notified that your reservation has been cancelled. If you have already paid for your reservation, we will review and refund you. If you do not receive an email within 5 days, contact us!";
-            sendMail($to, $subject, $message);
+            try {
+                sendMail($to, $subject, $message);
+            } catch (Exception $e) {
+                FlashMessage::error("Error sending email");
+            }
         }
 
         return $this->redirect($request, $response, 'customer.reservations');
@@ -733,7 +774,11 @@ class ReservationController extends BaseController
         $to = $data['email'];
         $subject = "Reservation Pending";
         $message = "Solaf Performance has received your reservation request with reservation number: $reservation_id. You will get a response withing 24h.";
-        sendMail($to, $subject, $message);
+        try {
+            sendMail($to, $subject, $message);
+        } catch (Exception $e) {
+            FlashMessage::error("Error sending email");
+        }
 
         // dd(SessionManager::get('user_role'));
         return $this->redirect($request, $response, 'home.index');

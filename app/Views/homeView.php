@@ -101,7 +101,7 @@ $phone = SessionManager::get('user_phone') ?? '';
 
                     <div class="col-md">
                         <label for="end_time"><?= hs(trans('home.end')) ?></label>
-                        <input id="end_time" name="end_time" type="datetime-local" class="form-control" >
+                        <input id="end_time" name="end_time" type="datetime-local" class="form-control" disabled=true>
                     </div>
                 </div>
                 <div class="row g-2 bookRow">
@@ -141,32 +141,32 @@ $phone = SessionManager::get('user_phone') ?? '';
     </section>
     <br>
 
-<section class="about">
-    <div class="about-grid">
+    <section class="about">
+        <div class="about-grid">
 
-        <!-- TOP LEFT IMAGE -->
-        <div class="about-img about-img-1"></div>
+            <!-- TOP LEFT IMAGE -->
+            <div class="about-img about-img-1"></div>
 
-        <!-- TITLE BOX (OVERLAPPING) -->
-        <div class="about-title-box">
-            <h1>Canada<br>Montreal</h1>
+            <!-- TITLE BOX (OVERLAPPING) -->
+            <div class="about-title-box">
+                <h1>Canada<br>Montreal</h1>
+            </div>
+
+            <!-- BOTTOM LEFT TEXT -->
+            <div class="about-text">
+                <br><br>
+                <h2>Solaf Performance</h2>
+                <br>
+                <p>
+                    <?= hs(trans('home.description')) ?>
+                </p>
+            </div>
+
+            <!-- BOTTOM RIGHT IMAGE -->
+            <div class="about-img about-img-2"></div>
+
         </div>
-
-        <!-- BOTTOM LEFT TEXT -->
-        <div class="about-text">
-            <br><br>
-            <h2>Solaf Performance</h2>
-            <br>
-            <p>
-               <?= hs(trans('home.description')) ?>
-            </p>
-        </div>
-
-        <!-- BOTTOM RIGHT IMAGE -->
-        <div class="about-img about-img-2"></div>
-
-    </div>
-</section>
+    </section>
 
     <br><br><br>
 
@@ -207,7 +207,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                     <div class="car-card">
                         <!-- Carousel -->
                         <?php if (!empty($car['images'])): ?>
-                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel" >
+                            <div id="carousel<?= $car['cars_id'] ?>" class="carousel slide car-carousel" data-bs-ride="carousel">
                                 <div class="carousel-indicators">
                                     <?php foreach ($car['images'] as $index => $image): ?>
                                         <button type="button"
@@ -224,7 +224,7 @@ $phone = SessionManager::get('user_phone') ?? '';
                                         <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                                             <img src="<?= APP_USER_URL ?>/uploads/images/<?= htmlspecialchars($image['image_path']) ?>"
                                                 alt="<?= htmlspecialchars($car['brand'] . ' ' . $car['model']) ?>" class="d-block w-100">
-                                            
+
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
