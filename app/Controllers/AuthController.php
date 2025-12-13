@@ -131,6 +131,7 @@ class AuthController extends BaseController
                 $user = $this->userModel->findByEmail($email);
                 // dd($this->userModel->updateUser($user['user_id'], $userData));
                 $this->userModel->updateUser($user['user_id'], $userData);
+                $userId = $user['user_id'];
             } else {
                 $userId = $this->userModel->createUser($userData);
             }
