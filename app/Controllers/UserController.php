@@ -48,15 +48,11 @@ class UserController extends BaseController {
         $user = $this->userModel->fetchUserById($user_id);
 
         $data['data'] = [
-            'title' => 'Users',
-            'message' => 'Welcome to the user details page',
+            'title' => 'Edit User',
             'user' => $user
         ];
 
-        return $this->render(
-            $response,
-             //TODO:  Enter the view path here,
-             $data);
+        return $this->render($response, 'admin/customers/editUserView.php', $data);
     }
 
     public function update(Request $request, Response $response, array $args): Response {

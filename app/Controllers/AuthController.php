@@ -139,14 +139,14 @@ class AuthController extends BaseController
             SessionManager::set('user_id', $userId);
             SessionManager::set('user_email', $email);
             // Display success message using FlashMessage::success()
-            FlashMessage::success("Registration successful! Please log in.");
+            FlashMessage::success(hs(trans('flash.reg_success')));
 
             // Redirect to 'auth.login' route
             // return $this->redirect($request, $response, 'auth.login');
             return $this->redirect($request, $response, '2fa.setup');
         } catch (\Exception $e) {
             // Display error message using FlashMessage::error()
-            FlashMessage::error("Registration failed. Please try again.");
+            FlashMessage::error(hs(trans('flash.reg_failed')));
 
             // Redirect back to 'auth.register' route
             return $this->redirect($request, $response, 'auth.register');
@@ -190,7 +190,7 @@ class AuthController extends BaseController
 
         // Check if $errors array is not empty
         if (!empty($errors)) {
-            FlashMessage::error('Login unsuccessful');
+            FlashMessage::error(hs(trans('flash.login_failed2')));
             return $this->redirect($request, $response, 'auth.login');
         }
 
@@ -200,7 +200,7 @@ class AuthController extends BaseController
         // Check if authentication was successful
         // If $user is null (authentication failed):
         if ($user == null) {
-            FlashMessage::error("Invalid credentials. Please try again.");
+            FlashMessage::error(hs(trans('flash.login_failed')));
             return $this->redirect($request, $response, 'auth.login');
         }
 
@@ -231,7 +231,7 @@ class AuthController extends BaseController
         // Redirect based on role:
         if ($user['role'] === 'admin') {
             // Display success message using FlashMessage::success()
-            FlashMessage::success("Welcome back, {$user['first_name']}!");
+            FlashMessage::success(hs(trans('flash.login_success', ['name' => $user['first_name']])));
             return $this->redirect($request, $response, 'admin.dashboard');
         } else {
             // return $this->redirect($request, $response, 'user.dashboard');
@@ -251,7 +251,7 @@ class AuthController extends BaseController
         SessionManager::start();
 
         // Display success message
-        FlashMessage::success("You have been logged out successfully!");
+        FlashMessage::success(hs(trans('flash.logout')));
 
         // Redirect to 'home.index' route
         return $this->redirect($request, $response, 'home.index');
@@ -309,17 +309,17 @@ class AuthController extends BaseController
 
         // Validate password length (minimum 8 characters)
         if (strlen($password) < 8) {
-            $errors[] = "Password must be at least 8 characters long.";
+            $errors[] = hs(trans('flash.pass_invalid'));
         }
 
         // Validate password contains at least one number
         if (!preg_match('/[0-9]/', $password)) {
-            $errors[] = "Password must contain at least one number.";
+            $errors[] = hs(trans('flash.pass_invalid'));
         }
 
         // Check if password matches confirm_password
         if ($password !== $confirmPassword) {
-            $errors[] = "Passwords do not match.";
+            $errors[] = hs(trans('flash.pass_match'));
         }
 
         if (!empty($errors)) {
@@ -332,7 +332,7 @@ class AuthController extends BaseController
 
         // TODO: FINISH THIS PART
         $this->userModel->saveNewPassword($userId, $password);
-        FlashMessage::success("Password changed");
+        FlashMessage::success(hs(trans('flash.pass_reset')));
 
         return $this->redirect($request, $response, 'auth.login');
     }

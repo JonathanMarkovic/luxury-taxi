@@ -30,7 +30,7 @@ ViewHelper::loadCustomerLogin($page_title, 'login');
             </form>
 
             <div class="mt-3 text-center">
-                <p style="color: black;  "><?= hs(trans('register.noAcc')) ?> <a class="authentication-link" href="register"><?= hs(trans('register.register')) ?></a></p>
+                <p style="color: black;  "><?= hs(trans('login.noAcc')) ?> <a class="authentication-link" href="register"><?= hs(trans('register.register')) ?></a></p>
             </div>
 
 

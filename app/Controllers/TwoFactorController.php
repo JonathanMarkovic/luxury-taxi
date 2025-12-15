@@ -43,7 +43,7 @@ class TwoFactorController extends BaseController
         // $twoFactorModel = $this->container->get(TwoFactorAuthModel::class);
         if ($this->two_factor_auth_model->isEnabled($userId)) {
             // SessionManager::setFlash('error', '2FA is already enabled.');
-            FlashMessage::error('2FA is already enabled');
+            FlashMessage::error(hs(trans('flash.2fa_already_enabled')));
             return $this->redirect($request, $response, 'home.index');
         }
 
@@ -134,7 +134,7 @@ class TwoFactorController extends BaseController
         SessionManager::remove('2fa_setup_secret');
 
         // SessionManager::setFlash('success', '2FA has been enabled successfully!');
-        FlashMessage::success('2FA has been enabled successfully');
+        FlashMessage::success(hs(trans('flash.2fa_enabled')));
         return $this->redirect($request, $response, 'home.index');
     }
 
@@ -234,7 +234,7 @@ class TwoFactorController extends BaseController
 
 
         // SessionManager::setFlash('success', '2FA has been disabled.');
-        FlashMessage::success('2FA has been disabled');
+        FlashMessage::success(hs(trans('flash.2fa_disabled')));
         return $this->redirect($request, $response, 'dashboard');
     }
 

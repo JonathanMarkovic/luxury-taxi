@@ -143,7 +143,7 @@ class PaymentController extends BaseController
 
             $payload = $squareResponse->jsonSerialize();
             if ($status === 'COMPLETED') {
-                FlashMessage::success('Payment Successful');
+                FlashMessage::success(hs(trans('flash.payment_success')));
                 // FlashMessage::success($payment);
                 // FlashMessage::success($status);
                 $payload['redirect_to'] = RouteContext::fromRequest($request)
@@ -152,7 +152,7 @@ class PaymentController extends BaseController
 
                 $this->payment_model->payPayment($reservation_id);
             } else {
-                FlashMessage::error('Payment Failed');
+                FlashMessage::error(hs(trans('flash.payment_failed')));
                 $payload['redirect_to'] = RouteContext::fromRequest($request)
                     ->getRouteParser()
                     ->urlFor('user.payment');

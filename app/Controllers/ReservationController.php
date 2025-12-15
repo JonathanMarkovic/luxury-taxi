@@ -103,7 +103,7 @@ class ReservationController extends BaseController
 
             //? Add car to reservation
             $this->reservation_model->addCarToReservation($data['cars_id'], $reservation_id);
-            FlashMessage::success("Reservation added: You will get an email with your reservation details. Reservation Number: $reservation_id");
+            FlashMessage::success(hs(trans('flash.reservation_success', ['number' => $reservation_id])));
         } else {
             return $this->redirect($request, $response, 'reservations.create');
         }
@@ -115,7 +115,7 @@ class ReservationController extends BaseController
         try {
             sendMail($to, $subject, $message);
         } catch (Exception $e) {
-            FlashMessage::error("Error sending email");
+            FlashMessage::error(hs(trans('flash.email_error')));
         }
         // dd(SessionManager::get('user_role'));
         if (SessionManager::get('user_role') === 'admin') {
@@ -176,7 +176,7 @@ class ReservationController extends BaseController
         } else {
             return $this->redirect($request, $response, 'reservations.update');
         }
-        FlashMessage::success("Reservation updated: You will get an email with your reservation details");
+        FlashMessage::success(hs(trans('flash.reservation_updated')));
 
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
@@ -186,10 +186,10 @@ class ReservationController extends BaseController
         try {
             sendMail($to, $subject, $message);
         } catch (Exception $e) {
-            FlashMessage::error("Error sending email");
+            FlashMessage::error(hs(trans('flash.email_error')));
         }
 
-        FlashMessage::success("Reservation Added Successfully");
+        FlashMessage::success(hs(trans('flash.reservation_added')));
 
         return $this->redirect($request, $response, 'cars.index');
     }
@@ -292,7 +292,7 @@ class ReservationController extends BaseController
     {
         $reservation_id = $args['reservation_id'];
         $this->reservation_model->cancelReservation($reservation_id);
-        FlashMessage::success("Reservation Cancelled");
+        FlashMessage::success(hs(trans('flash.reservation_cancelled')));
 
         $start_time = $args['start_time'];
 
@@ -304,7 +304,7 @@ class ReservationController extends BaseController
         try {
             sendMail($to, $subject, $message);
         } catch (Exception $e) {
-            FlashMessage::error("Error sending email");
+            FlashMessage::error(hs(trans('flash.email_error')));
         }
 
         return $this->index($request, $response, $args);
@@ -361,7 +361,7 @@ class ReservationController extends BaseController
             try {
                 sendMail($to, $subject, $message);
             } catch (Exception $e) {
-                FlashMessage::error("Error sending email");
+                FlashMessage::error(hs(trans('flash.email_error')));
             }
 
             FlashMessage::success("Reservation Approved, price changed to $price");
@@ -379,7 +379,7 @@ class ReservationController extends BaseController
             try {
                 sendMail($to, $subject, $message);
             } catch (Exception $e) {
-                FlashMessage::error("Error sending email");
+                FlashMessage::error(hs(trans('flash.email_error')));
             }
 
             FlashMessage::success("Reservation Approved");
@@ -397,7 +397,7 @@ class ReservationController extends BaseController
             try {
                 sendMail($to, $subject, $message);
             } catch (Exception $e) {
-                FlashMessage::error("Error sending email");
+                FlashMessage::error(hs(trans('flash.email_error')));
             }
 
             FlashMessage::success("Reservation Approved");
@@ -422,7 +422,7 @@ class ReservationController extends BaseController
         try {
             sendMail($to, $subject, $message);
         } catch (Exception $e) {
-            FlashMessage::error("Error sending email");
+            FlashMessage::error(hs(trans('flash.email_error')));
         }
 
         FlashMessage::success("Reservation Denied");
@@ -445,7 +445,7 @@ class ReservationController extends BaseController
             try {
                 sendMail($to, $subject, $message);
             } catch (Exception $e) {
-                FlashMessage::error("Error sending email");
+                FlashMessage::error(hs(trans('flash.email_error')));
             }
 
             FlashMessage::success("Payment Refunded");
@@ -467,7 +467,7 @@ class ReservationController extends BaseController
             try {
                 sendMail($to, $subject, $message);
             } catch (Exception $e) {
-                FlashMessage::error("Error sending email");
+                FlashMessage::error(hs(trans('flash.email_error')));
             }
             return true;
         } else {
@@ -629,12 +629,12 @@ class ReservationController extends BaseController
             $reservation = $this->reservation_model->fetchReservationById($reservationId);
             //cehck if reservation wasnt found
             if (!$reservation) {
-                FlashMessage::error("Reservation not found.");
+                FlashMessage::error(hs(trans('flash.rservation_not_found')));
                 return $this->redirect($request, $response, 'customer.reservations');
             }
             //check if emails match
             if ($reservation['email'] !== $email) {
-                FlashMessage::error("Email does not match this reservation.");
+                FlashMessage::error(hs(trans('flash.reservation_email_mismatch')));
                 return $this->redirect($request, $response, 'customer.reservations');
             }
 
@@ -675,7 +675,7 @@ class ReservationController extends BaseController
             try {
                 sendMail($to, $subject, $message);
             } catch (Exception $e) {
-                FlashMessage::error("Error sending email");
+                FlashMessage::error(hs(trans('flash.email_error')));
             }
         }
 
@@ -777,7 +777,7 @@ class ReservationController extends BaseController
         try {
             sendMail($to, $subject, $message);
         } catch (Exception $e) {
-            FlashMessage::error("Error sending email");
+            FlashMessage::error(hs(trans('flash.email_error')));
         }
 
         // dd(SessionManager::get('user_role'));

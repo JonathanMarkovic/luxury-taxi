@@ -45,7 +45,7 @@ ViewHelper::loadCustomerLogin($page_title, 'login');
                     maxlength="6"
                     required
                     autofocus
-                    placeholder=<?= hs(trans('2fa.verifPlaceholder')) ?>
+                    placeholder="<?= hs(trans('2fa.verifPlaceholder')) ?>"
                     style="font-size: 1.5em; letter-spacing: 5px; text-align: center;">
             </div>
 

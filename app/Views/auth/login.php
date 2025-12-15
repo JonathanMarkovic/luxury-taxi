@@ -26,7 +26,7 @@ ViewHelper::loadCustomerLogin($page_title, 'login');
                 <div class="mb-3-2">
                     <label for="password" style="color: black;font-weight: bold;  padding-bottom: 8px;"><?= hs(trans('login.password')) ?></label>
                     <input
-                        placeholder=<?= hs(trans('login.password')) ?>
+                        placeholder="<?= hs(trans('login.password')) ?>"
                         type="password"
                         class="form-control"
                         id="password"
