@@ -161,7 +161,7 @@
         "code": "Code de vérification",
         "verifPlaceholder": "Entrez le code à 6 chiffres",
         "verifyButton": "Vérifier et activer la 2FA",
-        "cancelbtn": "Annuler"
+        "cancelbtn": "Sauter pour l'instant"
     },
     "reset": {
         "title": "Réinitialiser le mot de passe",

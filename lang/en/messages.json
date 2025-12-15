@@ -161,7 +161,7 @@
         "code": "Verification Code",
         "verifPlaceholder": "Enter 6-digit code",
         "verifyButton" : "Verify and Enable 2FA",
-        "cancelbtn": "Cancel"
+        "cancelbtn": "Skip for now"
 
     },
     "reset": {

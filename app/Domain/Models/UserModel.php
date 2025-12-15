@@ -138,12 +138,12 @@ class UserModel extends BaseModel
     }
 
     public function findByEmail(string $email): ?array
-    {
-        // dd($email);
-        $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+{
+    $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+    $result = $this->selectOne($sql, ['email' => $email]);
 
-        return $this->selectOne($sql, ['email' => $email]);
-    }
+    return $result ?: null;
+}
 
     public function emailExists(string $email): bool
     {

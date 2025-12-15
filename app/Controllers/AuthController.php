@@ -199,7 +199,7 @@ class AuthController extends BaseController
 
         // Check if authentication was successful
         // If $user is null (authentication failed):
-        if ($user == null) {
+        if (empty($user)) {
             FlashMessage::error(hs(trans('flash.login_failed')));
             return $this->redirect($request, $response, 'auth.login');
         }
