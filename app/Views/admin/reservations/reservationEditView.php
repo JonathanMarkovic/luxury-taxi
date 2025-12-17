@@ -264,9 +264,11 @@ ViewHelper::loadAdminHeader($page_title);
 </script>
 
 <script>
+    //define the values
     let map, directionService, directionRenderer;
     let mapsLoaded = false;
     let mapsLoading = false;
+    //get the content of the elements
     var source = document.getElementById("pickup").value;
     var destination = document.getElementById("dropoff").value;
 
@@ -298,7 +300,7 @@ ViewHelper::loadAdminHeader($page_title);
                 mapsLoading = false;
                 resolve();
             };
-
+//use the api key
             const script = document.createElement('script');
             script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDNMWPTWGhqZ0rJzKSSsk9EP-YUupehQfw&libraries=places&callback=initMap';
             script.defer = true;

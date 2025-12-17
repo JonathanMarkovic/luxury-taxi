@@ -3,11 +3,12 @@
 (() => {
   'use strict'
 
-  // Graphs
+  //graphs
   const ctx = document.getElementById('myChart')
   new Chart(ctx, {
     type: 'line',
     data: {
+        //add the columns
       labels: [
         'Sunday',
         'Monday',

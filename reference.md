@@ -23,4 +23,4 @@ https://www.youtube.com/watch?v=rSSnUXdff6g&t=1056s
 https://www.youtube.com/watch?v=xcGp3wrF07Y&t=94s
 
 tutorial for calendar api
-https://www.youtube.com/watch?v=BCgu3OZc2gY&list=LL&index=1
+https://www.youtube.com/watch?v=kGpuDbX5a40&list=PLDc9bt_00KcL9j9VoMcccR4HMF3JtYndd&index=2

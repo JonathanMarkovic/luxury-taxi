@@ -27,11 +27,13 @@ ViewHelper::loadAdminHeader($page_title);
 </main>
 
 <script>
+    //full calendar script
     $(document).ready(function() {
         var events = <?php echo json_encode($events ?? []); ?>;
 
         $('#calendar').fullCalendar({
             header: {
+                //define the fields that the calendar will have
                 left: 'prev, next, today',
                 center: 'title',
                 right: 'month, agendaWeek, agendaDay'
