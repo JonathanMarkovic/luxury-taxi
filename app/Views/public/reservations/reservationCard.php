@@ -137,11 +137,11 @@ $reservation_id = $reservation['reservation_id'];
             ?>
 
             <?php if ($reservation['reservation_status'] === 'approved' && $reservation['payment_status'] !== "paid") { ?>
-                <button class="btn" style="background:#a6814c; color:white;">
+                <!-- <button class="btn" style="background:#a6814c; color:white;">
                     <a class="nav-link" href="<?= APP_BASE_URL ?>/payment/<?= $reservation['reservation_id'] ?>">
                         <?= hs(trans('reservationCard.pay')) ?>
                     </a>
-                </button>
+                </button> -->
             <?php } ?>
         </div>
 

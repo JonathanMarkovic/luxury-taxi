@@ -112,8 +112,8 @@ return static function (Slim\App $app): void {
     $app->get('/dashboard', [AuthController::class, 'dashboard'])->setName('user.dashboard')->add(AuthMiddleware::class);
 
     //* Payment Routes
-    $app->get('/payment/{reservation_id}', [PaymentController::class, 'index'])->setName('user.payment');
-    $app->post('/payment/{reservation_id}', [PaymentController::class, 'pay']);
+    // $app->get('/payment/{reservation_id}', [PaymentController::class, 'index'])->setName('user.payment');
+    // $app->post('/payment/{reservation_id}', [PaymentController::class, 'pay']);
 
     // 2FA Setup routes (requires auth, but not 2FA verification)
     $app->get('/2fa/setup', [TwoFactorController::class, 'showSetup'])
