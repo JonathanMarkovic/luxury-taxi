@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Address;
 use App\Controllers\BaseController;
 use App\Domain\Models\PaymentModel;
 use App\Helpers\FlashMessage;
@@ -98,6 +99,14 @@ class PaymentController extends BaseController
         $this->index($request,  $response,  $args);
     }
 
+    /**
+     * Summary of pay
+     * Handles the payment function with Square
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function pay(Request $request, Response $response, array $args): Response
     {
         try {
@@ -111,11 +120,11 @@ class PaymentController extends BaseController
             $data = json_decode(file_get_contents('php://input'), true);
 
             $square = new SquareClient(
-                token: SQUARE_SANDBOX_ACCESS_TOKEN,
-                // token: SQUARE_PRODUCTION_ACCESS_TOKEN,
+                // token: SQUARE_SANDBOX_ACCESS_TOKEN,
+                token: SQUARE_PRODUCTION_ACCESS_TOKEN,
                 options: [
-                    'baseUrl' => Environments::Sandbox->value // Used by default
-                    // 'baseUrl' => Environments::Production->value
+                    // 'baseUrl' => Environments::Sandbox->value // Used by default
+                    'baseUrl' => Environments::Production->value
                 ]
             );
 
@@ -129,7 +138,19 @@ class PaymentController extends BaseController
             $squareRequest = new CreatePaymentRequest([
                 'sourceId'       => $data['sourceId'],
                 'idempotencyKey' => $data['idempotencyKey'],
-                'amountMoney' => $amountMoney
+                // 'amountMoney' => $amountMoney
+                'amountMoney' => new Money([
+                    'currency' => Currency::Cad->value,
+                    'amount' => $amountMoney
+                ]),
+                'billingAddress' => new Address([
+                    'firstName' => $data['first_name'],
+                    'lastName' => $data['last_name'],
+                    'locality' => $data['country_code'],
+                ]),
+                'buyerEmailAddress' => $data['email'],
+                'buyerPhoneNumber' => $data['phone'],
+                'delayDuration' => 'P30M'
                 // optionally: 'locationId' => $data['locationId'],
             ]);
 

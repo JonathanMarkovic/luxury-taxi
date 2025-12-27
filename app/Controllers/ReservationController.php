@@ -773,7 +773,7 @@ class ReservationController extends BaseController
         //TODO: FILL RESERVATION INFORMATION IN THE EMAIL
         $to = $data['email'];
         $subject = "Reservation Pending";
-        $message = "Solaf Performance has received your reservation request with reservation number: $reservation_id. You will get a response withing 24h.";
+        $message = "Solaf Performance has received your reservation request with reservation number: $reservation_id. You will get a response within 24h.";
         try {
             sendMail($to, $subject, $message);
         } catch (Exception $e) {

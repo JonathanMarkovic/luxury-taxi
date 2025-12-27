@@ -262,9 +262,10 @@ function sendMail($email, $subject, $message)
     $mail->AltBody = $message;
 
     //send the email and return a status message
-    if (!$mail->send()) {
-        return "Email not sent. Please try again";
-    } else {
-        return "success";
-    }
+    // if (!$mail->send()) {
+    //     return "Email not sent. Please try again";
+    // } else {
+    //     return "success";
+    // }
+    $mail->send();
 }
