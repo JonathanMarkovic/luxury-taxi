@@ -83,8 +83,11 @@ ViewHelper::loadCustomerHeader($page_title);
 </div>
 <script>
     //* These should be moved to a consts or env for production
-    const appId = 'sandbox-sq0idb-EpHytLaLRq1mo5DN9R6xaw';
-    const locationId = 'L5F899PJSJCEZ';
+    // const appId = 'sandbox-sq0idb-EpHytLaLRq1mo5DN9R6xaw';
+    // const locationId = 'L5F899PJSJCEZ';
+
+    const appId = SQUARE_APPLICATION_ID;
+    const locationId = SQUARE_LOCATION_ID;
 
     //* The customer details, this is a default Square example customer
     // const verificationDetails = getVerificationDetails();
