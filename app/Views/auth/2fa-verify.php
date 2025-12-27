@@ -33,13 +33,6 @@ ViewHelper::loadCustomerLogin($page_title, 'login');
                 style="font-size: 2em; letter-spacing: 10px; text-align: center;">
         </div>
 
-        <!-- TODO: Add trust device checkbox (Part 3) -->
-        <div class="form-group">
-            <label>
-                <input type="checkbox" name="trust_device" value="1">
-                <?= hs(trans('2fa.trust')) ?>
-            </label>
-        </div>
 
         <button type="submit" class="btn btn-primary" style="width: 100%;"><?= hs(trans('2fa.verify')) ?></button>
     </form>
